@@ -1,4 +1,4 @@
-package entity;
+package com.kns.tenquest.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,14 +12,14 @@ import java.util.UUID;
 @Entity
 public class Member{
     @Id
-    @Column
+    @Column(name = "member_id")
     private UUID member_id;
-    @Column
+    @Column(name = "user_id")
     private String user_id;
-    @Column
+    @Column(name = "user_info")
     private String user_info;
-    @Column
+    @Column(name = "user_name")
     private String user_name;
-    @Column
+    @Column(name = "user_email")
     private String user_email;
 }

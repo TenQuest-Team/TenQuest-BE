@@ -1,6 +1,6 @@
-package repository;
+package com.kns.tenquest.repository;
 
-import entity.Member;
+import com.kns.tenquest.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

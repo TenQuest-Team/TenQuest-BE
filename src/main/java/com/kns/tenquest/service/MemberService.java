@@ -1,13 +1,11 @@
-package service;
+package com.kns.tenquest.service;
 
-import entity.Member;
+import com.kns.tenquest.entity.Member;
+import com.kns.tenquest.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.MemberRepository;
 
 import java.util.List;
-import java.util.UUID;
-
 
 @Service
 public class MemberService {
