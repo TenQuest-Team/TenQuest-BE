@@ -1,0 +1,34 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Question Libarary</title>
+    <style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 400px;
+        height: 200px;
+      }
+    </style>
+</head>
+<table>
+    <thead>
+    <tr>
+        <th>member_id</th>
+        <th>user_id</th>
+        <th>user_info</th>
+        <th>user_name</th>
+        <th>user_email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${memberList}">
+        <td th:text="${member.member_id}"></td>
+        <td th:text="${member.user_id}"></td>
+        <td th:text="${member.user_info}"></td>
+        <td th:text="${member.user_name}"></td>
+        <td th:text="${member.user_email}"></td>
+    </tr>
+    </tbody>
+</table>
