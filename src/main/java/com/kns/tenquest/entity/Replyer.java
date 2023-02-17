@@ -11,6 +11,7 @@ import lombok.Setter;
 @Table(name = "replyer_table")
 @Entity
 public class Replyer {
+    @Id
     @Column(name="replyer_id")
     private int replyerId;
 
