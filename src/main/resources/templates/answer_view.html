@@ -1,0 +1,38 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Answers in DB</title>
+  <style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 800px;
+        height: 60px;
+      }
+    </style>
+</head>
+<table>
+  <thead>
+  <tr>
+    <th>answer_id</th>
+    <th>replyer_id</th>
+    <th>doc_id</th>
+    <th>answer_content</th>
+    <th>answer_time</th>
+    <th>is_public</th>
+
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="answer : ${answerList}">
+    <td th:text="${answer.answerId}"></td>
+    <td th:text="${answer.replyerId}"></td>
+    <td th:text="${answer.docId}"></td>
+    <td th:text="${answer.answerContent}"></td>
+    <td th:text="${answer.answerTime}"></td>
+    <td th:text="${answer.isPublic}"></td>
+  </tr>
+  </tbody>
+</table>
