@@ -3,6 +3,7 @@ package com.kns.tenquest.controller;
 import com.kns.tenquest.entity.Answer;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.service.AnswerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Controller
 public class AnswerController {
-    @Service
+    @Autowired
     AnswerService answerService;
 
     @GetMapping("/view/answers")
