@@ -1,0 +1,29 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Replyers in DB</title>
+  <style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 800px;
+        height: 60px;
+      }
+    </style>
+</head>
+<table>
+  <thead>
+  <tr>
+    <th>replyer_id</th>
+    <th>replyer_name</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="replyer : ${replyerList}">
+    <td th:text="${replyer.replyerId}"></td>
+    <td th:text="${replyer.replyerName}"></td>
+  </tr>
+  </tbody>
+</table>
