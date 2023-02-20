@@ -1,5 +1,6 @@
 package com.kns.tenquest.controller;
 
+import com.kns.tenquest.ResponseStatus;
 import com.kns.tenquest.dto.MemberDTO;
 import com.kns.tenquest.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/api/register")
-    public Member apiRegisterMember(@RequestBody MemberDTO dto) throws NoSuchAlgorithmException {
-       return memberService.insertMember(dto);
-
+    public int apiRegisterMember(@RequestBody MemberDTO dto) throws NoSuchAlgorithmException {
+       memberService.insertMember(dto);
+        return ResponseStatus.CREATE_DONE.getCode(); /* [!] need to modify later */
     }
 }

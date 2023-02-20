@@ -6,10 +6,10 @@ public enum ResponseStatus {
     CREATE_FAIL(409);
 
     private final int code;
-    ResponseStatus(int statusCode) {
-        this.code = statusCode;
+    ResponseStatus(int code) {
+        this.code = code;
     }
-    int getCode(){
+    public int getCode(){
         return this.code;
     }
 }
