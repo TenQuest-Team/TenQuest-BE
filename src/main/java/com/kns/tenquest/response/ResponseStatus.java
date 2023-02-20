@@ -1,4 +1,4 @@
-package com.kns.tenquest;
+package com.kns.tenquest.response;
 
 public enum ResponseStatus {
 

@@ -1,6 +1,6 @@
 package com.kns.tenquest.controller;
 
-import com.kns.tenquest.ResponseStatus;
+import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.dto.MemberDTO;
 import com.kns.tenquest.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
