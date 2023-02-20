@@ -12,10 +12,5 @@ import java.util.List;
 class TenquestApplicationTests {
 	@Autowired
 	MemberRepository memberRepository;
-	@Test
-	void getMember(){
 
-		List<Member> all = memberRepository.findAll();
-		System.out.println(all.size());
-	}
 }
