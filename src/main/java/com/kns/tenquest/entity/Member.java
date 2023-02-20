@@ -3,13 +3,14 @@ package com.kns.tenquest.entity;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
-@Setter
 @Table(name = "member_table")
+@NoArgsConstructor
 @Entity
 public class Member{
     @Id
@@ -25,11 +26,12 @@ public class Member{
     private String userEmail;
 
     @Builder
-    public Member(String memberId, String userId, String userInfo, String userName, String userEmail) {
-        this.memberId = memberId;
+    public Member(String userId, String userInfo, String userName, String userEmail) {
+        this.memberId = UUID.randomUUID().toString();
         this.userId = userId;
         this.userInfo = userInfo;
         this.userName = userName;
         this.userEmail = userEmail;
     }
+
 }

@@ -4,7 +4,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class MemberDTO implements DataTransferObject<Member> {
 
-    public String memberId;
+    //public String memberId;
     public String userId;
     public String userInfo;
     public String userName;
@@ -12,7 +12,8 @@ public class MemberDTO implements DataTransferObject<Member> {
 
     @Override
     public Member toEntity() throws NoSuchAlgorithmException {
-        return Member.builder().userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
+        Member member = Member.builder().userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
+        return member;
     }
 
     public String hashingInfo(String userInfo) throws NoSuchAlgorithmException {
