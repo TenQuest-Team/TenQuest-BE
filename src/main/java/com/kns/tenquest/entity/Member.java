@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Member{
     @Id
     @Column(name = "member_id")
-    private UUID memberId;
+    private String memberId;
     @Column(name = "user_id")
     private String userId;
     @Column(name = "user_info")
