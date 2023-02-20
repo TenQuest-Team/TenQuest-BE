@@ -26,6 +26,17 @@ public class MemberController {
     }
 
     @ResponseBody
+    @GetMapping("/get/member")
+    public String apiGetMemberIdByUserId(@RequestParam("userId") String userId){
+        return memberService.getMemberIdByUserId(userId);
+    }
+    @ResponseBody
+    @GetMapping("/get/member")
+    public String apiGetMemberIdByUserName(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+        return memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
+    }
+
+    @ResponseBody
     @PostMapping("/api/register")
     public int apiRegisterMember(@RequestBody MemberDTO dto) throws NoSuchAlgorithmException {
        memberService.insertMember(dto);

@@ -4,11 +4,17 @@ import java.security.NoSuchAlgorithmException;
 
 public class MemberDTO implements DataTransferObject<Member> {
 
-    //public String memberId;
     public String userId;
     public String userInfo;
     public String userName;
     public String userEmail;
+
+    public MemberDTO(String userId, String userInfo, String userName, String userEmail) {
+        this.userId = userId;
+        this.userInfo = userInfo;
+        this.userName = userName;
+        this.userEmail = userEmail;
+    }
 
     @Override
     public Member toEntity() throws NoSuchAlgorithmException {
@@ -16,12 +22,19 @@ public class MemberDTO implements DataTransferObject<Member> {
         return member;
     }
 
+    @Override
+    public DataTransferObject<Member> toDto(Member member) {
+        return new MemberDTO(member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail());
+    }
+
+
+
     public String hashingInfo(String userInfo) throws NoSuchAlgorithmException {
-        StringBuffer resultStringBuffer = new StringBuffer();
+        StringBuffer resStrBuffer = new StringBuffer();
         java.security.MessageDigest messageDigest = java.security.MessageDigest.getInstance("SHA-256");
 
         for (byte b : messageDigest.digest(userInfo.getBytes()))
-            resultStringBuffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
-        return resultStringBuffer.toString();
+            resStrBuffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        return resStrBuffer.toString();
     }
 }
