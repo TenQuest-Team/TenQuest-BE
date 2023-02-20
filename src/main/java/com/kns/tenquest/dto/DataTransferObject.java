@@ -1,6 +1,7 @@
 package com.kns.tenquest.dto;
 
-public interface DataTransferObject<E>{
-    E toEntity();
+import java.security.NoSuchAlgorithmException;
 
+public interface DataTransferObject<E>{
+    E toEntity() throws NoSuchAlgorithmException;
 }
