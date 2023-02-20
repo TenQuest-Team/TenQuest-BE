@@ -1,5 +1,6 @@
 package com.kns.tenquest.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Member{
     private String memberId;
     @Column(name = "user_id")
     private String userId;
+    @JsonIgnore
     @Column(name = "user_info")
     private String userInfo;
     @Column(name = "user_name")
@@ -27,7 +29,7 @@ public class Member{
 
     @Builder
     public Member(String userId, String userInfo, String userName, String userEmail) {
-        this.memberId = UUID.randomUUID().toString();
+        this.memberId = UUID.randomUUID().toString().replace("-","");
         this.userId = userId;
         this.userInfo = userInfo;
         this.userName = userName;
