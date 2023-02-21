@@ -2,29 +2,25 @@ package com.kns.tenquest.dto;
 
 import com.kns.tenquest.response.ResponseStatus;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-@NoArgsConstructor
-@Getter
+
 @Setter
-public class MemberResponseDto implements ResponseDto<MemberDto> {
+@Getter
+public class StringResponseDto implements ResponseDto<String> {
     private String status;
     private int code;
-    private MemberDto data;
+    private String data;
 
-    public MemberResponseDto(String status, int code, MemberDto data) {
+    public StringResponseDto(String status, int code, String data) {
         this.status = status;
         this.code = code;
         this.data = data;
-        this.data.userInfo= null;
     }
-    public MemberResponseDto(ResponseStatus responseStatus, MemberDto data) {
+    public StringResponseDto(ResponseStatus responseStatus, String data) {
         this.status = responseStatus.getStatus();
         this.code = responseStatus.getCode();
         this.data = data;
-        this.data.userInfo= null;
     }
-
 
     @Override
     public String status() {
@@ -37,7 +33,7 @@ public class MemberResponseDto implements ResponseDto<MemberDto> {
     }
 
     @Override
-    public MemberDto data() {
+    public String data() {
         return data;
     }
 }
