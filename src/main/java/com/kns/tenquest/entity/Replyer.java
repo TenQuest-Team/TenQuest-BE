@@ -2,6 +2,7 @@ package com.kns.tenquest.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.CustomLog;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,4 +18,10 @@ public class Replyer {
 
     @Column(name="replyer_name")
     private String replyerName;
+
+    @Builder
+    public Replyer(int replyerId, String replyerName) {
+        this.replyerId = replyerId;
+        this.replyerName = replyerName;
+    }
 }

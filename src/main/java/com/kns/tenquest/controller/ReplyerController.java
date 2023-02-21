@@ -18,6 +18,5 @@ public class ReplyerController {
         List<Replyer> replyerList = replyerService.getAllReplyers();
         model.addAttribute("replyerList", replyerList);
         return "replyer_view";
-
     }
 }
