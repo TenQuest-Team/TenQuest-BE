@@ -1,12 +1,13 @@
 package com.kns.tenquest.controller;
 
-import com.kns.tenquest.dto.MemberResponseMapping;
-import com.kns.tenquest.response.ResponseStatus;
-import com.kns.tenquest.dto.MemberDTO;
+import com.kns.tenquest.dto.MemberDto;
+import com.kns.tenquest.dto.MemberResponseDto;
 import com.kns.tenquest.entity.Member;
+import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.kns.tenquest.service.MemberService;
@@ -34,18 +35,31 @@ public class MemberController {
     }
     @ResponseBody
     @GetMapping("/get/member/memberId")
-    public MemberResponseMapping apiGetMemberByMemberId(@RequestParam("value") String memberId){
-        return memberService.getMemberByMemberId(memberId);
+    public ResponseEntity<MemberResponseDto> apiGetMemberByMemberId(@RequestParam("value") String memberId){
+        MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+
+        if (nullableMemberDto.memberId == null)
+            responseStatus = ResponseStatus.NOT_FOUND;
+
+        return new ResponseEntity<MemberResponseDto>(
+                new MemberResponseDto(
+                        responseStatus.getStatus(),
+                        responseStatus.getCode(),
+                        nullableMemberDto),
+                new HttpHeaders(),
+                responseStatus.getCode());
+
     }
     @ResponseBody
     @GetMapping("/get/member/userId")
-    public MemberResponseMapping apiGetMemberByUserId(@RequestParam("value") String userId){
+    public MemberDto apiGetMemberByUserId(@RequestParam("value") String userId){
         return memberService.getMemberByUserId(userId);
     }
 
     @ResponseBody
     @GetMapping("/get/member")
-    public MemberResponseMapping apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+    public MemberDto apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
         return memberService.getMemberByUserNameAndEmail(userName,userEmail);
     }
 
@@ -64,8 +78,8 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/member/register")
-    public int apiRegisterMember(@RequestBody MemberDTO dto) throws NoSuchAlgorithmException {
-       ResponseStatus responseStatus = memberService.insertMember(dto);
-        return responseStatus.getCode();
+    public int apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
+        int response = memberService.insertMember(dto);
+        return response;
     }
 }

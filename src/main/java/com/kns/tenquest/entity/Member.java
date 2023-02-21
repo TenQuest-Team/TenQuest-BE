@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Table(name = "member_table")
@@ -28,8 +26,8 @@ public class Member{
     private String userEmail;
 
     @Builder
-    public Member(String userId, String userInfo, String userName, String userEmail) {
-        this.memberId = UUID.randomUUID().toString().replace("-","");
+    public Member(String memberId, String userId, String userInfo, String userName, String userEmail) {
+        this.memberId = memberId;
         this.userId = userId;
         this.userInfo = userInfo;
         this.userName = userName;

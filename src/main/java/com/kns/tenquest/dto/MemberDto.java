@@ -1,30 +1,44 @@
 package com.kns.tenquest.dto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kns.tenquest.entity.Member;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.security.NoSuchAlgorithmException;
 
-public class MemberDTO implements DataTransferObject<Member> {
+@Getter
+@Setter
+@NoArgsConstructor
+public class MemberDto implements DataTransferObject<Member> {
+    public String memberId;
     public String userId;
-    //@JsonIgnore
     public String userInfo;
     public String userName;
     public String userEmail;
 
-    public MemberDTO(String userId, String userInfo, String userName, String userEmail) {
+    public MemberDto(String memberId, String userId, String userInfo, String userName, String userEmail) {
+        this.memberId = memberId;
         this.userId = userId;
         this.userInfo = userInfo;
         this.userName = userName;
         this.userEmail = userEmail;
     }
 
+    public MemberDto(Member member){
+        this.memberId = member.getMemberId();
+        this.userId = member.getUserId();
+        this.userInfo = member.getUserInfo();
+        this.userName = member.getUserName();
+        this.userEmail = member.getUserEmail();
+    }
     @Override
     public Member toEntity() throws NoSuchAlgorithmException {
-        Member member = Member.builder().userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
+        Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
         return member;
     }
     @Override
     public DataTransferObject<Member> toDto(Member member) {
-        return new MemberDTO(member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail());
+        return new MemberDto(member.getMemberId(),member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail());
     }
 
     public String hashingInfo(String userInfo) throws NoSuchAlgorithmException {
