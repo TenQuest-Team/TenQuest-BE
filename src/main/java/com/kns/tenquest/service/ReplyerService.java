@@ -18,7 +18,7 @@ public class ReplyerService {
 
     public ReplyerDto getReplyerByReplyerId(int replyerId){
        Optional<Replyer> opt = replyerRepository.findReplyerByReplyerId(replyerId);
-       return new ReplyerDto(opt.orElse(new Replyer()));
+       return new ReplyerDto(-1,null);
     }
 
 }
