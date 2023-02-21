@@ -130,12 +130,12 @@ public class MemberController {
 
         if (nullableString.equals(ResponseStatus.CREATE_FAIL.getStatus())){
             responseStatus = ResponseStatus.CREATE_FAIL;
-            nullableString = null;}
+            }
 
         return new ResponseEntity<StringResponseDto>(
                 new StringResponseDto(
                         responseStatus,
-                        nullableString),
+                        null),
                 new HttpHeaders(),
                 responseStatus.getCode());
     }

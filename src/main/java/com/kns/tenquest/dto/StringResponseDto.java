@@ -2,9 +2,12 @@ package com.kns.tenquest.dto;
 
 import com.kns.tenquest.response.ResponseStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+@NoArgsConstructor
 
 @Setter
+
 @Getter
 public class StringResponseDto implements ResponseDto<String> {
     private String status;
