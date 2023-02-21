@@ -1,7 +1,6 @@
 package com.kns.tenquest.response;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum ResponseStatus {

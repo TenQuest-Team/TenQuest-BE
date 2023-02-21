@@ -15,6 +15,7 @@ public class MemberResponseDto implements ResponseDto<MemberDto> {
         this.status = status;
         this.code = code;
         this.data = data;
+        this.data.userInfo= null;
     }
 
 

@@ -1,6 +1,5 @@
 package com.kns.tenquest.repository;
 
-import com.kns.tenquest.dto.MemberResponseMapping;
 import com.kns.tenquest.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
