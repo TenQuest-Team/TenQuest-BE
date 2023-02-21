@@ -2,6 +2,7 @@ package com.kns.tenquest.controller;
 
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.MemberResponseDto;
+import com.kns.tenquest.dto.StringResponseDto;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +45,7 @@ public class MemberController {
 
         return new ResponseEntity<MemberResponseDto>(
                 new MemberResponseDto(
-                        responseStatus.getStatus(),
-                        responseStatus.getCode(),
+                        responseStatus,
                         nullableMemberDto),
                 new HttpHeaders(),
                 responseStatus.getCode());
@@ -53,33 +53,91 @@ public class MemberController {
     }
     @ResponseBody
     @GetMapping("/get/member/userId")
-    public MemberDto apiGetMemberByUserId(@RequestParam("value") String userId){
-        return memberService.getMemberByUserId(userId);
+    public ResponseEntity<MemberResponseDto> apiGetMemberByUserId(@RequestParam("value") String userId){
+        MemberDto nullableMemberDto = memberService.getMemberByUserId(userId);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        if (nullableMemberDto.memberId == null)
+            responseStatus = ResponseStatus.NOT_FOUND;
+
+        return new ResponseEntity<MemberResponseDto>(
+                new MemberResponseDto(
+                        responseStatus,
+                        nullableMemberDto),
+                new HttpHeaders(),
+                responseStatus.getCode());
     }
 
     @ResponseBody
     @GetMapping("/get/member")
-    public MemberDto apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
-        return memberService.getMemberByUserNameAndEmail(userName,userEmail);
+    public ResponseEntity<MemberResponseDto> apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+        MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        if (nullableMemberDto.memberId == null)
+            responseStatus = ResponseStatus.NOT_FOUND;
+
+        return new ResponseEntity<MemberResponseDto>(
+                new MemberResponseDto(
+                        responseStatus,
+                        nullableMemberDto),
+                new HttpHeaders(),
+                responseStatus.getCode());
     }
 
     @ResponseBody
     @GetMapping("/get/memberId/userId")
-    public String apiGetMemberIdByUserId(@RequestParam("value") String userId){
-        return memberService.getMemberIdByUserId(userId);
+    public ResponseEntity<StringResponseDto> apiGetMemberIdByUserId(@RequestParam("value") String userId){
+        String nullableString = memberService.getMemberIdByUserId(userId);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+
+        if (nullableString.equals(ResponseStatus.NOT_FOUND.getStatus())){
+            responseStatus = ResponseStatus.NOT_FOUND;
+            nullableString = null;}
+
+        return new ResponseEntity<StringResponseDto>(
+                new StringResponseDto(
+                        responseStatus,
+                        nullableString),
+                new HttpHeaders(),
+                responseStatus.getCode());
     }
 
 
     @ResponseBody
     @GetMapping("/get/memberId")
-    public String apiGetMemberIdByUserName(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
-        return memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
+    public ResponseEntity<StringResponseDto> apiGetMemberIdByUserName(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+        String nullableString = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+
+        if (nullableString.equals(ResponseStatus.NOT_FOUND.getStatus())){
+            responseStatus = ResponseStatus.NOT_FOUND;
+            nullableString = null;}
+
+        return new ResponseEntity<StringResponseDto>(
+                new StringResponseDto(
+                        responseStatus,
+                        nullableString),
+                new HttpHeaders(),
+                responseStatus.getCode());
     }
 
     @ResponseBody
     @PostMapping("/member/register")
-    public int apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
+    public ResponseEntity<StringResponseDto> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
         int response = memberService.insertMember(dto);
-        return response;
+        String nullableString = Integer.toString(response);
+
+        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+
+        if (nullableString.equals(ResponseStatus.CREATE_FAIL.getStatus())){
+            responseStatus = ResponseStatus.CREATE_FAIL;
+            }
+
+        return new ResponseEntity<StringResponseDto>(
+                new StringResponseDto(
+                        responseStatus,
+                        null),
+                new HttpHeaders(),
+                responseStatus.getCode());
     }
+
 }
