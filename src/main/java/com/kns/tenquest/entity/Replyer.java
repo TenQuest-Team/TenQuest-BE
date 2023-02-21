@@ -2,15 +2,13 @@ package com.kns.tenquest.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.CustomLog;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 
 @Getter
-@Setter
 @Table(name = "replyer_table")
 @Entity
+@NoArgsConstructor
 public class Replyer {
     @Id
     @Column(name="replyer_id")
