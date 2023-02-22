@@ -3,7 +3,6 @@ package com.kns.tenquest.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name="preset_table")
@@ -12,7 +11,9 @@ import lombok.Setter;
 public class Preset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long preset_id;
+    @Column(name = "preset_id")
+    private Long presetId;
 
-    private String preset_name;
+    @Column(name = "preset_name")
+    private String presetName;
 }

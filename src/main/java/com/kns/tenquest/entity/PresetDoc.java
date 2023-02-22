@@ -13,7 +13,8 @@ import lombok.*;
 public class PresetDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long preset_doc_id;
+    @Column(name = "preset_doc_id")
+    private Long presetDocId;
 
     @ManyToOne
     @JoinColumn(name="preset_id")
@@ -23,5 +24,6 @@ public class PresetDoc {
     @JoinColumn(name="question_id")
     private Question question;
 
-    private Long question_order;
+    @Column(name = "question_order")
+    private Long questionOrder;
 }

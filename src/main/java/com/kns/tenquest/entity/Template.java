@@ -16,30 +16,31 @@ import java.util.UUID;
 public class Template {
 
     @Id
-    private UUID template_id;
-    @Column(nullable = false)
-    private String template_name;
-    @Column(nullable = false)
-    private LocalDateTime create_at;
+    @Column(name = "template_id")
+    private UUID templateId;
+    @Column(name="template_name", nullable = false)
+    private String templateName;
+    @Column(name="create_at", nullable = false)
+    private LocalDateTime createAt;
     @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name="template_owner")
     private Member member;
-    @Column(nullable = false)
-    private Boolean is_public;
+    @Column(name = "is_public", nullable = false)
+    private Boolean isPublic;
 
-    public Template update(String template_name, LocalDateTime create_at, Boolean is_public){
-        this.template_name = template_name;
-        this.create_at = LocalDateTime.now();
-        this.is_public = is_public;
+    public Template update(String templateName, Boolean isPublic){
+        this.templateName = templateName;
+        this.createAt = LocalDateTime.now();
+        this.isPublic = isPublic;
         return this;
     }
 
     @Builder
-    public Template(UUID template_id, String template_name, LocalDateTime create_at, Boolean is_public){
-        this.template_id = UUID.randomUUID();
-        this.template_name = template_name;
-        this.create_at = LocalDateTime.now();
-        this.is_public = is_public;
+    public Template(String templateName, Boolean isPublic){
+        this.templateId = UUID.randomUUID();
+        this.templateName = templateName;
+        this.createAt = LocalDateTime.now();
+        this.isPublic = isPublic;
     }
 }

@@ -2,7 +2,6 @@ package com.kns.tenquest.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 @Entity
 @Table(name="template_doc_table")
@@ -13,7 +12,8 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 public class TemplateDoc {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long template_doc_id;
+    @Column(name="template_doc_id")
+    private Long templateDocId;
 
     @ManyToOne
     @JoinColumn(name="template_id")
@@ -22,17 +22,17 @@ public class TemplateDoc {
     @ManyToOne
     @JoinColumn(name="question_id")
     private Question question;
-    @Column(nullable = false)
-    private Long question_order;
+    @Column(name = "question_order",nullable = false)
+    private Long questionOrder;
 
-    public TemplateDoc update(Question question, Long question_order){
+    public TemplateDoc update(Question question, Long questionOrder){
         this.question = question;
-        this.question_order = question_order;
+        this.questionOrder = questionOrder;
         return this;
     }
 
     @Builder
-    public TemplateDoc(Long question_order){
-        this.question_order = question_order;
+    public TemplateDoc(Long questionOrder){
+        this.questionOrder = questionOrder;
     }
 }
