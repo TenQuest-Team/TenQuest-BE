@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>template inserting program</title>
+  <style>
+    .layout{
+        width : 500px;
+        margin : 0 auto;
+    }
+
+
+
+</style>
+</head>
+<body>
+<div class="layout">
+  <form th:action="@{/templates/update/{id}=${template.templateId})}" method="post">
+    <input name="templateName" type="text" th:value="${template.templateName}">
+    <button type="submit">수정</button>
+  </form>
+
+</div>
+
+</body></html>
