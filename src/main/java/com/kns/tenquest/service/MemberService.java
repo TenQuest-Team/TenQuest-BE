@@ -8,18 +8,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class MemberService {
     @Autowired
     MemberRepository memberRepository;
 
-    public List<Member> getAllMembers() {
+    public List<MemberDto> getAllMembers() {
         // Temporarily implemented. Just for test.
-        return memberRepository.findAll();
+        List<Member> allMemberList= memberRepository.findAll();
+        List<MemberDto> allMemberListDto = new ArrayList<>();
+        for (Member member: allMemberList){
+            allMemberListDto.add(new MemberDto(member));
+        }
+        return allMemberListDto;
     }
     public MemberDto getMemberByMemberId(String memberId){
         return new MemberDto(

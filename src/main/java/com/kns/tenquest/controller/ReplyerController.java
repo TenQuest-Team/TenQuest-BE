@@ -1,14 +1,12 @@
 package com.kns.tenquest.controller;
 
-import com.kns.tenquest.dto.MemberResponseDto;
 import com.kns.tenquest.dto.ReplyerDto;
-import com.kns.tenquest.dto.ReplyerResponseDto;
+import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.entity.Replyer;
+import com.kns.tenquest.response.ResponseJson;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.ReplyerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,18 +25,15 @@ public class ReplyerController {
         return "replyer_view";
     }
     @GetMapping("/replyers/{replyerid}")
-    public ResponseEntity<ReplyerResponseDto> apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
+
+    public ResponseJson<ReplyerDto> apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
         ReplyerDto replyerDto = replyerService.getReplyerByReplyerId(replyerId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
         if (replyerDto.getReplyerId()==-1){
             responseStatus = ResponseStatus.NOT_FOUND;
         }
-        return new ResponseEntity<ReplyerResponseDto>(
-                new ReplyerResponseDto(
-                        responseStatus,
-                        replyerDto),
-                new HttpHeaders(),
-                responseStatus.getCode());
+        return new ResponseDto<ReplyerDto>(responseStatus,replyerDto).toResponseJson();
+
     }
 }
