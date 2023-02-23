@@ -3,8 +3,6 @@ package com.kns.tenquest.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name="template_doc_table")
 @Getter
@@ -21,19 +19,22 @@ public class TemplateDoc {
 //    @JoinColumn(name="template_id")
 //    private Template template;
     @Column(name="template_id")
-    private UUID templateId;
+    private String templateId;
 
 //    @ManyToOne
 //    @JoinColumn(name="question_id")
 //    private Question question;
     @Column(name="question_id")
-    private UUID questionId;
+    private String questionId;
 
     @Column(name = "question_order")
     private Long questionOrder;
 
     @Builder
-    public TemplateDoc(Long questionOrder){
+    public TemplateDoc(Long templateDocId, String templateId, String questionId, Long questionOrder){
+        this.templateDocId = templateDocId;
+        this.templateId = templateId;
+        this.questionId = questionId;
         this.questionOrder = questionOrder;
     }
 }

@@ -20,13 +20,12 @@ public class Template {
 
     @Id
     @Column(name = "template_id")
-    private String templateId = UUID.randomUUID().toString().replace("-","");
+    private String templateId;
     @Column(name="template_name")
     private String templateName;
 
-    @CreatedDate
-    @Column(name="create_at" , updatable = false)
-    private LocalDateTime createAt;
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 
 //    @Column(nullable = false)
 //    @ManyToOne
@@ -45,11 +44,10 @@ public class Template {
 //        return this;
 //    }
 
-//    @Builder
-//    public Template(){
-//        this.templateId = UUID.randomUUID().toString().replace("-","");
-//        this.templateOwner = UUID.randomUUID().toString().replace("-","");
-//        this.isPublic = Boolean.TRUE;
-//        this.createAt = LocalDateTime.now();
-//    }
+    @Builder
+    public Template(String templateId, String templateName, Boolean isPublic){
+        this.templateId = templateId;
+        this.templateName = templateName;
+        this.isPublic = isPublic;
+    }
 }

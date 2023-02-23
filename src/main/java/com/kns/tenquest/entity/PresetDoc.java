@@ -4,8 +4,6 @@ package com.kns.tenquest.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name="preset_doc_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,8 +27,17 @@ public class PresetDoc {
 //    private Question question;
 
     @Column(name="question_id")
-    private UUID questionId;
+    private String questionId;
 
     @Column(name = "question_order")
     private Long questionOrder;
+
+    @Builder
+    public PresetDoc(Long presetDocId, Long presetId, String questionId, Long questionOrder){
+
+        this.presetDocId = presetDocId;
+        this.presetId = presetId;
+        this.questionId = questionId;
+        this.questionOrder = questionOrder;
+    }
 }

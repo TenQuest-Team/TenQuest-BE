@@ -27,10 +27,12 @@
     <tbody>
     <tr th:each="template : ${templateList}">
         <td th:text="${template.templateId}"></td>
-        <td th:text="${template.templateName}"></td>
-<!--        <td th:text="${template.createdAt}"></td>-->
+        <td>
+            <a th:text="${template.templateName}" th:href="@{/templates/view(id=${template.templateId})}">
+        </td>
+        <td th:time="${template.createdAt}"></td>
         <td th:text="${template.templateOwner}"></td>
-        <td th:text="${template.isPublic}"></td>
+        <td th:boolean="${template.isPublic}"></td>
     </tr>
     </tbody>
 </table>
