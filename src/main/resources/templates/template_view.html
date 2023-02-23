@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Template 상세 페이지</title>
+</head>
+<body>
+<h1 th:text="${template.templateId}"></h1>
+<h1 th:text="${template.templateName}"></h1>
+<a th:href="@{/templates/delete(id=${template.templateId})}">템플릿 삭제</a>
+<a th:href="@{/templates/modify/{id}(id = ${template.templateId})}">템플릿 수정</a>
+</body>
+</html>
