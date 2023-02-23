@@ -1,0 +1,31 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Questions in DB</title>
+  <style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 800px;
+        height: 60px;
+      }
+    </style>
+</head>
+<table>
+  <thead>
+  <tr>
+    <th>question_id</th>
+    <th>question_content</th>
+    <th>question_category_id</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="question : ${questionList}">
+    <td th:text="${question.questionId}"></td>
+    <td th:text="${question.questionContent}"></td>
+    <td th:text="${question.questionCategoryId}"></td>
+  </tr>
+  </tbody>
+</table>
