@@ -16,6 +16,8 @@ public class MemberDto implements DataTransferObject<Member> {
     public String userName;
     public String userEmail;
 
+    //생성자
+
     public MemberDto(String memberId, String userId, String userInfo, String userName, String userEmail) {
         this.memberId = memberId;
         this.userId = userId;
@@ -24,6 +26,8 @@ public class MemberDto implements DataTransferObject<Member> {
         this.userEmail = userEmail;
     }
 
+    // 멤버 객체가 들어왔을때.. 멤버의 정보들을 다 갖다줌
+
     public MemberDto(Member member){
         this.memberId = member.getMemberId();
         this.userId = member.getUserId();
@@ -31,6 +35,12 @@ public class MemberDto implements DataTransferObject<Member> {
         this.userName = member.getUserName();
         this.userEmail = member.getUserEmail();
     }
+
+
+    //////////////?
+
+
+
     @Override
     public Member toEntity() throws NoSuchAlgorithmException {
         Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
