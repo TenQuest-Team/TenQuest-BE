@@ -6,7 +6,6 @@ import lombok.*;
 
 @Entity
 @Table(name="preset_doc_table")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@ToString(exclude = {"question","preset"})
 @Getter
 @Data
