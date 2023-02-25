@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="layout">
-  <form th:action="@{/templates/update/{id}(id=${template.templateId})}" method="post">
+  <form th:action="@{/templates/{id}(id=${template.templateId})}" method="patch">
     <input name="templateName" type="text" th:value="${template.templateName}">
     <button type="submit">수정</button>
   </form>
