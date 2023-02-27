@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @Table(name="template_doc_table")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 //@ToString(exclude = {"template","question"})
 @Data
 public class TemplateDoc {

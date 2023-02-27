@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name="template_table")
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 //@ToString(exclude = {"member"})
 @Data
 public class Template {
@@ -45,9 +45,10 @@ public class Template {
 //    }
 
     @Builder
-    public Template(String templateId, String templateName, Boolean isPublic){
+    public Template(String templateId, String templateName, String templateOwner, Boolean isPublic){
         this.templateId = templateId;
         this.templateName = templateName;
+        this.templateOwner = templateOwner;
         this.isPublic = isPublic;
     }
 }
