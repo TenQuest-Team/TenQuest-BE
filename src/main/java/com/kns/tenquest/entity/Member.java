@@ -33,6 +33,4 @@ public class Member{
         this.userName = userName;
         this.userEmail = userEmail;
     }
-
-
 }
