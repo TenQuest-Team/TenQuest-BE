@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Preset 상세 페이지</title>
+</head>
+<body>
+
+<h1 th:text="${preset.presetName}"></h1>
+<a th:href="@{/presets/delete(id=${preset.presetId})}">프리셋 삭제</a>
+</body>
+</html>

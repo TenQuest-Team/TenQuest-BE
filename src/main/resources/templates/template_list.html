@@ -1,0 +1,41 @@
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Template in DB</title>
+</head>
+
+<style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 800px;
+        height: 60px;
+      }
+</style>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>template_id</th>
+        <th>template_name</th>
+        <th>created_at</th>
+        <th>template_owner</th>
+        <th>is_public</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="template : ${templateList}">
+        <td th:text="${template.templateId}"></td>
+        <td>
+            <a th:text="${template.templateName}" th:href="@{/templates/view(id=${template.templateId})}">
+        </td>
+        <td th:time="${template.createdAt}"></td>
+        <td th:text="${template.templateOwner}"></td>
+        <td th:boolean="${template.isPublic}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+</html>

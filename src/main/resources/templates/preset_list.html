@@ -1,0 +1,37 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Preset in DB</title>
+</head>
+
+<style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 800px;
+        height: 60px;
+      }
+</style>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>preset_id</th>
+                <th>preset_name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="preset : ${presetList}">
+                <td>
+                    <a th:text="${preset.presetId}" th:href="@{/presets/view(id=${preset.presetId})}"></a>
+                </td>
+                <td th:text="${preset.presetName}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
+
+
