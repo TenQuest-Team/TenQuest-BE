@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Controller
 public class TemplateController {
@@ -19,9 +20,10 @@ public class TemplateController {
     private TemplateService templateService;
 
     @GetMapping("/templates")
-    public String templateView(Model model){
-        model.addAttribute("templateList",templateService.getAllTemplates());
-        return "template_list";
+    public ResponseJson<TemplateDto> apiGetAllTemplates(){
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        List<TemplateDto> templateDtoList = templateService.getAllTemplates();
+        return new ResponseDto<TemplateDto>(responseStatus,templateDtoList).toResponseJson();
     } //template Read API
 
     @GetMapping("/templates/insert")
