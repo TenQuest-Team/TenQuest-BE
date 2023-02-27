@@ -15,28 +15,29 @@ public class PresetDoc {
     @Column(name = "preset_doc_id")
     private Long presetDocId;
 
-//    @ManyToOne
-//    @JoinColumn(name="preset_id")
-//    private Preset preset;
-    @Column(name="preset_id")
-    private Long presetId;
+    @ManyToOne
+    @JoinColumn(name="preset_id")
+    private Preset preset;
 
-//    @ManyToOne
-//    @JoinColumn(name="question_id")
-//    private Question question;
+//    @Column(name="preset_id")
+//    private Long presetId;
 
-    @Column(name="question_id")
-    private String questionId;
+    @ManyToOne
+    @JoinColumn(name="question_id")
+    private Question question;
+
+//    @Column(name="question_id")
+//    private String questionId;
 
     @Column(name = "question_order")
     private Long questionOrder;
 
     @Builder
-    public PresetDoc(Long presetDocId, Long presetId, String questionId, Long questionOrder){
+    public PresetDoc(Long presetDocId, Preset preset, Question question, Long questionOrder){
 
         this.presetDocId = presetDocId;
-        this.presetId = presetId;
-        this.questionId = questionId;
+        this.preset = preset;
+        this.question = question;
         this.questionOrder = questionOrder;
     }
 }

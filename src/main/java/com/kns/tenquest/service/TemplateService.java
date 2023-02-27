@@ -37,7 +37,6 @@ public class TemplateService {
         if(optTemplate.isEmpty()){
             templatedto.setCreatedAt(LocalDateTime.now());
             templatedto.setTemplateId(UUID.randomUUID().toString().replace("-",""));
-            templatedto.setTemplateOwner(UUID.randomUUID().toString().replace("-",""));
             templatedto.setIsPublic(TRUE);
             templateRepository.save(templatedto.toEntity());
             return ResponseStatus.CREATE_DONE.getCode();

@@ -19,22 +19,21 @@ import java.util.UUID;
 public class Template {
 
     @Id
-    @Column(name = "template_id")
+    @Column(name = "template_id") //UUID 자동 생성 함수 선언
     private String templateId;
-    @Column(name="template_name")
+    @Column(name="template_name") //requestBody로 받기
     private String templateName;
 
-    @Column(name="created_at")
+    @Column(name="created_at") //함수로 자동 생성
     private LocalDateTime createdAt;
 
-//    @Column(nullable = false)
-//    @ManyToOne
-//    @JoinColumn(name="template_owner")
-//    private Member member;
+    @ManyToOne
+    @JoinColumn(name="template_owner")
+    private Member member;
 
-    @Column(name="template_owner")
-    private String templateOwner;
-    @Column(name = "is_public")
+//    @Column(name="template_owner") //세션으로 받기
+//    private String templateOwner;
+    @Column(name = "is_public") //RequestBody로 받기
     private Boolean isPublic;
 
 //    public Template update(String templateName, Boolean isPublic){
@@ -45,10 +44,11 @@ public class Template {
 //    }
 
     @Builder
-    public Template(String templateId, String templateName, String templateOwner, Boolean isPublic){
+    public Template(String templateId, String templateName,LocalDateTime createdAt, Member member, Boolean isPublic){
         this.templateId = templateId;
         this.templateName = templateName;
-        this.templateOwner = templateOwner;
+        this.createdAt = createdAt;
+        this.member = member;
         this.isPublic = isPublic;
     }
 }

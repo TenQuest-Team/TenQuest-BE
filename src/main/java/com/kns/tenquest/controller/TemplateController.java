@@ -32,7 +32,7 @@ public class TemplateController {
 
     @ResponseBody
     @PostMapping("/templates")
-    public ResponseJson<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto)throws NoSuchAlgorithmException {
+    public ResponseJson<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto) {
         int createResult = templateService.createTemplate(templateDto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;

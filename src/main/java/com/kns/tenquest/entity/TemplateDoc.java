@@ -15,26 +15,28 @@ public class TemplateDoc {
     @Column(name="template_doc_id")
     private Long templateDocId;
 
-//    @ManyToOne
-//    @JoinColumn(name="template_id")
-//    private Template template;
-    @Column(name="template_id")
-    private String templateId;
+    @ManyToOne
+    @JoinColumn(name="template_id")
+    private Template template;
 
-//    @ManyToOne
-//    @JoinColumn(name="question_id")
-//    private Question question;
-    @Column(name="question_id")
-    private String questionId;
+//    @Column(name="template_id")
+//    private String templateId;
+
+    @ManyToOne
+    @JoinColumn(name="question_id")
+    private Question question;
+
+//    @Column(name="question_id")
+//    private String questionId;
 
     @Column(name = "question_order")
     private Long questionOrder;
 
     @Builder
-    public TemplateDoc(Long templateDocId, String templateId, String questionId, Long questionOrder){
+    public TemplateDoc(Long templateDocId, Template template, Question question, Long questionOrder){
         this.templateDocId = templateDocId;
-        this.templateId = templateId;
-        this.questionId = questionId;
+        this.template = template;
+        this.question = question;
         this.questionOrder = questionOrder;
     }
 }
