@@ -62,7 +62,13 @@ public class TemplateService {
         return templateRepository.findById(templateId).get();
     }
 
-    public  void templateDelete(String templateId){
-        templateRepository.deleteById(templateId);
+    public  int templateDelete(String templateId){
+        Optional<Template> optTemplateDto = templateRepository.findById(templateId);
+        if(optTemplateDto.isPresent()){
+            templateRepository.deleteById(templateId);
+            return ResponseStatus.OK.getCode();
+        }
+        return ResponseStatus.NOT_FOUND.getCode();
+
     }
 }

@@ -4,6 +4,7 @@ import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.response.ResponseJson;
 import com.kns.tenquest.response.ResponseStatus;
+import com.kns.tenquest.service.TemplateDocService;
 import com.kns.tenquest.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class TemplateController {
 
     @Autowired
     private TemplateService templateService;
+
+    @Autowired
+    private TemplateDocService templateDocService;
 
     @GetMapping("/templates")
     public ResponseJson<TemplateDto> apiGetAllTemplates(){
@@ -68,11 +72,21 @@ public class TemplateController {
         model.addAttribute("template",templateService.templateView(id));
         return "template_view";
     } //특정 template으로 진입
-    @GetMapping("/templates/delete")
-    public String templateDelete(String id){
-        templateService.templateDelete(id);
+    @DeleteMapping("/templates")
+    public ResponseJson<Integer> apiTemplateDelete(@RequestParam("template-id") String templateId){
+        int deleteResult1 = templateService.templateDelete(templateId);
+//        int deleteResult2 = templateDocService.templateDocDelete(templateId);
+        ResponseStatus responseStatus = ResponseStatus.OK;
 
-        return "redirect:/templates";
+        if(deleteResult1 == ResponseStatus.NOT_FOUND.getCode()){
+            responseStatus = ResponseStatus.NOT_FOUND;
+            return new ResponseDto<Integer>(responseStatus,deleteResult1).toResponseJson();
+        }
+//        if(deleteResult2 == ResponseStatus.NOT_FOUND.getCode()){
+//            responseStatus = ResponseStatus.NOT_FOUND;
+//            return new ResponseDto<Integer>(responseStatus,deleteResult2).toResponseJson();
+//        }
+        return new ResponseDto<Integer>(responseStatus,responseStatus.getCode()).toResponseJson();
     } //template Delete API
 
 
