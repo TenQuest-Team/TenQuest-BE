@@ -1,17 +1,16 @@
 package com.kns.tenquest.controller;
 
 
+import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,15 +121,13 @@ public class QuestionController {
     //질문 추가하기 : POST  : 데이터 추가 : 개발자& 이용자
 
     @ResponseBody
-    @RequestMapping(value ="post/question/content",method = RequestMethod.POST)
-    public String apiPostQuestionContent(@RequestParam(name="questionCategoryId",required = false,defaultValue = "0") int questionCategoryId ,
-                                @RequestParam(name="questionCreatedBy",required = false,defaultValue = "") String questionCreatedBy,
-                                @RequestParam(name="questionContent",required = false,defaultValue = "")String questionContent) {
+    @RequestMapping(value ="post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
+    public String apiPostQuestionContent(@RequestBody QuestionDto questionDto) throws NoSuchAlgorithmException {
 
 
-            questionService.postQuestionContent(questionCategoryId, questionCreatedBy, questionContent);
+            questionService.postQuestionContent(questionDto);
             // 등록 성공했는지 여부 확인하는 코드 추가할 예정
-            return "성공";
+            return  "성공";
 
     }
 

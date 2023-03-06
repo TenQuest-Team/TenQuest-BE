@@ -7,6 +7,7 @@ import com.kns.tenquest.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,17 +45,19 @@ public class QuestionService {
 
     }
 
-    public void postQuestionContent(int questionCategoryId, String questionCreatedBy, String questionContent) {
+    public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
+        Question question = questionDto.toEntity();
 
+        var saveQuestion = questionRepository.save(question);
+    }
+}
 
-        UUID uuid = UUID.randomUUID();
-        Question question =new Question(uuid, questionContent,questionCategoryId,questionCreatedBy);
+      //  UUID uuid = UUID.randomUUID();
+      //  Question question =new Question(uuid, questionContent,questionCategoryId,questionCreatedBy);
 
        // question.setQuestionCategoryId(questionCategoryId);
        // question.setQuestionCreatedBy(questionCreatedBy);
        // question.setQuestionContent(questionContent);
         //question.toEntity;
 
-        var saveQuestion = questionRepository.save(question);
-    }
-}
+
