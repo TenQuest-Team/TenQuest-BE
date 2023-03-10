@@ -6,6 +6,7 @@ import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller // 어떤 요청이랑 어떤 함수(api)를 맵핑하면 좋을지 알려주는 역할
 public class QuestionController {
@@ -122,12 +122,12 @@ public class QuestionController {
 
     @ResponseBody
     @RequestMapping(value ="post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
-    public String apiPostQuestionContent(@RequestBody QuestionDto questionDto) throws NoSuchAlgorithmException {
-
+    public ResponseEntity<Void> apiPostQuestionContent(@RequestBody QuestionDto questionDto) throws NoSuchAlgorithmException {
+         //   Question question = questionDto.toEntity(questionDto.getQuestionCategoryId(),questionDto.getQuestionCreatedBy());
 
             questionService.postQuestionContent(questionDto);
             // 등록 성공했는지 여부 확인하는 코드 추가할 예정
-            return  "성공";
+            return ResponseEntity.ok().build();
 
     }
 

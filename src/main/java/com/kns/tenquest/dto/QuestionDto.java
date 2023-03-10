@@ -23,7 +23,7 @@ public class QuestionDto implements DataTransferObject<Question>{
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "question_id", columnDefinition = "String(256)") // columnDefinition 수정필요
-    //@Type (type = "uuid-char")
+    //@Type (value = "uuid")
     private UUID questionId;
     private String questionContent;
     private int questionCategoryId;

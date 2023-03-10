@@ -46,9 +46,15 @@ public class QuestionService {
     }
 
     public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
+
+
         Question question = questionDto.toEntity();
 
-        var saveQuestion = questionRepository.save(question);
+        questionRepository.save(question);
+        questionRepository.postQuestionContent(questionDto.getQuestionCategoryId()
+                ,questionDto.getQuestionCreatedBy()
+                ,questionDto.getQuestionContent());
+        return ;
     }
 }
 
