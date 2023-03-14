@@ -22,6 +22,6 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
 
      String getQuestionContentByQuestionId(String questionId);
 
-     void postQuestionContent(int questionCategoryId, String questionCreatedBy, String questionContent);
+    // void postQuestionContent(int questionCategoryId, String questionCreatedBy, String questionContent);
 
 }

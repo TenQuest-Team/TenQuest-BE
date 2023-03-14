@@ -44,7 +44,7 @@ public class QuestionService {
         return questionRepository.getQuestionContentByQuestionId(questionId);
 
     }
-
+/*
     public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
 
 
@@ -55,7 +55,7 @@ public class QuestionService {
                 ,questionDto.getQuestionCreatedBy()
                 ,questionDto.getQuestionContent());
         return ;
-    }
+    }*/
 }
 
       //  UUID uuid = UUID.randomUUID();
