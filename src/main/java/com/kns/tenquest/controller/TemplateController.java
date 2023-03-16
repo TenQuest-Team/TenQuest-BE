@@ -2,7 +2,7 @@ package com.kns.tenquest.controller;
 
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
-import com.kns.tenquest.response.ResponseJson;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class TemplateController {
 
     @ResponseBody
     @PostMapping("/templates")
-    public ResponseJson<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto)throws NoSuchAlgorithmException {
+    public Response<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto)throws NoSuchAlgorithmException {
         int createResult = templateService.createTemplate(templateDto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
@@ -50,7 +50,7 @@ public class TemplateController {
     } //변경 http GET 요청 (UPDATE Test용)
 
     @PatchMapping("/templates/{id}")
-    public ResponseJson<Integer> apiTemplateUpdate(@PathVariable("id") String templateId, @RequestBody TemplateDto templateDto) throws NoSuchAlgorithmException {
+    public Response<Integer> apiTemplateUpdate(@PathVariable("id") String templateId, @RequestBody TemplateDto templateDto) throws NoSuchAlgorithmException {
         int updateResult = templateService.templateUpdate(templateId, templateDto);
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
 

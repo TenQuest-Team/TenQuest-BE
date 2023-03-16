@@ -2,11 +2,9 @@ package com.kns.tenquest.controller;
 
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ResponseDto;
-import com.kns.tenquest.entity.Member;
-import com.kns.tenquest.response.ResponseJson;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +28,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/get/members")
-    public ResponseJson<MemberDto> apiGetAllMembers(){
+    public Response<MemberDto> apiGetAllMembers(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         List<MemberDto> memberDtoList = memberService.getAllMembers();
 
@@ -39,7 +37,7 @@ public class MemberController {
     }
     @ResponseBody
     @GetMapping("/get/member/memberId")
-    public ResponseJson<MemberDto> apiGetMemberByMemberId(@RequestParam("value") String memberId){
+    public Response<MemberDto> apiGetMemberByMemberId(@RequestParam("value") String memberId){
         MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -50,7 +48,7 @@ public class MemberController {
     }
     @ResponseBody
     @GetMapping("/get/member/userId")
-    public ResponseJson<MemberDto> apiGetMemberByUserId(@RequestParam("value") String userId){
+    public Response<MemberDto> apiGetMemberByUserId(@RequestParam("value") String userId){
         MemberDto nullableMemberDto = memberService.getMemberByUserId(userId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -62,7 +60,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/get/member")
-    public ResponseJson<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+    public Response<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
@@ -72,7 +70,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/get/memberId/userId")
-    public ResponseJson<String> apiGetMemberIdByUserId(@RequestParam("value") String userId){
+    public Response<String> apiGetMemberIdByUserId(@RequestParam("value") String userId){
         String nullableString = memberService.getMemberIdByUserId(userId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -86,7 +84,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/get/memberId")
-    public ResponseJson<String> apiGetMemberIdByUserName(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+    public Response<String> apiGetMemberIdByUserName(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
         String nullableString = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -100,7 +98,7 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/member/register")
-    public ResponseJson<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
+    public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
         int insertResult = memberService.insertMember(dto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
