@@ -1,4 +1,6 @@
-package com.kns.tenquest.dto;
+package com.kns.tenquest.response;
+
+import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 @SuppressWarnings("unchecked")
@@ -17,6 +19,6 @@ public interface Responseable<E>{
      * @return Response Object를 리턴합니다.
      */
     default Response<E> toResponse(ResponseStatus responseStatus){
-        return new ResponseDto<E> (responseStatus, (E)this).toResponse();
+        return new ResponseDto<E>(responseStatus, (E)this).toResponse();
     };
 }
