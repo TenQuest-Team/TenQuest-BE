@@ -32,7 +32,7 @@ public class MemberController {
         ResponseStatus responseStatus = ResponseStatus.OK;
         List<MemberDto> memberDtoList = memberService.getAllMembers();
 
-        return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
 
     }
     @ResponseBody
@@ -44,7 +44,7 @@ public class MemberController {
         if (nullableMemberDto.memberId == null)
             responseStatus = ResponseStatus.NOT_FOUND;
 
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
     }
     @ResponseBody
     @GetMapping("/get/member/userId")
@@ -54,7 +54,7 @@ public class MemberController {
 
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
 
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
 
     }
 
@@ -64,7 +64,7 @@ public class MemberController {
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
 
     }
 
@@ -78,7 +78,7 @@ public class MemberController {
             responseStatus = ResponseStatus.NOT_FOUND;
             nullableString = null;}
 
-        return new ResponseDto<String>(responseStatus, nullableString).toResponseJson();
+        return new ResponseDto<String>(responseStatus, nullableString).toResponse();
 
     }
 
@@ -92,7 +92,7 @@ public class MemberController {
             responseStatus = ResponseStatus.NOT_FOUND;
             nullableString = null;}
 
-        return new ResponseDto<String>(responseStatus, nullableString).toResponseJson();
+        return new ResponseDto<String>(responseStatus, nullableString).toResponse();
 
     }
 
@@ -107,7 +107,7 @@ public class MemberController {
             responseStatus = ResponseStatus.CREATE_FAIL;
             }
 
-        return new ResponseDto<Integer>(responseStatus, insertResult).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
 

@@ -33,7 +33,7 @@ public class ReplyerController {
         if (replyerDto.getReplyerId()==-1){
             responseStatus = ResponseStatus.NOT_FOUND;
         }
-        return new ResponseDto<ReplyerDto>(responseStatus,replyerDto).toResponseJson();
+        return new ResponseDto<ReplyerDto>(responseStatus,replyerDto).toResponse();
 
     }
 }

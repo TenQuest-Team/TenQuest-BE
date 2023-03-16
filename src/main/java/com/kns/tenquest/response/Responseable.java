@@ -17,6 +17,6 @@ public interface Responseable<E>{
      * @return Response Object를 리턴합니다.
      */
     default Response<E> toResponse(ResponseStatus responseStatus){
-        return new ResponseDto<E> (responseStatus, (E)this).toResponseJson();
+        return new ResponseDto<E> (responseStatus, (E)this).toResponse();
     };
 }

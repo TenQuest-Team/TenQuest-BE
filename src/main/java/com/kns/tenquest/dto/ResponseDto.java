@@ -36,11 +36,11 @@ public class ResponseDto<T> {
         this.responseDataList = responseDataList;
     }
 
-    public Response<T> toResponseJson(){
+    public Response<T> toResponse(){
     return new Response<T>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), this.responseDataList),
             new HttpHeaders(),
             this.getCode());
-    };
+    }
 
 
 }

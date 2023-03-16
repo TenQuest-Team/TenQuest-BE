@@ -39,7 +39,7 @@ public class TemplateController {
         if(createResult == ResponseStatus.CREATE_FAIL.getCode()){
             responseStatus = ResponseStatus.CREATE_FAIL;
         }
-        return new ResponseDto<Integer>(responseStatus,createResult).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus,createResult).toResponse();
     } //template Create API
 
     @GetMapping("/templates/modify/{id}")
@@ -57,7 +57,7 @@ public class TemplateController {
         if(updateResult == ResponseStatus.CREATE_FAIL.getCode()){
             responseStatus = ResponseStatus.CREATE_FAIL;
         }
-        return new ResponseDto<Integer>(responseStatus,updateResult).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus,updateResult).toResponse();
     } //template Update API
 
     @GetMapping("/templates/view")
