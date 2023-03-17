@@ -1,5 +1,6 @@
 package com.kns.tenquest.dto;
 import com.kns.tenquest.entity.Member;
+import com.kns.tenquest.response.Responseable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,14 +10,12 @@ import java.security.NoSuchAlgorithmException;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MemberDto implements DataTransferObject<Member> {
+public class MemberDto implements DataTransferObject<Member>, Responseable<MemberDto>{
     public String memberId;
     public String userId;
     public String userInfo;
     public String userName;
     public String userEmail;
-
-    //생성자
 
     public MemberDto(String memberId, String userId, String userInfo, String userName, String userEmail) {
         this.memberId = memberId;
@@ -26,8 +25,6 @@ public class MemberDto implements DataTransferObject<Member> {
         this.userEmail = userEmail;
     }
 
-    // 멤버 객체가 들어왔을때.. 멤버의 정보들을 다 갖다줌
-
     public MemberDto(Member member){
         this.memberId = member.getMemberId();
         this.userId = member.getUserId();
@@ -35,11 +32,6 @@ public class MemberDto implements DataTransferObject<Member> {
         this.userName = member.getUserName();
         this.userEmail = member.getUserEmail();
     }
-
-
-    //////////////?
-
-
 
     @Override
     public Member toEntity() throws NoSuchAlgorithmException {

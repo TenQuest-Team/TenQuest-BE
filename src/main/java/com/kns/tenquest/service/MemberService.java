@@ -1,5 +1,6 @@
 package com.kns.tenquest.service;
 
+import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.repository.MemberRepository;
@@ -15,14 +16,15 @@ public class MemberService {
     @Autowired
     MemberRepository memberRepository;
 
-    public List<MemberDto> getAllMembers() {
+    public DtoList<MemberDto> getAllMembers() {
         // Temporarily implemented. Just for test.
-        List<Member> allMemberList= memberRepository.findAll();
-        List<MemberDto> allMemberListDto = new ArrayList<>();
-        for (Member member: allMemberList){
-            allMemberListDto.add(new MemberDto(member));
-        }
-        return allMemberListDto;
+        //List<Member> allMemberList= memberRepository.findAll();
+        DtoList<MemberDto> memberDtoList = new DtoList<>(memberRepository.findAll());
+//        List<MemberDto> allMemberListDto = new ArrayList<>();
+//        for (Member member: allMemberList){
+//            allMemberListDto.add(new MemberDto(member));
+//        }
+        return memberDtoList;
     }
     public MemberDto getMemberByMemberId(String memberId){
         return new MemberDto(

@@ -5,7 +5,7 @@ import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 @SuppressWarnings("unchecked")
-public interface Responseable<E extends DataTransferObject<E>>{
+public interface Responseable<E extends DataTransferObject>{
     /**
      * @author woody
      * @since JDK 1.8

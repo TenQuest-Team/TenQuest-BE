@@ -37,7 +37,7 @@ public class ResponseDto<T> {
     }
 
     public Response<T> toResponse(){
-    return new Response<T>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), this.responseDataList),
+    return new Response<>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), this.responseDataList),
             new HttpHeaders(),
             this.getCode());
     }
