@@ -1,5 +1,6 @@
 package com.kns.tenquest.controller;
 
+import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.response.Response;
@@ -22,8 +23,8 @@ public class MemberController {
     @GetMapping("/view/members")
     public String memberView(Model model){
         // Temporarily implemented. Just for test.
-        List<MemberDto> memberList = memberService.getAllMembers();
-        model.addAttribute("memberList", memberList);
+        DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
+        model.addAttribute("memberList", memberDtoList);
         return "member_view";
     }
 
@@ -31,10 +32,10 @@ public class MemberController {
     @GetMapping("/members")
     public Response<MemberDto> apiGetAllMembers(){
         ResponseStatus responseStatus = ResponseStatus.OK;
-        List<MemberDto> memberDtoList = memberService.getAllMembers();
+        DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
 
-        return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
-
+        //return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
+        return memberDtoList.toResponse(responseStatus);
     }
     @ResponseBody
     @GetMapping("/members/memberId")
@@ -45,7 +46,7 @@ public class MemberController {
         if (nullableMemberDto.memberId == null)
             responseStatus = ResponseStatus.NOT_FOUND;
 
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
+        return nullableMemberDto.toResponse(responseStatus);
     }
     @ResponseBody
     @GetMapping("/members/userId")
@@ -55,7 +56,7 @@ public class MemberController {
 
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
 
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
+        return nullableMemberDto.toResponse(responseStatus);
 
     }
 
@@ -65,7 +66,7 @@ public class MemberController {
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
+        return nullableMemberDto.toResponse(responseStatus);
 
     }
 
@@ -85,7 +86,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/memberId/nameAndEmail")
-    public ResponseJson<String> apiGetMemberIdByUserName(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
+    public Response<String> apiGetMemberIdByUserName(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
         String nullableString = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -99,7 +100,7 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/members")
-    public ResponseJson<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
+    public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
         int insertResult = memberService.insertMember(dto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
