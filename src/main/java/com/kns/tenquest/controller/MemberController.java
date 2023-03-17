@@ -16,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MemberController {
     @Autowired
     MemberService memberService;
@@ -29,7 +30,7 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/get/members")
+    @GetMapping("/members")
     public ResponseJson<MemberDto> apiGetAllMembers(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         List<MemberDto> memberDtoList = memberService.getAllMembers();
@@ -38,7 +39,7 @@ public class MemberController {
 
     }
     @ResponseBody
-    @GetMapping("/get/member/memberId")
+    @GetMapping("/members/memberId")
     public ResponseJson<MemberDto> apiGetMemberByMemberId(@RequestParam("value") String memberId){
         MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -49,7 +50,7 @@ public class MemberController {
         return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
     }
     @ResponseBody
-    @GetMapping("/get/member/userId")
+    @GetMapping("/members/userId")
     public ResponseJson<MemberDto> apiGetMemberByUserId(@RequestParam("value") String userId){
         MemberDto nullableMemberDto = memberService.getMemberByUserId(userId);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -61,8 +62,8 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/get/member")
-    public ResponseJson<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+    @GetMapping("/members/nameAndEmail")
+    public ResponseJson<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
@@ -71,7 +72,7 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/get/memberId/userId")
+    @GetMapping("/memberId/userId")
     public ResponseJson<String> apiGetMemberIdByUserId(@RequestParam("value") String userId){
         String nullableString = memberService.getMemberIdByUserId(userId);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -85,8 +86,8 @@ public class MemberController {
     }
 
     @ResponseBody
-    @GetMapping("/get/memberId")
-    public ResponseJson<String> apiGetMemberIdByUserName(@RequestParam("userName") String userName, @RequestParam("userEmail") String userEmail){
+    @GetMapping("/memberId/nameAndEmail")
+    public ResponseJson<String> apiGetMemberIdByUserName(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
         String nullableString = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -99,7 +100,7 @@ public class MemberController {
     }
 
     @ResponseBody
-    @PostMapping("/member/register")
+    @PostMapping("/members")
     public ResponseJson<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
         int insertResult = memberService.insertMember(dto);
 
