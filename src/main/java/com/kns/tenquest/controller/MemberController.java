@@ -2,11 +2,9 @@ package com.kns.tenquest.controller;
 
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ResponseDto;
-import com.kns.tenquest.entity.Member;
-import com.kns.tenquest.response.ResponseJson;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +33,7 @@ public class MemberController {
         ResponseStatus responseStatus = ResponseStatus.OK;
         List<MemberDto> memberDtoList = memberService.getAllMembers();
 
-        return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
 
     }
     @ResponseBody
@@ -47,7 +45,7 @@ public class MemberController {
         if (nullableMemberDto.memberId == null)
             responseStatus = ResponseStatus.NOT_FOUND;
 
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
     }
     @ResponseBody
     @GetMapping("/members/userId")
@@ -57,7 +55,7 @@ public class MemberController {
 
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
 
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
 
     }
 
@@ -67,7 +65,7 @@ public class MemberController {
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
-        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponseJson();
+        return new ResponseDto<MemberDto>(responseStatus, nullableMemberDto).toResponse();
 
     }
 
@@ -81,7 +79,7 @@ public class MemberController {
             responseStatus = ResponseStatus.NOT_FOUND;
             nullableString = null;}
 
-        return new ResponseDto<String>(responseStatus, nullableString).toResponseJson();
+        return new ResponseDto<String>(responseStatus, nullableString).toResponse();
 
     }
 
@@ -95,7 +93,7 @@ public class MemberController {
             responseStatus = ResponseStatus.NOT_FOUND;
             nullableString = null;}
 
-        return new ResponseDto<String>(responseStatus, nullableString).toResponseJson();
+        return new ResponseDto<String>(responseStatus, nullableString).toResponse();
 
     }
 
@@ -110,7 +108,7 @@ public class MemberController {
             responseStatus = ResponseStatus.CREATE_FAIL;
             }
 
-        return new ResponseDto<Integer>(responseStatus, insertResult).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
 

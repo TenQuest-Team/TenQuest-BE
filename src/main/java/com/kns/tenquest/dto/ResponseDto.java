@@ -1,6 +1,6 @@
 package com.kns.tenquest.dto;
 
-import com.kns.tenquest.response.ResponseJson;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,11 +36,11 @@ public class ResponseDto<T> {
         this.responseDataList = responseDataList;
     }
 
-    public ResponseJson<T> toResponseJson(){
-    return new ResponseJson<T>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), this.responseDataList),
+    public Response<T> toResponse(){
+    return new Response<T>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), this.responseDataList),
             new HttpHeaders(),
             this.getCode());
-    };
+    }
 
 
 }
