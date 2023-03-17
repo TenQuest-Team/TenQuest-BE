@@ -1,9 +1,9 @@
 # ☑️ **도입 배경: 구현된 Dto는 Status, Code등의 추가정보를 담을 수 없다.**
 
-- 기존 방식대로 dto를 그대로 리턴하는 경우 요청한 데이터만 전달하기 때문에 클라이언트의 요청을 처리한 결과를 보낼 수 없다는 단점이 존재합니다.
-- 처리결과(status)를 반영하기 위해 기존의 dto 데이터뿐만 아니라 status, status code를 담을 수 있는Response 타입을 만들었고, 기존 dto 클래스에서 쉽게 Response 타입으로 변환 가능하도록 Responseable 인터페이스를 구현하였습니다.
+- 기존 방식대로 `Dto`를 그대로 리턴하는 경우 요청한 데이터만 전달하기 때문에 클라이언트의 요청을 처리한 결과를 보낼 수 없다는 단점이 존재합니다.
+- 처리결과(status)를 반영하기 위해 기존의 dto 데이터뿐만 아니라 status, status code를 담을 수 있는 `Response` 타입을 만들었고, 기존 `Dto` 클래스에서 쉽게 `Response` 타입으로 변환 가능하도록 `Responseable` 인터페이스를 구현하였습니다.
 
-**********************기존의 dto를 그대로 리턴하는 방식**********************
+**********************기존의 `Dto`를 그대로 리턴하는 방식**********************
 
 ```java
 {
@@ -15,7 +15,7 @@
     }
 ```
 
-**Response 타입으로 리턴하는 방식으로 변경**
+**`Response` 타입으로 리턴하는 방식으로 변경**
 
 ```java
 {
@@ -34,18 +34,20 @@
 ---  
   
 
-# ☑️ Responsable 인터페이스
+# ☑️ Responsable Interface
 
-Responsable 인터페이스는 dto 클래스들을 Response 객체로 변환해주기 위한 인터페이스로 변환 메소드가 구현되어 있어서 dto 클래스에 Implements 해주는 것만으로도 변환 메소드를 사용할 수 있게 됩니다.
+`Responsable` 인터페이스는 `Dto` 클래스들을 `Response` 객체로 변환해주기 위한 인터페이스로 변환 메소드가 구현되어 있어서 `Dto` 클래스에 *Implements* 해주는 것만으로도 변환 메소드(`toResponse(...)`)를 사용할 수 있게 됩니다.
 
 ****************************************Response Interface code****************************************
 
 ```java
-package com.kns.tenquest.dto;
+package com.kns.tenquest.response;
+import com.kns.tenquest.dto.DataTransferObject;
+import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 @SuppressWarnings("unchecked")
-public interface Responseable<E>{
+public interface Responseable<E extends DataTransferObject>{
     /**
      * @author woody
      * @since JDK 1.8
@@ -59,24 +61,24 @@ public interface Responseable<E>{
      *                       ** ResponseStatus class 참고
      * @return Response Object를 리턴합니다.
      */
-      default Response<E> toResponse(ResponseStatus responseStatus){
-        return new ResponseDto<E> (responseStatus, (E)this).toResponse();
-      };
+    default Response<E> toResponse(ResponseStatus responseStatus){
+        return new ResponseDto<E>(responseStatus, (E)this).toResponse();
+    };
 }
 ```
 
 ## 사용 예시
 
-기존 Dto 클래스 다음과 같이 변경
+기존 `Dto` 클래스 다음과 같이 변경
 
-1. Responsable 인터페이스 implements 하기
+1. `Responsable` 인터페이스 *implements* 하기
 2. Controller에서 리턴 타입 수정
 
-### 1. **Responsable 인터페이스 implements 하기**
+### 1. **`Responsable` 인터페이스 *implements* 하기**
 
-Responsable의 ****generic은 해당 Dto 클래스와 동일한 타입으로 지정해주셔야 합니다.
+`Responsable`의 **generic은 해당 Dto 클래스와 동일한 타입으로 지정해주셔야 합니다.**
 
-[예시] MemberDto에서 implements ****하려고 하는 경우 **→** public class MemberDto implements ****Responsable<**MemberDto**>
+[예시] `MemberDto`에서 *implements* 하려고 하는 경우 → public class MemberDto implements **Responseable\<MemberDto\>**
 
 변경 전
 
@@ -96,19 +98,19 @@ public class MemberDto implements DataTransferObject<Member> {
 @Getter
 @Setter
 @NoArgsConstructor
-public class MemberDto implements DataTransferObject<Member>, **Responseable<MemberDto> {**
+public class MemberDto implements DataTransferObject<Member>, Responseable<MemberDto> {
     ...
 }
 
 ```
 
-Responsable 인터페이스를 implements 하면 toResponse(..) 메서드를 바로 사용할 수 있습니다. 
+`Responseable` 인터페이스를 *implement* 하면 `toResponse(...)` 메서드를 바로 사용할 수 있습니다. 
 
 ### 2. Controller에서 리턴 타입 수정
 
-컨트롤러에서 Response 타입을 리턴하도록 수정합니다.
+컨트롤러에서 `Response` 타입을 리턴하도록 수정합니다.
 
-**변경 전 Dto를 리턴하던 코드**
+**변경 전 `Dto`를 리턴하던 코드**
 
 ```java
 @ResponseBody
@@ -123,7 +125,7 @@ public MemberDto apiGetMemberByUserNameAndUserId(@RequestParam("userName") Strin
     }
 ```
 
-**위의 코드를 다음과 같이 Response 타입을 리턴하도록 변경**
+**위의 코드를 다음과 같이 `Response` 타입을 리턴하도록 변경**
 
 ```java
 @ResponseBody
@@ -138,15 +140,15 @@ public **Response<MemberDto>** apiGetMemberByUserNameAndUserId(@RequestParam("us
     }
 ```
 
-Service에서 받은 Dto 객체를 Response로 변환하여 리턴해줍니다.
+Service에서 받은 `Dto` 객체를 `Response`로 변환하여 리턴해줍니다.
 
-별다른 구현없이 dto 인스턴스에서 toResponse() 메서드를 호출하는 것으로 쉽게 변환할 수 있습니다.
+별다른 구현없이 dto 인스턴스에서 `toResponse(...)` 메서드를 호출하는 것으로 쉽게 변환할 수 있습니다.
   
 ---  
   
 # ☑️ DtoList
 
-여러개의 Dto를 담기위해 기존에 사용하던 List<*Dto> 방식에서 Responseable을 사용하기 위해 확장한 DtoList 클래스 입니다.
+여러개의 `Dto`를 담기위해 기존에 사용하던 `List<Dto>` 방식에서 `Responseable`을 사용하기 위해 확장한 `DtoList` 클래스 입니다.
 
 ```java
 /* imports ... */
@@ -190,7 +192,7 @@ public class DtoList<E> extends ArrayList implements DataTransferObject, Respons
 }
 ```
 
-**MemberService에서 List<> 타입의 반환타입을 가지던 method들을 DtoList<>타입으로 리턴하도록 변경**
+**`MemberService`에서 `List<>` 타입의 반환타입을 가지던 method들을 `DtoList<>` 타입으로 리턴하도록 변경**
 
 ```java
 public DtoList<MemberDto> getAllMembers() {
@@ -199,7 +201,7 @@ public DtoList<MemberDto> getAllMembers() {
     }
 ```
 
-**MemberController 변경**  
+**`MemberController` 변경**  
 ```java
 @ResponseBody
     @GetMapping("/get/members")
