@@ -2,6 +2,7 @@ package com.kns.tenquest.controller;
 
 
 import com.kns.tenquest.entity.Question;
+import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,21 +14,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller // 어떤 요청이랑 어떤 함수(api)를 맵핑하면 좋을지 알려주는 역할
 public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+//    @Autowired
+//    MemberController memberController;
     @Autowired
-    MemberController memberController;
+    MemberService memberService;
 
     //개발자의 MemberId(uuid) 찾기
-    String memberIdForDeveloper = memberController.apiGetMemberIdByUserId("developer"); // NullPointExeption 발생한다는데 ???
-
+    String memberIdForDeveloper="";
     //이거 요청한 사람의 MemberId(uuid) 찾기
-
-
 
 
     //질문  객체 전체를 html 이용하여 화면에 표시하기  (확인)  : GET //개발자용
@@ -52,7 +53,7 @@ public class QuestionController {
 
 
         // 현재 접근중인 사람의 memberId : UUID(String)   가져오는 코드
-        String accessMemberId =  memberController.apiGetMemberIdByUserId(accessId);
+        String accessMemberId =  memberService.getMemberIdByUserId(accessId);
 
 
             //전체 질문 객체들 보내주기1// 개발자용 ( 이상한 질문추가 됐는지 아닌지 확인할때 쓸수있을듯 )
@@ -93,7 +94,7 @@ public class QuestionController {
 
         }else{
                 //접근하는 이용자의 MemberId를 매개변수로 전달받은 accessId(userId) 로 찾기
-                String accessMemberId = memberController.apiGetMemberIdByUserId(accessId);
+                String accessMemberId = memberService.getMemberIdByUserId(accessId);
 
 
 

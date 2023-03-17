@@ -1,9 +1,8 @@
 package com.kns.tenquest.controller;
 
-
 import com.kns.tenquest.entity.Category;
 import com.kns.tenquest.service.CategoryService;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
