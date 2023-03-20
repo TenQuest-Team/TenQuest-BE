@@ -41,6 +41,8 @@ public class Question {
         this.questionCreatedBy=questionCreatedBy;
     }
 
+
+
     /*//GPT 수정
     //생성자
     public Question(){}
