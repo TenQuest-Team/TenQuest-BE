@@ -54,7 +54,9 @@ public class QuestionService {
     }
 
     public String getQuestionContentByQuestionId(String questionId) {
-        return questionRepository.getQuestionContentByQuestionId(questionId);
+
+        Question question = questionRepository.getQuestionContentByQuestionId(questionId);
+        return question.getQuestionContent();
 
     }
 /*

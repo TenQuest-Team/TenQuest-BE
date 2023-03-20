@@ -20,7 +20,7 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
 
      List<Question> findAllQuestionContentByQuestionCategoryId(int questionCategoryId); // 부족.. 얘가 왜 question list를 반환하는지..
 
-     String getQuestionContentByQuestionId(String questionId);
+     Question getQuestionContentByQuestionId(String questionId);  // Repository 에선 Question 객체밖에 못 반환하는지?
 
     // void postQuestionContent(int questionCategoryId, String questionCreatedBy, String questionContent);
 

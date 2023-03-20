@@ -24,7 +24,7 @@ public class QuestionDto implements DataTransferObject<Question>{
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "question_id", columnDefinition = "String(256)") // columnDefinition 수정필요
     //@Type (value = "uuid")
-    private UUID questionId;
+    private String questionId;
     private String questionContent;
     private int questionCategoryId;
     private String questionCreatedBy; // 이거 외래키로 갖고와야함

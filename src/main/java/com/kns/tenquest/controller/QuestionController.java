@@ -113,7 +113,7 @@ public class QuestionController {
     //question_id로 호출하면.. (UUID) 해당질문(question_content) 1개 보내줌 GET (각템플릿에서 호출하거나 할때 필요함)
     @ResponseBody
     @RequestMapping(value="/get/question/content",method = RequestMethod.GET)
-    public String apiGetQuestionContentByQuestionId(@RequestParam(name="questionId",required = false,defaultValue = "") String questionId){
+    public String apiGetQuestionContentByQuestionId(@RequestParam(name="questionId",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
 
         return questionService.getQuestionContentByQuestionId(questionId);
 
