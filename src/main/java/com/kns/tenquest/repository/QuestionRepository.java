@@ -18,7 +18,7 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
 
      List<String> findAllByQuestionCategoryIdAndQuestionCreatedBy(int questionCategoryId, String accessMemberId);
 
-     List<String> findAllQuestionContentByQuestionCategoryId(int questionCategoryId);
+     List<Question> findAllQuestionContentByQuestionCategoryId(int questionCategoryId); // 부족.. 얘가 왜 question list를 반환하는지..
 
      String getQuestionContentByQuestionId(String questionId);
 

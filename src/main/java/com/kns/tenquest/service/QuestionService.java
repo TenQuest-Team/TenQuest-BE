@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +38,13 @@ public class QuestionService {
     }
 
     public List<String> getQuestionContentByQuestionCategoryId(int questionCategoryId) {
-        return questionRepository.findAllQuestionContentByQuestionCategoryId(questionCategoryId);
+
+        List<Question> questionList = questionRepository.findAllQuestionContentByQuestionCategoryId(questionCategoryId);
+        List<String> questionContentList = new ArrayList<>();
+        for (Question question: questionList){
+            questionContentList.add(question.getQuestionContent()); //부족
+        }
+        return questionContentList;
     }
 
     public String getQuestionContentByQuestionId(String questionId) {

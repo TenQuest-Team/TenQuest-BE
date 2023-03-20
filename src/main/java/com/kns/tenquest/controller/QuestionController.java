@@ -1,18 +1,15 @@
 package com.kns.tenquest.controller;
 
 
-import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +85,7 @@ public class QuestionController {
     @ResponseBody
     @RequestMapping(value="/get/question/contents",method=RequestMethod.GET)
     public List<String> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,
-                                                    @RequestParam(name="accessId") String accessId){
+                                                  @RequestParam(name="accessId") String accessId){
 
             //사용자 정의 카테고리가  아닌경우(question_category_id != 0)
         if (questionCategoryId != 0){
