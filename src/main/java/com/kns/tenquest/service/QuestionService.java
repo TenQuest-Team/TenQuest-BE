@@ -34,7 +34,13 @@ public class QuestionService {
 
 
     public List<String> getQuestionsByQuestionCategoryIdAndQuestionCreatedBy(int questionCategoryId, String accessMemberId) {
-        return questionRepository.findAllByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId,accessMemberId);
+
+        List<Question> questionList = questionRepository.findAllByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId,accessMemberId);
+        List<String> questionContentList = new ArrayList<>();
+        for (Question question: questionList){
+            questionContentList.add(question.getQuestionContent()); //부족 이부분을 추가해야했음.. .
+        }
+        return questionContentList;
     }
 
     public List<String> getQuestionContentByQuestionCategoryId(int questionCategoryId) {

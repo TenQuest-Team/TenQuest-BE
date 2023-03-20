@@ -84,13 +84,13 @@ public class QuestionController {
     //카테고리 별 확인 //특정 카테고리에 해당하는 질문 content(String 글자) 확인하기 (외래키 question_category_id 이용) : GET : 데이터 가져와서 뿌려주기
     @ResponseBody
     @RequestMapping(value="/get/question/contents",method=RequestMethod.GET)
-    public List<String> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,
+    public List<String> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
                                                   @RequestParam(name="accessId") String accessId){
 
             //사용자 정의 카테고리가  아닌경우(question_category_id != 0)
         if (questionCategoryId != 0){
             // 해당 question_category_id 컬럼 값과 같은 레코드 전체 값 반환  (나중에 question_content 컬럼값 만 반환하는게 나을지 물어봐야할듯
-                return questionService.getQuestionContentByQuestionCategoryId(questionCategoryId);
+                return questionService.getQuestionContentByQuestionCategoryId(questionCategoryId);  // postman 확인완료
 
             //사용자 정의 카테고리인 경우 (question_category_id == 0)
             // question_created_by  와 accessMemberId 가 같은지 확인하고 같은경우만 반환한다  => questionCategoryId ==0 이고 question_created_by == accessId 인 레코드 반환
@@ -99,7 +99,7 @@ public class QuestionController {
                 //접근하는 이용자의 MemberId를 매개변수로 전달받은 accessId(userId) 로 찾기
                 String accessMemberId = memberService.getMemberIdByUserId(accessId);
 
-                return questionService.getQuestionsByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId,accessMemberId);
+                return questionService.getQuestionsByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId,accessMemberId);  // postman 확인완료
 
         }
 
