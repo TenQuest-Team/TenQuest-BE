@@ -2,11 +2,13 @@ package com.kns.tenquest.service;
 
 
 import com.kns.tenquest.dto.QuestionDto;
+import com.kns.tenquest.dto.QuestionSaveRequestDto;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +60,11 @@ public class QuestionService {
         Question question = questionRepository.getQuestionContentByQuestionId(questionId);
         return question.getQuestionContent();
 
+    }
+    @Transactional //db트랜젝션 자동으로 commit 해줌 ??
+    public void save(QuestionSaveRequestDto requestDto) {
+        // dto를 entity 화 해서 repository 의 savwe 메소드를 통해 db에 저장.
+        questionRepository.save(requestDto.toEntity());
     }
 /*
     public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
