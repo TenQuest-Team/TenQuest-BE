@@ -16,13 +16,15 @@ public class MemberDto implements DataTransferObject<Member>, Responseable<Membe
     public String userInfo;
     public String userName;
     public String userEmail;
+    public String userRoles;
 
-    public MemberDto(String memberId, String userId, String userInfo, String userName, String userEmail) {
+    public MemberDto(String memberId, String userId, String userInfo, String userName, String userEmail, String userRoles) {
         this.memberId = memberId;
         this.userId = userId;
         this.userInfo = userInfo;
         this.userName = userName;
         this.userEmail = userEmail;
+        this.userRoles = userRoles;
     }
 
     public MemberDto(Member member){
@@ -31,16 +33,17 @@ public class MemberDto implements DataTransferObject<Member>, Responseable<Membe
         this.userInfo = member.getUserInfo();
         this.userName = member.getUserName();
         this.userEmail = member.getUserEmail();
+        this.userRoles = member.getUserRoles();
     }
 
     @Override
     public Member toEntity() throws NoSuchAlgorithmException {
-        Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
+        Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).userRoles(this.userRoles).build();
         return member;
     }
     @Override
     public DataTransferObject<Member> toDto(Member member) {
-        return new MemberDto(member.getMemberId(),member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail());
+        return new MemberDto(member.getMemberId(),member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail(), member.getUserRoles());
     }
 
     public String hashingInfo(String userInfo) throws NoSuchAlgorithmException {

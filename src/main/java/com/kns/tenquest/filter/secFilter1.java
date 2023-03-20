@@ -26,7 +26,7 @@ public class secFilter1 implements Filter{
         String authField = req.getHeader("Authorization");
         System.out.println("Auth: " + authField);
 
-        if(authField.equals("sec"))
+        if(authField!=null && authField.equals("sec"))
         {
             res.getWriter().println("Auth Failed"); // for check
             chain.doFilter(req,res);

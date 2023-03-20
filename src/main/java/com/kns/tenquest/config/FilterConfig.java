@@ -10,7 +10,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<secFilter1> secFilter1(){
         FilterRegistrationBean<secFilter1> filterRegistrationBean = new FilterRegistrationBean<secFilter1>(new secFilter1());
-        filterRegistrationBean.addUrlPatterns("/*");
+        filterRegistrationBean.addUrlPatterns("/sec/login");
         filterRegistrationBean.setOrder(0);
         return filterRegistrationBean;
     }
