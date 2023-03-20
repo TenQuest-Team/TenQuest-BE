@@ -115,7 +115,7 @@ public class QuestionController {
     @RequestMapping(value="/get/question/content",method = RequestMethod.GET)
     public String apiGetQuestionContentByQuestionId(@RequestParam(name="questionId",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
 
-        return questionService.getQuestionContentByQuestionId(questionId);
+        return questionService.getQuestionContentByQuestionId(questionId); // 3.21
 
     }
 
