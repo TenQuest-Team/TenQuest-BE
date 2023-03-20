@@ -42,7 +42,8 @@ public class Member{
     }
 
     public List<String> getRoleList(){
-        if(this.userRoles.length() > 0){
+
+        if(this.userRoles != null && this.userRoles.length() > 0){
             return Arrays.asList(this.userRoles.split(","));
         }
         return new ArrayList<>();

@@ -13,6 +13,7 @@ import com.kns.tenquest.service.MemberService;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -112,5 +113,15 @@ public class MemberController {
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
+
+    //Testing
+    @ResponseBody
+    @PostMapping("/join")
+    public String join(@RequestBody MemberDto memberDto) throws NoSuchAlgorithmException{
+        // just for test
+        memberService.insertMember(memberDto);
+        return "Join complete";
+    }
+
 
 }

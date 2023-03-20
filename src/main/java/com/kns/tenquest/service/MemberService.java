@@ -58,6 +58,7 @@ public class MemberService {
         Optional<Member> optMember = memberRepository.findMemberByUserId(dto.userId);
         if (optMember.isEmpty()) {
             dto.setMemberId(UUID.randomUUID().toString().replace("-",""));
+            dto.setUserRoles("ROLE_USER");
             memberRepository.save(dto.toEntity());
             return ResponseStatus.CREATE_DONE.getCode();
         }
