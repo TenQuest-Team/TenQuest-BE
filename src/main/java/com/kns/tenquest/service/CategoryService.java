@@ -1,7 +1,7 @@
 package com.kns.tenquest.service;
 
-import com.kns.tenquest.dto.category.CategoryIdMapping;
-import com.kns.tenquest.dto.category.CategoryNameMapping;
+import com.kns.tenquest.dto.mapping.CategoryIdMapping;
+import com.kns.tenquest.dto.mapping.CategoryNameMapping;
 import com.kns.tenquest.entity.Category;
 import com.kns.tenquest.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
