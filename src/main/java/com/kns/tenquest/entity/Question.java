@@ -18,7 +18,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment //이거도 UUID 도 자동생성으로 만들어야하는지 모르겠음
     @Column(name="question_id")
-    private String questionId;
+    private UUID questionId;
 
     @Column(name="question_content")
     private String questionContent;
@@ -34,19 +34,12 @@ public class Question {
     private String questionCreatedBy;
 
     @Builder
-    public  Question(String questionId, String questionContent, int questionCategoryId, String questionCreatedBy){
+    public  Question(UUID questionId, String questionContent, int questionCategoryId, String questionCreatedBy){
         this.questionId=questionId;
         this.questionContent =questionContent;
         this.questionCategoryId= questionCategoryId;
         this.questionCreatedBy=questionCreatedBy;
     }
 
-    /*//GPT 수정
-    //생성자
-    public Question(){}
-
-    public UUID getQuestionId(){
-        return questionId;
-    }*/
 
 }

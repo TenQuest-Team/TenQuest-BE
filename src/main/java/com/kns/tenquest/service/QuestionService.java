@@ -1,16 +1,11 @@
 package com.kns.tenquest.service;
 
-
-import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class QuestionService {
@@ -33,52 +28,4 @@ public class QuestionService {
     }
 
 
-    public List<String> getQuestionsByQuestionCategoryIdAndQuestionCreatedBy(int questionCategoryId, String accessMemberId) {
-
-        List<Question> questionList = questionRepository.findAllByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId,accessMemberId);
-        List<String> questionContentList = new ArrayList<>();
-        for (Question question: questionList){
-            questionContentList.add(question.getQuestionContent()); //부족 이부분을 추가해야했음.. .
-        }
-        return questionContentList;
-    }
-
-    public List<String> getQuestionContentByQuestionCategoryId(int questionCategoryId) {
-
-        List<Question> questionList = questionRepository.findAllQuestionContentByQuestionCategoryId(questionCategoryId);
-        List<String> questionContentList = new ArrayList<>();
-        for (Question question: questionList){
-            questionContentList.add(question.getQuestionContent()); //부족
-        }
-        return questionContentList;
-    }
-
-    public String getQuestionContentByQuestionId(String questionId) {
-
-        Question question = questionRepository.getQuestionContentByQuestionId(questionId);
-        return question.getQuestionContent();
-
-    }
-/*
-    public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
-
-
-        Question question = questionDto.toEntity();
-
-        questionRepository.save(question);
-        questionRepository.postQuestionContent(questionDto.getQuestionCategoryId()
-                ,questionDto.getQuestionCreatedBy()
-                ,questionDto.getQuestionContent());
-        return ;
-    }*/
 }
-
-      //  UUID uuid = UUID.randomUUID();
-      //  Question question =new Question(uuid, questionContent,questionCategoryId,questionCreatedBy);
-
-       // question.setQuestionCategoryId(questionCategoryId);
-       // question.setQuestionCreatedBy(questionCreatedBy);
-       // question.setQuestionContent(questionContent);
-        //question.toEntity;
-
-

@@ -1,4 +1,4 @@
-package com.kns.tenquest.dto.mapping;
+package com.kns.tenquest.dto.category;
 
 
 

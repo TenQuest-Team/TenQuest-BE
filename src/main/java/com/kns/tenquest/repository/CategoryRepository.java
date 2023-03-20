@@ -1,7 +1,7 @@
 package com.kns.tenquest.repository;
 
-import com.kns.tenquest.dto.mapping.CategoryIdMapping;
-import com.kns.tenquest.dto.mapping.CategoryNameMapping;
+import com.kns.tenquest.dto.category.CategoryIdMapping;
+import com.kns.tenquest.dto.category.CategoryNameMapping;
 import com.kns.tenquest.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
