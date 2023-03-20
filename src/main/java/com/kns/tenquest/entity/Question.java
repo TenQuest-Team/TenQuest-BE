@@ -16,7 +16,7 @@ import java.util.UUID;
 @Entity
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment //이거도 UUID 도 자동생성으로 만들어야하는지 모르겠음
+   // @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment //이거도 UUID 도 자동생성으로 만들어야하는지 모르겠음
     @Column(name="question_id")
     private String questionId;
 

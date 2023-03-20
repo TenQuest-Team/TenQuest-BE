@@ -20,9 +20,9 @@ import java.util.UUID;
 @Setter
 public class QuestionDto implements DataTransferObject<Question>{
 
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "question_id", columnDefinition = "String(256)") // columnDefinition 수정필요
+    //@GeneratedValue(generator = "uuid2")
+    //@GenericGenerator(name = "uuid2", strategy = "uuid2")
+    //@Column(name = "question_id", columnDefinition = "String(256)") // columnDefinition 수정필요
     //@Type (value = "uuid")
     private String questionId;
     private String questionContent;

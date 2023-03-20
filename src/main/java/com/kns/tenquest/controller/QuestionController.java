@@ -128,7 +128,7 @@ public class QuestionController {
 
 
     @ResponseBody
-    @RequestMapping(value ="post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
+    @RequestMapping(value ="/post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
     public void save(@RequestBody QuestionSaveRequestDto requestDto ){
         questionService.save(requestDto);
     }
