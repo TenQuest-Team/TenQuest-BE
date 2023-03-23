@@ -1,8 +1,9 @@
 package com.kns.tenquest.controller;
 
+import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
-import com.kns.tenquest.response.ResponseJson;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateDocService;
 import com.kns.tenquest.service.TemplateService;
@@ -24,10 +25,11 @@ public class TemplateController {
     private TemplateDocService templateDocService;
 
     @GetMapping("/templates")
-    public ResponseJson<TemplateDto> apiGetAllTemplates(){
+    public Response<TemplateDto> apiGetAllTemplates(){
         ResponseStatus responseStatus = ResponseStatus.OK;
-        List<TemplateDto> templateDtoList = templateService.getAllTemplates();
-        return new ResponseDto<TemplateDto>(responseStatus,templateDtoList).toResponseJson();
+        DtoList<TemplateDto> templateDtoList = templateService.getAllTemplates();
+        //return new ResponseDto<TemplateDto>(responseStatus,templateDtoList).toResponseJson();
+        return templateDtoList.toResponse(responseStatus);
     } //template Read API
 
     @GetMapping("/templates/insert")
@@ -38,14 +40,14 @@ public class TemplateController {
 
     @ResponseBody
     @PostMapping("/templates")
-    public ResponseJson<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto) {
+    public Response<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto) {
         int createResult = templateService.createTemplate(templateDto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
         if(createResult == ResponseStatus.CREATE_FAIL.getCode()){
             responseStatus = ResponseStatus.CREATE_FAIL;
         }
-        return new ResponseDto<Integer>(responseStatus,createResult).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus,createResult).toResponse();
     } //template Create API
 
     @GetMapping("/templates/modify/{id}")
@@ -56,14 +58,14 @@ public class TemplateController {
     } //변경 http GET 요청 (UPDATE Test용)
 
     @PatchMapping("/templates/{id}")
-    public ResponseJson<Integer> apiTemplateUpdate(@PathVariable("id") String templateId, @RequestBody TemplateDto templateDto) throws NoSuchAlgorithmException {
+    public Response<Integer> apiTemplateUpdate(@PathVariable("id") String templateId, @RequestBody TemplateDto templateDto) {
         int updateResult = templateService.templateUpdate(templateId, templateDto);
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
 
         if(updateResult == ResponseStatus.CREATE_FAIL.getCode()){
             responseStatus = ResponseStatus.CREATE_FAIL;
         }
-        return new ResponseDto<Integer>(responseStatus,updateResult).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus,updateResult).toResponse();
     } //template Update API
 
     @GetMapping("/templates/view")
@@ -73,20 +75,20 @@ public class TemplateController {
         return "template_view";
     } //특정 template으로 진입
     @DeleteMapping("/templates")
-    public ResponseJson<Integer> apiTemplateDelete(@RequestParam("template-id") String templateId){
+    public Response<Integer> apiTemplateDelete(@RequestParam("template-id") String templateId){
         int deleteResult1 = templateService.templateDelete(templateId);
 //        int deleteResult2 = templateDocService.templateDocDelete(templateId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
         if(deleteResult1 == ResponseStatus.NOT_FOUND.getCode()){
             responseStatus = ResponseStatus.NOT_FOUND;
-            return new ResponseDto<Integer>(responseStatus,deleteResult1).toResponseJson();
+            return new ResponseDto<Integer>(responseStatus,deleteResult1).toResponse();
         }
 //        if(deleteResult2 == ResponseStatus.NOT_FOUND.getCode()){
 //            responseStatus = ResponseStatus.NOT_FOUND;
 //            return new ResponseDto<Integer>(responseStatus,deleteResult2).toResponseJson();
 //        }
-        return new ResponseDto<Integer>(responseStatus,responseStatus.getCode()).toResponseJson();
+        return new ResponseDto<Integer>(responseStatus,responseStatus.getCode()).toResponse();
     } //template Delete API
 
 
