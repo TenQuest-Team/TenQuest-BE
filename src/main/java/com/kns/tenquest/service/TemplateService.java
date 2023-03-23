@@ -6,6 +6,7 @@ import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Template;
 import com.kns.tenquest.entity.TemplateDoc;
 import com.kns.tenquest.repository.TemplateRepository;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,20 +30,18 @@ public class TemplateService {
     public TemplateDto getTemplateByTemplateName(String templateName){
         return new TemplateDto(templateRepository.findTemplateByTemplateName(templateName).orElse(new Template()));
     }
-    public ResponseDto<TemplateDto> createTemplate(TemplateDto templatedto) {
+    public int createTemplate(TemplateDto templatedto) {
         Optional<Template> optTemplate = templateRepository.findTemplateByTemplateName(templatedto.templateName);
         if(optTemplate.isEmpty()){
             templatedto.setCreatedAt(LocalDateTime.now());
             templatedto.setTemplateId(UUID.randomUUID().toString().replace("-",""));
             templatedto.setTemplateOwner(UUID.randomUUID().toString().replace("-",""));
-            templatedto.setIsPublic(TRUE);
+            templatedto.setIsPublic(true);
             templateRepository.save(templatedto.toEntity());
-            ResponseStatus responseSuccess = ResponseStatus.CREATE_DONE;
-            return new ResponseDto<TemplateDto>(responseSuccess,templatedto);
+            return ResponseStatus.CREATE_DONE.getCode();
         }
         else{
-            ResponseStatus responseFail = ResponseStatus.CREATE_FAIL;
-            return new ResponseDto<TemplateDto>(responseFail,null);
+            return ResponseStatus.CREATE_FAIL.getCode();
         }
 
     } //처음 create 시 생성값 주기

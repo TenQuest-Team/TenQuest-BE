@@ -34,12 +34,15 @@ public class TemplateController {
 //        return "template_insert";
 //    }
 //    //템플릿 생성 http GET 요청 (CREATE test용)
-
+    @ResponseBody
     @PostMapping("/templates")
-    public Response<TemplateDto> apiCreateTemplate(@RequestBody TemplateDto templateDto) {
-        ResponseDto<TemplateDto> createResult = templateService.createTemplate(templateDto);
-
-        return createResult.toResponse();
+    public Response<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto) {
+        int createResult = templateService.createTemplate(templateDto);
+        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+        if(responseStatus.getCode() != createResult){
+            responseStatus = ResponseStatus.CREATE_FAIL;
+        }
+        return new ResponseDto<Integer>(responseStatus,createResult).toResponse();
     } //template Create API
 
 //    @GetMapping("/templates/modify/{id}")
