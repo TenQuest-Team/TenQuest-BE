@@ -11,7 +11,7 @@ import lombok.Getter;
 @Data
 public class Preset {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "preset_id")
     private Long presetId;
 
