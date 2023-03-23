@@ -54,7 +54,7 @@ public class MemberService {
         return ResponseStatus.NOT_FOUND.getStatus();
     }
 
-    public int insertMember(MemberDto dto) throws NoSuchAlgorithmException {
+    public int insertMember(MemberDto dto) {
         Optional<Member> optMember = memberRepository.findMemberByUserId(dto.userId);
         if (optMember.isEmpty()) {
             dto.setMemberId(UUID.randomUUID().toString().replace("-",""));

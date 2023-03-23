@@ -100,7 +100,7 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/members")
-    public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
+    public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) {
         int insertResult = memberService.insertMember(dto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;

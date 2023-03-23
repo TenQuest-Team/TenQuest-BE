@@ -34,7 +34,7 @@ public class MemberDto implements DataTransferObject<Member>, Responseable<Membe
     }
 
     @Override
-    public Member toEntity() throws NoSuchAlgorithmException {
+    public Member toEntity() {
         Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).build();
         return member;
     }
@@ -43,12 +43,16 @@ public class MemberDto implements DataTransferObject<Member>, Responseable<Membe
         return new MemberDto(member.getMemberId(),member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail());
     }
 
-    public String hashingInfo(String userInfo) throws NoSuchAlgorithmException {
+    public String hashingInfo(String userInfo){
         StringBuffer resStrBuffer = new StringBuffer();
-        java.security.MessageDigest messageDigest = java.security.MessageDigest.getInstance("SHA-256");
-
-        for (byte b : messageDigest.digest(userInfo.getBytes()))
-            resStrBuffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        try {
+            java.security.MessageDigest messageDigest = java.security.MessageDigest.getInstance("SHA-256");
+            for (byte b : messageDigest.digest(userInfo.getBytes()))
+                resStrBuffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return resStrBuffer.toString();
     }
 }
