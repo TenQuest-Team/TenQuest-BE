@@ -12,6 +12,7 @@ import com.kns.tenquest.service.MemberService;
 
 @RequestMapping(ENV.API_PREFIX)
 @RestController
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MemberController {
     @Autowired
@@ -95,5 +96,15 @@ public class MemberController {
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
+
+    //Testing
+    @ResponseBody
+    @PostMapping("/join")
+    public String join(@RequestBody MemberDto memberDto) throws NoSuchAlgorithmException{
+        // just for test
+        memberService.insertMember(memberDto);
+        return "Join complete";
+    }
+
 
 }
