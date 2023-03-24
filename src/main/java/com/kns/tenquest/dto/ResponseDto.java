@@ -26,8 +26,8 @@ public class ResponseDto<T> {
     public ResponseDto(ResponseStatus responseStatus, T responseData) {
         this.status = responseStatus.getStatus();
         this.code = responseStatus.getCode();
-        if (responseData instanceof T)
-        this.data = responseData;
+        if (responseData != null)
+            this.data = responseData;
     }
 
 //    public ResponseDto(String status, int code, List<T> responseDataList) {
