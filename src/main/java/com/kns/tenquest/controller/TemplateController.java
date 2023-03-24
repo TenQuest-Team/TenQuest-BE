@@ -4,15 +4,16 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Template;
-import com.kns.tenquest.entity.TemplateDoc;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateDocService;
 import com.kns.tenquest.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TemplateController {
 
     @Autowired
@@ -21,6 +22,7 @@ public class TemplateController {
     @Autowired
     private TemplateDocService templateDocService;
 
+    @ResponseBody
     @GetMapping("/templates")
     public Response<TemplateDto> apiGetAllTemplates(){
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -35,14 +37,10 @@ public class TemplateController {
 //    }
 //    //템플릿 생성 http GET 요청 (CREATE test용)
     @ResponseBody
-    @PostMapping("/templates")
-    public Response<Integer> apiCreateTemplate(@RequestBody TemplateDto templateDto) {
-        int createResult = templateService.createTemplate(templateDto);
-        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
-        if(responseStatus.getCode() != createResult){
-            responseStatus = ResponseStatus.CREATE_FAIL;
-        }
-        return new ResponseDto<Integer>(responseStatus,createResult).toResponse();
+    @PostMapping("/templates/member-id")
+    public Response<TemplateDto> apiCreateTemplate(@RequestBody TemplateDto templateDto,@RequestParam("value")String memberId) {
+        ResponseDto<TemplateDto> createTemplate = templateService.createTemplate(templateDto,memberId);
+        return createTemplate.toResponse();
     } //template Create API
 
 //    @GetMapping("/templates/modify/{id}")
@@ -65,12 +63,11 @@ public class TemplateController {
 
         return updateResult.toResponse();
     } //template Update API
-    @DeleteMapping("/templates")
-    public Response<Integer> apiTemplateDelete(@RequestParam("template-id") String templateId){
+    @DeleteMapping("/templates/{template-id}")
+    public Response<Integer> apiTemplateDelete(@PathVariable("template-id") String templateId){
         ResponseStatus deleteResult = templateService.templateDelete(templateId);
         return new ResponseDto<Integer>(deleteResult,null).toResponse();
     } //template Delete API
-
 
 
 }
