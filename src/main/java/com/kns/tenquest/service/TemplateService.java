@@ -3,10 +3,10 @@ package com.kns.tenquest.service;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
+import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.entity.Template;
-import com.kns.tenquest.entity.TemplateDoc;
+import com.kns.tenquest.repository.MemberRepository;
 import com.kns.tenquest.repository.TemplateRepository;
-import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,13 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.lang.Boolean.TRUE;
-
 @Service
 public class TemplateService {
     @Autowired
     TemplateRepository templateRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     public DtoList<TemplateDto> getAllTemplates(){
         DtoList<TemplateDto> TemplateDtoList = new DtoList<>(templateRepository.findAll());
@@ -30,18 +31,25 @@ public class TemplateService {
     public TemplateDto getTemplateByTemplateName(String templateName){
         return new TemplateDto(templateRepository.findTemplateByTemplateName(templateName).orElse(new Template()));
     }
-    public int createTemplate(TemplateDto templatedto) {
-        Optional<Template> optTemplate = templateRepository.findTemplateByTemplateName(templatedto.templateName);
-        if(optTemplate.isEmpty()){
+    public ResponseDto<TemplateDto> createTemplate(TemplateDto templatedto, String memberId) {
+        Optional<Member> nullableMember = memberRepository.findById(memberId);
+        if(nullableMember.isEmpty()){
+            ResponseStatus notFound = ResponseStatus.NOT_FOUND;
+            return  new ResponseDto<TemplateDto>(notFound,null);
+        }
+        Optional<Template> optTemplate = templateRepository.findTemplateByTemplateNameAndTemplateOwner(templatedto.templateName,memberId);
+        if (optTemplate.isEmpty()) {
             templatedto.setCreatedAt(LocalDateTime.now());
-            templatedto.setTemplateId(UUID.randomUUID().toString().replace("-",""));
-            templatedto.setTemplateOwner(UUID.randomUUID().toString().replace("-",""));
+            templatedto.setTemplateId(UUID.randomUUID().toString().replace("-", ""));
+            templatedto.setTemplateOwner(memberId);
             templatedto.setIsPublic(true);
             templateRepository.save(templatedto.toEntity());
-            return ResponseStatus.CREATE_DONE.getCode();
+            ResponseStatus responseSuccess = ResponseStatus.CREATE_DONE;
+            return new ResponseDto<TemplateDto>(responseSuccess, templatedto);
         }
         else{
-            return ResponseStatus.CREATE_FAIL.getCode();
+            ResponseStatus alreadyExist = ResponseStatus.CREATE_FAIL;
+            return new ResponseDto<TemplateDto>(alreadyExist,null);
         }
 
     } //처음 create 시 생성값 주기
