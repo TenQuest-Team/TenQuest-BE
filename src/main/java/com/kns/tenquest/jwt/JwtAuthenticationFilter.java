@@ -1,6 +1,7 @@
 package com.kns.tenquest.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kns.tenquest.auth.PrincipalDetails;
 import com.kns.tenquest.entity.Member;
 import io.micrometer.observation.annotation.Observed;
 import jakarta.servlet.ServletInputStream;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -62,12 +64,25 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             System.out.println("member.userId: " + member.getUserId()); //test complete
             System.out.println("member.password: " + member.getUserInfo()); //test complete
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                    member.getUserId(),member.getUserInfo()
+            );
 
+            // Call PrincipleDetailService's loadUserByUserName()
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+
+            // authentication 객체가 session에 저장됨
+            PrincipalDetails principalDetails  = (PrincipalDetails) authentication.getPrincipal();
+
+            // if sout works. -> it means login done
+            System.out.println(principalDetails.getUser().getUserName());
+
+            return authentication;
 
         }catch(Exception e){
             e.printStackTrace();
         }
-        return super.attemptAuthentication(request, response);
+        return null; // if auth fail
     }
 
 }
