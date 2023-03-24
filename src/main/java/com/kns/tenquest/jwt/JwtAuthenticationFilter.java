@@ -97,13 +97,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails  = (PrincipalDetails) authResult.getPrincipal();
         // Make Toekn
         String jwtToken = JWT.create()
-                .withSubject("cosToken")
-                        .withExpiresAt(new Date(System.currentTimeMillis() + (60000*10)))
+                .withSubject(principalDetails.getUsername())
+                        .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
                                 .withClaim("id", principalDetails.getUser().getUserId())
                                         .withClaim("username", principalDetails.getUser().getUserName())
-                                                .sign(Algorithm.HMAC512("secretKey"));
+                                                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
-        response.addHeader("Authorization", "Bearer " + jwtToken);
+        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
 
         //super.successfulAuthentication(request, response, chain, authResult);
     }
