@@ -47,20 +47,23 @@ public class MemberDto implements DataTransferObject<Member>, Responseable<Membe
 
             Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(new BCryptPasswordEncoder().encode(this.userInfo)).userName(this.userName).userEmail(this.userEmail).userRoles(this.userRoles).build();
             return member;
-
-
     }
+    
     @Override
     public DataTransferObject<Member> toDto(Member member) {
         return new MemberDto(member.getMemberId(),member.getUserId(),member.getUserInfo(),member.getUserName(), member.getUserEmail(), member.getUserRoles());
     }
 
-    public String hashingInfo(String userInfo) throws NoSuchAlgorithmException {
+    public String hashingInfo(String userInfo){
         StringBuffer resStrBuffer = new StringBuffer();
-        java.security.MessageDigest messageDigest = java.security.MessageDigest.getInstance("SHA-256");
-        if(userInfo != null)
-        for (byte b : messageDigest.digest(userInfo.getBytes()))
-            resStrBuffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        try {
+            java.security.MessageDigest messageDigest = java.security.MessageDigest.getInstance("SHA-256");
+            for (byte b : messageDigest.digest(userInfo.getBytes()))
+                resStrBuffer.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
         return resStrBuffer.toString();
     }
 }
