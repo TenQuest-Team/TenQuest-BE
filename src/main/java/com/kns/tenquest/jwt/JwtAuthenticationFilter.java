@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kns.tenquest.auth.PrincipalDetails;
 import com.kns.tenquest.entity.Member;
 import io.micrometer.observation.annotation.Observed;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletInputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -83,6 +85,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             e.printStackTrace();
         }
         return null; // if auth fail
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        System.out.println("Authentication Done!");
+        PrincipalDetails principalDetails  = (PrincipalDetails) authResult.getPrincipal();
+        // Make Toekn
+        //String jwtToken =
+        super.successfulAuthentication(request, response, chain, authResult);
     }
 
 }
