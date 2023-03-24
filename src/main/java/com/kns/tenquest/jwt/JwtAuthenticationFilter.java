@@ -104,7 +104,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
-
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().write("{\n\"status\": \"done\"\n}");
         //super.successfulAuthentication(request, response, chain, authResult);
     }
 
