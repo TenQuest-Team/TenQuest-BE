@@ -1,8 +1,11 @@
 package com.kns.tenquest.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kns.tenquest.auth.PrincipalDetails;
 import com.kns.tenquest.entity.Member;
+import io.jsonwebtoken.Jwt;
 import io.micrometer.observation.annotation.Observed;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,6 +25,7 @@ import org.springframework.util.StreamUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.SortedMap;
 
 // UsernamePasswordAuthenticationFilter runs when /login(post) request
@@ -92,8 +96,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("Authentication Done!");
         PrincipalDetails principalDetails  = (PrincipalDetails) authResult.getPrincipal();
         // Make Toekn
-        //String jwtToken =
-        super.successfulAuthentication(request, response, chain, authResult);
+        String jwtToken = JWT.create()
+                .withSubject("cosToken")
+                        .withExpiresAt(new Date(System.currentTimeMillis() + (60000*10)))
+                                .withClaim("id", principalDetails.getUser().getUserId())
+                                        .withClaim("username", principalDetails.getUser().getUserName())
+                                                .sign(Algorithm.HMAC512("secretKey"));
+
+        response.addHeader("Authorization", "Bearer " + jwtToken);
+
+        //super.successfulAuthentication(request, response, chain, authResult);
     }
 
 }
