@@ -1,6 +1,7 @@
 package com.kns.tenquest.config;
 import com.kns.tenquest.filter.secFilter;
 import com.kns.tenquest.jwt.JwtAuthenticationFilter;
+import com.kns.tenquest.jwt.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,7 @@ public class SecurityConfig{
                 .apply(new MyCustom())
                 .and()
                 .authorizeHttpRequests()
+                .requestMatchers("/sec/**").authenticated()
                 //.requestMatchers("/sec/**").authenticated()
                 .anyRequest().permitAll();
         return http.build();
@@ -44,6 +46,7 @@ public class SecurityConfig{
         public void configure(HttpSecurity http) throws Exception {
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            http.addFilter(new JwtAuthorizationFilter(authenticationManager));
         }
     }
 }
