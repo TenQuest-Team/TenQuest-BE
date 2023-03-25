@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.kns.tenquest.service.MemberService;
 
-@RequestMapping(ENV.API_PREFIX)
+@RequestMapping(ENV.API_PREFIX+"/members")
 @RestController
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -19,7 +19,7 @@ public class MemberController {
     MemberService memberService;
 
 
-    @GetMapping("/members")
+    @GetMapping("")
     public Response<MemberDto> apiGetAllMembers(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
@@ -27,7 +27,7 @@ public class MemberController {
         //return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
         return memberDtoList.toResponse(responseStatus);
     }
-    @GetMapping("/members/{memberId}")
+    @GetMapping("/{memberId}")
     public Response<MemberDto> apiGetMemberByMemberId(@PathVariable("memberId") String memberId){
         MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -37,7 +37,7 @@ public class MemberController {
 
         return nullableMemberDto.toResponse(responseStatus);
     }
-    @GetMapping("/members/userId")
+    @GetMapping("/userId")
     public Response<MemberDto> apiGetMemberByUserId(@RequestParam("value") String userId){
         MemberDto nullableMemberDto = memberService.getMemberByUserId(userId);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -48,7 +48,7 @@ public class MemberController {
 
     }
 
-    @GetMapping("/members/nameAndEmail")
+    @GetMapping("/nameAndEmail")
     public Response<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -83,7 +83,7 @@ public class MemberController {
 
     }
 
-    @PostMapping("/members")
+    @PostMapping("")
     public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) {
         int insertResult = memberService.insertMember(dto);
 

@@ -44,11 +44,13 @@ public class MemberService {
     public String getMemberIdByUserId(String userId) {
         Optional<Member> optMember = memberRepository.findMemberByUserId(userId);
         if (!optMember.isEmpty()) return optMember.get().getMemberId();
+
         return ResponseStatus.NOT_FOUND.getStatus();
     }
 
     public String getMemberIdByUserNameAndUserEmail(String userName, String userEmail) {
         Optional<Member> optMember = memberRepository.findMemberByUserNameAndUserEmail(userName,userEmail);
+
         if (!optMember.isEmpty())
             return optMember.get().getMemberId();
         return ResponseStatus.NOT_FOUND.getStatus();
