@@ -1,6 +1,7 @@
 package com.kns.tenquest.controller;
 
 
+import com.kns.tenquest.dto.QuestionSaveRequestDto;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
@@ -115,7 +116,7 @@ public class QuestionController {
     @RequestMapping(value="/get/question/content",method = RequestMethod.GET)
     public String apiGetQuestionContentByQuestionId(@RequestParam(name="questionId",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
 
-        return questionService.getQuestionContentByQuestionId(questionId);
+        return questionService.getQuestionContentByQuestionId(questionId); // 3.21
 
     }
 
@@ -125,17 +126,12 @@ public class QuestionController {
      //*************************************POST *************************************
     //질문 추가하기 : POST  : 데이터 추가 : 개발자& 이용자
 
-    /*
+
     @ResponseBody
-    @RequestMapping(value ="post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
-    public ResponseEntity<Void> apiPostQuestionContent(@RequestBody QuestionDto questionDto) throws NoSuchAlgorithmException {
-         //   Question question = questionDto.toEntity(questionDto.getQuestionCategoryId(),questionDto.getQuestionCreatedBy());
-
-            questionService.postQuestionContent(questionDto);
-            // 등록 성공했는지 여부 확인하는 코드 추가할 예정
-            return ResponseEntity.ok().build();
-
-    }*/
+    @RequestMapping(value ="/post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
+    public void save(@RequestBody QuestionSaveRequestDto requestDto ){
+        questionService.save(requestDto);
+    }
 
     //질문 수정하기 : UPDATE : 데이터 수정: 개발자& 이용자
 

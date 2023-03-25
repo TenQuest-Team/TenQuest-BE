@@ -1,3 +1,6 @@
+# Response 관련 Class UML
+![Untitled](https://github.com/TenQuest-Team/TenQuest-BE/blob/develop/updates/imgs/uml.png)
+
 # ☑️ **도입 배경: 구현된 Dto는 Status, Code등의 추가정보를 담을 수 없다.**
 
 - 기존 방식대로 `Dto`를 그대로 리턴하는 경우 요청한 데이터만 전달하기 때문에 클라이언트의 요청을 처리한 결과를 보낼 수 없다는 단점이 존재합니다.

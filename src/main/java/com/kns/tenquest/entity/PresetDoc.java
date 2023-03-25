@@ -11,7 +11,7 @@ import lombok.*;
 @Data
 public class PresetDoc {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "preset_doc_id")
     private Long presetDocId;
 

@@ -1,35 +1,25 @@
 package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
+import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.kns.tenquest.service.MemberService;
 
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
+@RequestMapping(ENV.API_PREFIX+"/members")
+@RestController
 
-@Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MemberController {
     @Autowired
     MemberService memberService;
 
-    @GetMapping("/view/members")
-    public String memberView(Model model){
-        // Temporarily implemented. Just for test.
-        DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
-        model.addAttribute("memberList", memberDtoList);
-        return "member_view";
-    }
 
-    @ResponseBody
-    @GetMapping("/members")
+    @GetMapping("")
     public Response<MemberDto> apiGetAllMembers(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
@@ -37,9 +27,8 @@ public class MemberController {
         //return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
         return memberDtoList.toResponse(responseStatus);
     }
-    @ResponseBody
-    @GetMapping("/members/memberId")
-    public Response<MemberDto> apiGetMemberByMemberId(@RequestParam("value") String memberId){
+    @GetMapping("/{memberId}")
+    public Response<MemberDto> apiGetMemberByMemberId(@PathVariable("memberId") String memberId){
         MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -48,8 +37,7 @@ public class MemberController {
 
         return nullableMemberDto.toResponse(responseStatus);
     }
-    @ResponseBody
-    @GetMapping("/members/userId")
+    @GetMapping("/userId")
     public Response<MemberDto> apiGetMemberByUserId(@RequestParam("value") String userId){
         MemberDto nullableMemberDto = memberService.getMemberByUserId(userId);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -60,8 +48,7 @@ public class MemberController {
 
     }
 
-    @ResponseBody
-    @GetMapping("/members/nameAndEmail")
+    @GetMapping("/nameAndEmail")
     public Response<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
         MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
         ResponseStatus responseStatus = ResponseStatus.OK;
@@ -70,7 +57,6 @@ public class MemberController {
 
     }
 
-    @ResponseBody
     @GetMapping("/memberId/userId")
     public Response<String> apiGetMemberIdByUserId(@RequestParam("value") String userId){
         String nullableString = memberService.getMemberIdByUserId(userId);
@@ -84,7 +70,6 @@ public class MemberController {
 
     }
 
-    @ResponseBody
     @GetMapping("/memberId/nameAndEmail")
     public Response<String> apiGetMemberIdByUserName(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
         String nullableString = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
@@ -98,9 +83,8 @@ public class MemberController {
 
     }
 
-    @ResponseBody
-    @PostMapping("/members")
-    public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) throws NoSuchAlgorithmException {
+    @PostMapping("")
+    public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) {
         int insertResult = memberService.insertMember(dto);
 
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
