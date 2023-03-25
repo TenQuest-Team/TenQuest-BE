@@ -34,6 +34,11 @@ import java.util.SortedMap;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
 
+
+    {
+        // Change Filter Request URL using instance block
+        setFilterProcessesUrl("/api/v1/login");
+    }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         System.out.println("Login Request Occur!");
@@ -126,7 +131,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setContentType("application/json");
         response.getWriter().write("{\n\"status\": \"OK\"\n" +
     "\t\"code\": \"200\"\n" +
-                "\t\"data\": \"Login Succeed\"}");
+                "\t\"data\": \"Login Succeed\"\n}");
         //super.successfulAuthentication(request, response, chain, authResult);
     }
 
@@ -137,7 +142,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setContentType("application/json");
         response.getWriter().write("{\n\"status\": \"UNAUTHORIZED\"\n" +
                 "\t\"code\": \"401\"\n" +
-                "\t\"data\": \"Login Failed\"}");
+                "\t\"data\": \"Login Failed\"\n}");
     }
 
 
