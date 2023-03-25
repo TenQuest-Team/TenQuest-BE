@@ -12,7 +12,6 @@ import com.kns.tenquest.service.MemberService;
 
 @RequestMapping(ENV.API_PREFIX)
 @RestController
-
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MemberController {
     @Autowired

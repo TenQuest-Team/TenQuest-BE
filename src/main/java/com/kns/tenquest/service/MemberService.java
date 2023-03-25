@@ -64,4 +64,15 @@ public class MemberService {
         }
         return ResponseStatus.CREATE_FAIL.getCode();
     }
+
+    public int insertAdmin(MemberDto dto) {
+        Optional<Member> optMember = memberRepository.findMemberByUserId(dto.userId);
+        if (optMember.isEmpty()) {
+            dto.setMemberId(UUID.randomUUID().toString().replace("-",""));
+            dto.setUserRoles("ROLE_ADMIN");
+            memberRepository.save(dto.toEntity());
+            return ResponseStatus.CREATE_DONE.getCode();
+        }
+        return ResponseStatus.CREATE_FAIL.getCode();
+    }
 }
