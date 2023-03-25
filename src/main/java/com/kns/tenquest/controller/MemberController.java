@@ -100,7 +100,7 @@ public class MemberController {
     //Testing
     @ResponseBody
     @PostMapping("/join")
-    public String join(@RequestBody MemberDto memberDto) throws NoSuchAlgorithmException{
+    public String join(@RequestBody MemberDto memberDto){
         // just for test
         memberService.insertMember(memberDto);
         return "Join complete";

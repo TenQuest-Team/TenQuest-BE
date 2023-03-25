@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,6 +37,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         System.out.println("Login Request Occur!");
+
+
         /* get user's id, password from login request */
 //        try {
 //            BufferedReader reqReader = request.getReader();
@@ -46,9 +49,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 //        catch (IOException e) {e.printStackTrace();}
 
         /* mapping Json type user id,pw information to Member Entity */
+//        try {
+        ServletInputStream inputStream = null;
         try {
-            ServletInputStream inputStream = request.getInputStream();
-            String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            inputStream = request.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String messageBody = null;
+        try {
+            messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 //            BufferedReader reqReader = request.getReader();
 //            String input = null;
@@ -56,8 +69,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 //                System.out.println(input);
 
             JSONParser jsonParser = new JSONParser();
-            JSONObject jsonObj = (JSONObject) jsonParser.parse(messageBody);
-            String requestBodyUserName = jsonObj.get("username").toString();
+        JSONObject jsonObj = null;
+        try {
+            jsonObj = (JSONObject) jsonParser.parse(messageBody);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        String requestBodyUserName = jsonObj.get("username").toString();
             String requestBodyUserPassword = jsonObj.get("password").toString();
 
             System.out.println("RequestBody[\"username\"]: " + requestBodyUserName); //test complete
@@ -82,15 +100,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             // if sout works. -> it means login done
             System.out.println(principalDetails.getUser().getUserName());
-
             return authentication;
 
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return null; // if auth fail
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+       // return this.authenticationManager.authenticate(null);
     }
 
+    // If login succeed, suceessfulAuthentication() called
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         System.out.println("Authentication Done!");
@@ -106,8 +124,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().write("{\n\"status\": \"done\"\n}");
+        response.getWriter().write("{\n\"status\": \"OK\"\n" +
+    "\t\"code\": \"200\"\n" +
+                "\t\"data\": \"Login Succeed\"}");
         //super.successfulAuthentication(request, response, chain, authResult);
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        System.out.println("Authentication Fail!");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        response.getWriter().write("{\n\"status\": \"UNAUTHORIZED\"\n" +
+                "\t\"code\": \"401\"\n" +
+                "\t\"data\": \"Login Failed\"}");
+    }
+
 
 }
