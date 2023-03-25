@@ -31,23 +31,23 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("Authentication or Authorization needed");
+        //System.out.println("Authentication or Authorization needed");
         String jwtHeader = request.getHeader("Authorization");
-        System.out.println("Req Auth Header: " + jwtHeader);
+        //System.out.println("Req Auth Header: " + jwtHeader);
         // check if it's valid token format
         if(jwtHeader==null || !jwtHeader.startsWith("Bearer")){
             chain.doFilter(request,response);
             return ;
         }
         String jwtToken =jwtHeader.replace("Bearer ", "");
-        System.out.println("JWT Token: "+ jwtToken);
+        //System.out.println("JWT Token: "+ jwtToken);
 
         String userId = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build().verify(jwtToken).getClaim("id").asString();
         // If JWT Token Authentication is valid, userId might be not null
         if(userId != null){
-            System.out.println("valid token, UserId: " + userId);
+            //System.out.println("valid token, UserId: " + userId);
             Member user = memberRepository.findMemberByUserId(userId).get();
-            System.out.println("Member.getUserName: " + user.getUserName().toString());
+            //System.out.println("Member.getUserName: " + user.getUserName().toString());
             PrincipalDetails principalDetails = new PrincipalDetails(user);
 
 

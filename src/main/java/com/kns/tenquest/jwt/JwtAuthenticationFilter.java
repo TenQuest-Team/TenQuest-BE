@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        System.out.println("Login Request Occur!");
+        //System.out.println("Login Request Occur!");
 
 
         /* get user's id, password from login request */
@@ -81,18 +81,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throw new RuntimeException(e);
         }
         String requestBodyUserName = jsonObj.get("username").toString();
-            String requestBodyUserPassword = jsonObj.get("password").toString();
+        String requestBodyUserPassword = jsonObj.get("password").toString();
 
-            System.out.println("RequestBody[\"username\"]: " + requestBodyUserName); //test complete
-            System.out.println("RequestBody[\"password\"]: " + requestBodyUserPassword); //test complete
+            //System.out.println("RequestBody[\"username\"]: " + requestBodyUserName); //test complete
+            //System.out.println("RequestBody[\"password\"]: " + requestBodyUserPassword); //test complete
 
             Member member = Member.builder()
                     .userId(requestBodyUserName)
                     .userInfo(requestBodyUserPassword)
                     .build();
 
-            System.out.println("member.userId: " + member.getUserId()); //test complete
-            System.out.println("member.password: " + member.getUserInfo()); //test complete
+            //System.out.println("member.userId: " + member.getUserId()); //test complete
+            //System.out.println("member.password: " + member.getUserInfo()); //test complete
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     member.getUserId(),member.getUserInfo()
             );
@@ -100,7 +100,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             // Call PrincipleDetailService's loadUserByUserName()
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-            // authentication 객체가 session에 저장됨
+            // store authentication in session
             PrincipalDetails principalDetails  = (PrincipalDetails) authentication.getPrincipal();
 
             // if sout works. -> it means login done
@@ -116,7 +116,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     // If login succeed, suceessfulAuthentication() called
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("Authentication Done!");
+        //System.out.println("Authentication Done!");
         PrincipalDetails principalDetails  = (PrincipalDetails) authResult.getPrincipal();
         // Make Toekn
         String jwtToken = JWT.create()
