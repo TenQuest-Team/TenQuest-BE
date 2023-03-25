@@ -14,4 +14,11 @@ public class SecurityController {
     public String getMemberInfo(){
         return "Member Info";
     }
+
+    @ResponseBody
+    @GetMapping("/jwtAuthenticationTest")
+    public String jwtAuthenticationTest(){
+        return "Authentication Succeed!";
+    }
+
 }

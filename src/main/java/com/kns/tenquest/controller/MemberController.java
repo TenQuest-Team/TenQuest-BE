@@ -27,8 +27,8 @@ public class MemberController {
         //return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
         return memberDtoList.toResponse(responseStatus);
     }
-    @GetMapping("/members/memberId")
-    public Response<MemberDto> apiGetMemberByMemberId(@RequestParam("value") String memberId){
+    @GetMapping("/members/{memberId}")
+    public Response<MemberDto> apiGetMemberByMemberId(@PathVariable("memberId") String memberId){
         MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -96,15 +96,5 @@ public class MemberController {
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
-
-    //Testing
-    @ResponseBody
-    @PostMapping("/join")
-    public String join(@RequestBody MemberDto memberDto){
-        // just for test
-        memberService.insertMember(memberDto);
-        return "Join complete";
-    }
-
 
 }

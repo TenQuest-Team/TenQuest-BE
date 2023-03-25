@@ -4,6 +4,7 @@ import com.kns.tenquest.response.Responseable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -13,8 +14,8 @@ import java.security.NoSuchAlgorithmException;
 @Setter
 @NoArgsConstructor
 public class MemberDto implements DataTransferObject<Member>, Responseable<MemberDto>{
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
 
     public String memberId;
     public String userId;
