@@ -33,7 +33,7 @@ public class MemberService {
     }
 
     public MemberDto getMemberByUserNameAndEmail(String userId, String userEmail){
-        return new MemberDto(
+      return new MemberDto(
                 memberRepository.findMemberByUserNameAndUserEmail(userId,userEmail)
                         .orElse(new Member()));
     }

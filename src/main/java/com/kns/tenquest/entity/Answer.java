@@ -40,4 +40,6 @@ public class Answer {
         this.answerTime = answerTime;
         this.isPublic = isPublic;
     }
+
+
 }

@@ -33,6 +33,15 @@ public class AnswerDto implements DataTransferObject<Answer>, Responseable<Answe
         this.isPublic = isPublic;
     }
 
+    public AnswerDto(Answer answer){
+        this.answerId = answer.getAnswerId();
+        this.replyerId = answer.getReplyerId();
+        this.docId = answer.getDocId();
+        this.answerContent = answer.getAnswerContent();
+        this.answerTime = answer.getAnswerTime();
+        this.isPublic = answer.isPublic();
+    }
+
     @Override
     public Answer toEntity() throws NoSuchAlgorithmException {
         Answer answer = Answer.builder()
