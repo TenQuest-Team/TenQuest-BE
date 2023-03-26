@@ -97,7 +97,7 @@ public class QuestionController {
         }
 
 
-    } // toResponse(  )  로 변경 완료
+    } // toResponse(  )  로 변경 완료//postman 확인완료
 
 
 
@@ -134,7 +134,7 @@ public class QuestionController {
 
 
 
-    }
+    } // postman 확인 했긴한데.. 0 번넣엇을대 잘안나옴..
 
 
 
@@ -152,7 +152,7 @@ public class QuestionController {
 
         return new ResponseDto<String>(responseStatus, nullableString).toResponse();
 
-    }
+    } // postman 확인완료
 
 
 

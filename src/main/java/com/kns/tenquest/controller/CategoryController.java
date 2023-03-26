@@ -49,7 +49,7 @@ public class CategoryController {
             return categoryDtoList.toResponse(responseStatus);
 
             } // 함수() 괄호 적기.. .
-            //toResponse 완료
+            //toResponse 완료 //postman 확인완료
 
 
 
@@ -68,7 +68,7 @@ public class CategoryController {
 
             return new ResponseDto<String>(responseStatus, nullableString).toResponse();
 
-            }//toResponse 완료
+            }//toResponse 완료 //postman 확인완료
 
 
 
@@ -87,7 +87,7 @@ public class CategoryController {
                 nullableInteger = null;}
 
             return new ResponseDto<Integer>(responseStatus, nullableInteger).toResponse();
-        }//toResponse 완료
+        }//toResponse 완료 //postman  //없는거 적으면 500 오류뜸 ..수정필요
 
 
 
