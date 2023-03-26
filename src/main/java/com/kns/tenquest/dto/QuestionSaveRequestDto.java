@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class QuestionSaveRequestDto {
 
-    public String questionId = UUID.randomUUID().toString();
+    public String questionId = UUID.randomUUID().toString().replace("-", "");
     public String questionContent;
     private int questionCategoryId;
     private String questionCreatedBy;
