@@ -5,6 +5,7 @@ import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Template;
+import com.kns.tenquest.requestBody.TemplateRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateDocService;
@@ -81,7 +82,7 @@ public class TemplateController {
         return new ResponseDto<TemplateDto>(responseStatus,deletedTemplate).toResponse();
     }
     @PostMapping("/templates2")
-    public ResponseDto<Template> _apiAddTemplate(){
+    public ResponseDto<Template> _apiAddTemplate(@RequestBody TemplateRequestBody templateRequestBody){
 
         return new ResponseDto<Template>(ResponseStatus.CREATE_DONE,null);
     }

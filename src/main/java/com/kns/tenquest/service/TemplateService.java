@@ -5,8 +5,11 @@ import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.entity.Template;
+import com.kns.tenquest.entity.TemplateDoc;
 import com.kns.tenquest.repository.MemberRepository;
+import com.kns.tenquest.repository.TemplateDocRepository;
 import com.kns.tenquest.repository.TemplateRepository;
+import com.kns.tenquest.requestBody.TemplateRequestBody;
 import com.kns.tenquest.response.ResponseStatus;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ import java.util.UUID;
 public class TemplateService {
     @Autowired
     TemplateRepository templateRepository;
+
+    @Autowired
+    TemplateDocRepository templateDocRepository;
 
     @Autowired
     MemberRepository memberRepository;
@@ -92,8 +98,30 @@ public class TemplateService {
 
     }
 
-    public TemplateDto addTemplate(){
+    public TemplateDto _addTemplate(TemplateRequestBody templateRequestBody){
+        // generate template id
+        String generatedTemplateId = UUID.randomUUID().toString().replace("-", "");
 
+
+        // 1. add template doc to db
+        for (int i=0; i<templateRequestBody.QuestionDocuments.size(); i++){
+            TemplateDoc templateDoc = TemplateDoc.builder()
+                    .templateDocId((long)i)
+                    .templateId(generatedTemplateId)
+                    .questionId(templateRequestBody.QuestionDocuments.get(i))
+                    .questionOrder(templateRequestBody.QuestionOrder.get(i))
+                    .build();
+            templateDocRepository.save(templateDoc);
+        }
+
+        // 2. add template to db
+        Template template = Template.builder()
+                .templateId(generatedTemplateId)
+                .templateOwner(templateRequestBody.templateOwner)
+                .templateName(templateRequestBody.templateName)
+                .build();
+
+        templateRepository.save(template);
         return new TemplateDto();
     }
 }
