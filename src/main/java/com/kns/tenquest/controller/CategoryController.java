@@ -1,6 +1,11 @@
 package com.kns.tenquest.controller;
 
+import com.kns.tenquest.DtoList;
+import com.kns.tenquest.dto.CategoryDto;
+import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.entity.Category;
+import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.CategoryService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +30,7 @@ public class CategoryController {
     @RequestMapping(value="/view/categories",method= RequestMethod.GET)
     public String categoryView(@NotNull Model model){  //Model 객체.. 스프링이 알아서 만들어줌
         // Temporarily implemented. Just for test.
-        List<Category> categoryList = categoryService.getAllCategories();
+        List<CategoryDto> categoryList = categoryService.getAllCategories();
         model.addAttribute("categoryList", categoryList); // 바로윗줄의 객체를 추가 ..
         return "category_view"; // html 페이지 인듯
     }
@@ -38,7 +43,14 @@ public class CategoryController {
         //카테고리 테이블 이름 적으면 테이블 전체값 보내주기
         @ResponseBody // Jason 형태로 값을 프론트로 전달해줌
         @RequestMapping(value = "/get/categories",method = RequestMethod.GET)
-        public List<Category> apiGetAllCategories() {return categoryService.getAllCategories();} // 함수() 괄호 적기.. .
+        public Response<CategoryDto> apiGetAllCategories() {
+            ResponseStatus responseStatus = ResponseStatus.OK;
+            DtoList<CategoryDto> categoryDtoList = categoryService.getAllCategories();
+
+
+            return categoryDtoList.toResponse(responseStatus);
+
+            } // 함수() 괄호 적기.. .
 
 
 
