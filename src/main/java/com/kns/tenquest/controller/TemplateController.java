@@ -7,6 +7,7 @@ import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Template;
+import com.kns.tenquest.requestBody.TemplateRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateDocService;
@@ -19,7 +20,7 @@ import java.util.NoSuchElementException;
 
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping(ENV.API_PREFIX+"/templates")
+@RequestMapping(ENV.API_PREFIX)
 public class TemplateController {
 
     @Autowired
@@ -38,6 +39,16 @@ public class TemplateController {
     } //template Read API
 
     @ResponseBody
+    @GetMapping("/template-docs")
+    public Response<TemplateDocDto> apiGetAllTemplateDocs(){
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        DtoList<TemplateDocDto> templateDocDtoList = templateDocService.getAllTemplateDocs();
+        //return new ResponseDto<TemplateDto>(responseStatus,templateDtoList).toResponseJson();
+        return templateDocDtoList.toResponse(responseStatus);
+    } //template Read API
+
+
+    @ResponseBody
     @PostMapping("/templates/member-id")
     public Response<CreateTemplateRequestWrapper> apiCreateTemplate(@RequestBody CreateTemplateRequestWrapper requestWrapper, @RequestParam("value")String memberId) {
 //        TemplateDto createdTemplate = templateService.createTemplate(templateDto,memberId);
@@ -49,6 +60,9 @@ public class TemplateController {
         try{
             CreateTemplateRequestWrapper createdTemplate = templateService.createTemplate(requestWrapper,memberId);
             ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+            if(createdTemplate == null){
+                responseStatus = ResponseStatus.CREATE_FAIL;
+            }
             return new ResponseDto<CreateTemplateRequestWrapper>(responseStatus,createdTemplate).toResponse();
         }
         catch(NoSuchElementException e){
@@ -81,7 +95,14 @@ public class TemplateController {
         }
 
         return new ResponseDto<TemplateDto>(responseStatus,deletedTemplate).toResponse();
-    } //template Delete API
+    }
+    @PostMapping("/templates2")
+    public Response<Template> _apiAddTemplate(@RequestBody TemplateRequestBody templateRequestBody){
+
+        return new ResponseDto<Template>(ResponseStatus.CREATE_DONE,null).toResponse();
+    }
+
+    //template Delete API
 
     //    @GetMapping("/templates/modify/{id}")
 //    public String templateModify(@PathVariable("id") String id, Model model){
