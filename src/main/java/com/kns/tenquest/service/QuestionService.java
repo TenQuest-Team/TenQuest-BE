@@ -1,10 +1,15 @@
 package com.kns.tenquest.service;
 
 
+import com.kns.tenquest.DtoList;
+import com.kns.tenquest.dto.CategoryDto;
+import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.dto.QuestionSaveRequestDto;
+import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.repository.QuestionRepository;
+import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +17,7 @@ import javax.transaction.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,9 +26,17 @@ public class QuestionService {
     @Autowired
     QuestionRepository questionRepository;
 
-    public List<Question> getAllQuestions(){
-        return questionRepository.findAll();
+
+
+    public DtoList<QuestionDto>  getAllQuestions(){
+
+        DtoList<QuestionDto> questionDtoList = new DtoList<>(questionRepository.findAll());
+
+        return questionDtoList;
+
     }
+
+
 
     //특정한 question_created_by 컬럼 값에 해당하는 질문객체 들을 찾아서 리스트로 반환
     public List<Question> getAllQuestionsByQuestionCreatedBy(String memberId) {
@@ -57,14 +71,24 @@ public class QuestionService {
 
     public String getQuestionContentByQuestionId(String questionId) {
 
-        Question question = questionRepository.getQuestionContentByQuestionId(questionId);
-        return question.getQuestionContent();
+        Optional<Question> question = questionRepository.getQuestionContentByQuestionId(questionId);
+        if (!question.isEmpty())
+            return question.get().getQuestionContent();
+        return ResponseStatus.NOT_FOUND.getStatus();
+
 
     }
+
     @Transactional //db트랜젝션 자동으로 commit 해줌 ??
-    public void save(QuestionSaveRequestDto requestDto) {
-        // dto를 entity 화 해서 repository 의 savwe 메소드를 통해 db에 저장.
-        questionRepository.save(requestDto.toEntity());
+    public int save(QuestionSaveRequestDto requestDto) {
+        // dto를 entity 화 해서 repository 의 save 메소드를 통해 db에 저장.
+        Optional<Question> optQuestion = questionRepository.getQuestionContentByQuestionId(requestDto.questionId);
+        if (optQuestion.isEmpty()) {
+            questionRepository.save(requestDto.toEntity());
+            return ResponseStatus.CREATE_DONE.getCode();
+        }
+        return ResponseStatus.CREATE_FAIL.getCode();
+
     }
 /*
     public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
