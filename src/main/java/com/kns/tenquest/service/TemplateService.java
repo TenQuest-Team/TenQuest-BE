@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,47 +29,48 @@ public class TemplateService {
         DtoList<TemplateDto> TemplateDtoList = new DtoList<>(templateRepository.findAll());
         return TemplateDtoList;
     }
+    public DtoList<TemplateDto> getAllTemplatesByTemplateOwner(String templateOwner){
+        DtoList<TemplateDto> templateDtoList = new DtoList<>(templateRepository.findAllByTemplateOwner(templateOwner));
+        return templateDtoList;
+    }
     public TemplateDto getTemplateByTemplateName(String templateName){
         return new TemplateDto(templateRepository.findTemplateByTemplateName(templateName).orElse(new Template()));
     }
-    public ResponseDto<TemplateDto> createTemplate(TemplateDto templatedto, String memberId) {
+    public TemplateDto createTemplate(TemplateDto templatedto, String memberId) {
         Optional<Member> nullableMember = memberRepository.findById(memberId);
         if(nullableMember.isEmpty()){
-            ResponseStatus notFound = ResponseStatus.NOT_FOUND;
-            return  new ResponseDto<TemplateDto>(notFound,null);
+            throw new NoSuchElementException("존재하지 않는 사용자 입니다.");
         }
         Optional<Template> optTemplate = templateRepository.findTemplateByTemplateNameAndTemplateOwner(templatedto.templateName,memberId);
         if (optTemplate.isEmpty()) {
-            templatedto.setCreatedAt(LocalDateTime.now());
-            templatedto.setTemplateId(UUID.randomUUID().toString().replace("-", ""));
-            templatedto.setTemplateOwner(memberId);
-            templatedto.setIsPublic(true);
-            templateRepository.save(templatedto.toEntity());
-            ResponseStatus responseSuccess = ResponseStatus.CREATE_DONE;
-            return new ResponseDto<TemplateDto>(responseSuccess, templatedto);
+            try {
+                templatedto.setCreatedAt(LocalDateTime.now());
+                templatedto.setTemplateId(UUID.randomUUID().toString().replace("-", ""));
+                templatedto.setTemplateOwner(memberId);
+                templatedto.setIsPublic(true);
+                templateRepository.save(templatedto.toEntity());
+                return templatedto;
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                throw new RuntimeException("template 생성 중 오류가 발생하였습니다.");
+            }
         }
-        else{
-            ResponseStatus alreadyExist = ResponseStatus.CREATE_FAIL;
-            return new ResponseDto<TemplateDto>(alreadyExist,null);
-        }
-
+        return null;
     } //처음 create 시 생성값 주기
 
-    public ResponseDto<Template> templateUpdate(String templateId, TemplateDto templateDto) {
+    public TemplateDto templateUpdate(String templateId, TemplateDto templateDto) {
         Optional<Template> optTemplate = templateRepository.findById(templateId);
         if(optTemplate.isPresent()){
-            Template template = optTemplate.get();
+            TemplateDto updatingTemplateDto = new TemplateDto(optTemplate.get());
             if(StringUtils.isNotBlank(templateDto.getTemplateName()))
-                template.setTemplateName(templateDto.getTemplateName());
+                updatingTemplateDto.setTemplateName(templateDto.getTemplateName());
             if(StringUtils.isNotBlank(templateDto.getIsPublic().toString()))
-                template.setIsPublic(templateDto.getIsPublic());
-            templateRepository.save(template);
-            ResponseStatus responseSuccess = ResponseStatus.OK;
-            return new ResponseDto<Template>(responseSuccess,template);
+                updatingTemplateDto.setIsPublic(templateDto.getIsPublic());
+            templateRepository.save(updatingTemplateDto.toEntity());
+            return updatingTemplateDto;
         }
         else{
-            ResponseStatus responseFail = ResponseStatus.NOT_FOUND;
-            return new ResponseDto<Template>(responseFail,null);
+            return null;
         }
 
     } //수정시 변경사항을 controller에서 적용한 후 저장
@@ -77,15 +79,16 @@ public class TemplateService {
         return templateRepository.findById(templateId).get();
     }
 
-    public ResponseStatus templateDelete(String templateId){
-        Optional<Template> optTemplateDto = templateRepository.findById(templateId);
+    public TemplateDto templateDelete(String templateId){
+        Optional<Template> optTemplate = templateRepository.findById(templateId);
 
-        if(optTemplateDto.isEmpty()){
-            return ResponseStatus.NOT_FOUND;
+        if(optTemplate.isEmpty()){
+            return null;
         }
-
+        Template deletingTemplate = optTemplate.get();
+        TemplateDto deletedTemplateDto = new TemplateDto(deletingTemplate);
         templateRepository.deleteById(templateId);
-        return ResponseStatus.OK;
+        return deletedTemplateDto;
 
     }
 }
