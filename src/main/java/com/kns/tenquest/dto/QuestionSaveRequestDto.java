@@ -13,8 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class QuestionSaveRequestDto {
 
-    private String questionId = UUID.randomUUID().toString();
-    private String questionContent;
+    public String questionId = UUID.randomUUID().toString();
+    public String questionContent;
     private int questionCategoryId;
     private String questionCreatedBy;
 
