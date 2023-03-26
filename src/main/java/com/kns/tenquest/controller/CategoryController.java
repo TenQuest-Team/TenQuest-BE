@@ -40,7 +40,7 @@ public class CategoryController {
 
         //카테고리 테이블 이름 적으면 테이블 전체값 보내주기
         @ResponseBody // Jason 형태로 값을 프론트로 전달해줌
-        @RequestMapping(value = "/get/categories",method = RequestMethod.GET)
+        @RequestMapping(value = "/api/v1/categories",method = RequestMethod.GET)
         public Response<CategoryDto> apiGetAllCategories() {
             ResponseStatus responseStatus = ResponseStatus.OK;
             DtoList<CategoryDto> categoryDtoList = categoryService.getAllCategories();
@@ -56,8 +56,8 @@ public class CategoryController {
 
         // category_id 를 받으면  해당하는 category_name 보내주기 (화면에 카테고리 이름 각각 표시할때 필요)
         @ResponseBody
-        @RequestMapping(value = "/get/category/name", method = RequestMethod.GET)
-        public Response<String> findCategoryNameByCategoryId(@RequestParam( name = "categoryId",required = false, defaultValue = "0") int category_id ){
+        @RequestMapping(value = "/api/v1/categories/name/categoryId", method = RequestMethod.GET)
+        public Response<String> findCategoryNameByCategoryId(@RequestParam( name = "value",required = false, defaultValue = "0") int category_id ){
 
             String nullableString = categoryService.getCategoryNameByCategoryId(category_id).getCategoryName();
             ResponseStatus responseStatus = ResponseStatus.OK;
@@ -76,8 +76,8 @@ public class CategoryController {
 
         // category_name 받으면  해당하는 category_id 보내주기 ( 카테고리 id 찾을때 필요)
         @ResponseBody
-        @RequestMapping(value="/get/category/id",method = RequestMethod.GET)
-        public Response<Integer> findCategoryIdByCategoryName(@RequestParam(name="categoryName",required = false,defaultValue = "") String category_name){
+        @RequestMapping(value="/api/v1/categories/categoryId/categoryName",method = RequestMethod.GET)
+        public Response<Integer> findCategoryIdByCategoryName(@RequestParam(name="value",required = false,defaultValue = "") String category_name){
 
             Integer nullableInteger =  categoryService.getCategoryIdByCategoryName(category_name).getCategoryId();
             ResponseStatus responseStatus = ResponseStatus.OK;
