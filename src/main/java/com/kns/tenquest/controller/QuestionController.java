@@ -58,9 +58,9 @@ public class QuestionController {
 
     //전체 질문 객체들 정보 보내주기
     @ResponseBody
-    @RequestMapping(value = "/get/questions",method=RequestMethod.GET)
+    @RequestMapping(value = "/api/v1/questions/{accessId}",method=RequestMethod.GET)
 
-    public Response<QuestionDto>  apiGetAllQuestions(@RequestParam(name = "accessId",required = false,defaultValue ="") String accessId) { // 접근중인 사람의 id 받아오기 //default 가 developer 이면 안될듯..
+    public Response<QuestionDto>  apiGetAllQuestions(@PathVariable(name = "accessId") String accessId) { // 접근중인 사람의 id 받아오기 //default 가 developer 이면 안될듯..
 
 
         // 현재 접근중인 사람의 memberId : UUID(String)   가져오는 코드
@@ -105,7 +105,7 @@ public class QuestionController {
 
     //카테고리 별 확인 //특정 카테고리에 해당하는 질문 content(String 글자) 확인하기 (외래키 question_category_id 이용) : GET : 데이터 가져와서 뿌려주기
     @ResponseBody
-    @RequestMapping(value="/get/question/contents",method=RequestMethod.GET)
+    @RequestMapping(value="/api/v1/questions/contents/questionCategoryIdAndAccessId/",method=RequestMethod.GET)
     public Response<DtoList> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
                                                   @RequestParam(name="accessId") String accessId){
 
@@ -141,8 +141,8 @@ public class QuestionController {
 
     //question_id로 호출하면.. (UUID) 해당질문(question_content) 1개 보내줌 GET (각템플릿에서 호출하거나 할때 필요함)
     @ResponseBody
-    @RequestMapping(value="/get/question/content",method = RequestMethod.GET)
-    public Response<String> apiGetQuestionContentByQuestionId(@RequestParam(name="questionId",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
+    @RequestMapping(value="/api/v1/questions/content/questionId",method = RequestMethod.GET)
+    public Response<String> apiGetQuestionContentByQuestionId(@RequestParam(name="value",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
         String nullableString = questionService.getQuestionContentByQuestionId(questionId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -162,7 +162,7 @@ public class QuestionController {
 
 
     @ResponseBody
-    @RequestMapping(value ="/post/question/content",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
+    @RequestMapping(value ="/api/v1/questions",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
     public Response<Integer> apiSaveQuestion(@RequestBody QuestionSaveRequestDto requestDto ){
 
         int insertResult = questionService.save(requestDto);
