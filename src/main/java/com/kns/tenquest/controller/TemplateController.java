@@ -2,7 +2,9 @@ package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.ENV;
+import com.kns.tenquest.RequestWrapper.CreateTemplateRequestWrapper;
 import com.kns.tenquest.dto.ResponseDto;
+import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Template;
 import com.kns.tenquest.response.Response;
@@ -37,7 +39,7 @@ public class TemplateController {
 
     @ResponseBody
     @PostMapping("/templates/member-id")
-    public Response<TemplateDto> apiCreateTemplate(@RequestBody TemplateDto templateDto,@RequestParam("value")String memberId) {
+    public Response<CreateTemplateRequestWrapper> apiCreateTemplate(@RequestBody CreateTemplateRequestWrapper requestWrapper, @RequestParam("value")String memberId) {
 //        TemplateDto createdTemplate = templateService.createTemplate(templateDto,memberId);
 //        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
 //        if(createdTemplate == null){
@@ -45,17 +47,17 @@ public class TemplateController {
 //        }
 //        return new ResponseDto<TemplateDto>(responseStatus,createdTemplate).toResponse();
         try{
-            TemplateDto createdTemplate = templateService.createTemplate(templateDto,memberId);
+            CreateTemplateRequestWrapper createdTemplate = templateService.createTemplate(requestWrapper,memberId);
             ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
-            return new ResponseDto<TemplateDto>(responseStatus,createdTemplate).toResponse();
+            return new ResponseDto<CreateTemplateRequestWrapper>(responseStatus,createdTemplate).toResponse();
         }
         catch(NoSuchElementException e){
             ResponseStatus responseStatus = ResponseStatus.NOT_FOUND;
-            return new ResponseDto<TemplateDto>(responseStatus,null).toResponse();
+            return new ResponseDto<CreateTemplateRequestWrapper>(responseStatus,null).toResponse();
         }
         catch (RuntimeException e){
             ResponseStatus responseStatus = ResponseStatus.CREATE_FAIL;
-            return new ResponseDto<TemplateDto>(responseStatus,null).toResponse();
+            return new ResponseDto<CreateTemplateRequestWrapper>(responseStatus,null).toResponse();
         }
     } //template Create API
 

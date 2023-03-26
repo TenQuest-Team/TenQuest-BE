@@ -1,6 +1,7 @@
 package com.kns.tenquest.service;
 
 import com.kns.tenquest.DtoList;
+import com.kns.tenquest.RequestWrapper.CreateTemplateRequestWrapper;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Member;
@@ -36,20 +37,21 @@ public class TemplateService {
     public TemplateDto getTemplateByTemplateName(String templateName){
         return new TemplateDto(templateRepository.findTemplateByTemplateName(templateName).orElse(new Template()));
     }
-    public TemplateDto createTemplate(TemplateDto templatedto, String memberId) {
+    public CreateTemplateRequestWrapper createTemplate(CreateTemplateRequestWrapper requestWrapper, String memberId) {
         Optional<Member> nullableMember = memberRepository.findById(memberId);
         if(nullableMember.isEmpty()){
             throw new NoSuchElementException("존재하지 않는 사용자 입니다.");
         }
-        Optional<Template> optTemplate = templateRepository.findTemplateByTemplateNameAndTemplateOwner(templatedto.templateName,memberId);
+        Optional<Template> optTemplate = templateRepository.findTemplateByTemplateNameAndTemplateOwner(requestWrapper.getTemplateDto().templateName,memberId);
         if (optTemplate.isEmpty()) {
             try {
-                templatedto.setCreatedAt(LocalDateTime.now());
-                templatedto.setTemplateId(UUID.randomUUID().toString().replace("-", ""));
-                templatedto.setTemplateOwner(memberId);
-                templatedto.setIsPublic(true);
-                templateRepository.save(templatedto.toEntity());
-                return templatedto;
+                String thisTemplateId = UUID.randomUUID().toString().replace("-", "");
+                requestWrapper.getTemplateDto().setCreatedAt(LocalDateTime.now());
+                requestWrapper.getTemplateDto().setTemplateId(thisTemplateId);
+                requestWrapper.getTemplateDto().setTemplateOwner(memberId);
+                requestWrapper.getTemplateDto().setIsPublic(true);
+                templateRepository.save(requestWrapper.getTemplateDto().toEntity());
+                return requestWrapper;
             } catch (RuntimeException e) {
                 e.printStackTrace();
                 throw new RuntimeException("template 생성 중 오류가 발생하였습니다.");
