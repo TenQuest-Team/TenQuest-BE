@@ -99,9 +99,10 @@ public class TemplateService {
     }
 
     public TemplateDto _addTemplate(TemplateRequestBody templateRequestBody){
+        /* Just Example. Implement Needed */
+
         // generate template id
         String generatedTemplateId = UUID.randomUUID().toString().replace("-", "");
-
 
         // 1. add template doc to db
         for (int i=0; i<templateRequestBody.QuestionDocuments.size(); i++){
@@ -111,7 +112,7 @@ public class TemplateService {
                     .questionId(templateRequestBody.QuestionDocuments.get(i))
                     .questionOrder(templateRequestBody.QuestionOrder.get(i))
                     .build();
-            templateDocRepository.save(templateDoc);
+                    templateDocRepository.save(templateDoc);
         }
 
         // 2. add template to db
