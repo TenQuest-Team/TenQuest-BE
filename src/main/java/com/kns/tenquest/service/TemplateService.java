@@ -91,4 +91,9 @@ public class TemplateService {
         return deletedTemplateDto;
 
     }
+
+    public TemplateDto addTemplate(){
+
+        return new TemplateDto();
+    }
 }

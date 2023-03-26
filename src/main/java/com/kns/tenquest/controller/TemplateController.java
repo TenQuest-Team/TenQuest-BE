@@ -79,7 +79,14 @@ public class TemplateController {
         }
 
         return new ResponseDto<TemplateDto>(responseStatus,deletedTemplate).toResponse();
-    } //template Delete API
+    }
+    @PostMapping("/templates2")
+    public ResponseDto<Template> _apiAddTemplate(){
+
+        return new ResponseDto<Template>(ResponseStatus.CREATE_DONE,null);
+    }
+
+    //template Delete API
 
     //    @GetMapping("/templates/modify/{id}")
 //    public String templateModify(@PathVariable("id") String id, Model model){
