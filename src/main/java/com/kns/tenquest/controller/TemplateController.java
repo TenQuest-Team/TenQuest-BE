@@ -1,6 +1,7 @@
 package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
+import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Template;
@@ -12,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping(ENV.API_PREFIX+"/templates")
 public class TemplateController {
 
     @Autowired
@@ -31,19 +35,53 @@ public class TemplateController {
         return templateDtoList.toResponse(responseStatus);
     } //template Read API
 
-//    @GetMapping("/templates/insert")
-//    public String templateInsert(){
-//        return "template_insert";
-//    }
-//    //템플릿 생성 http GET 요청 (CREATE test용)
     @ResponseBody
     @PostMapping("/templates/member-id")
     public Response<TemplateDto> apiCreateTemplate(@RequestBody TemplateDto templateDto,@RequestParam("value")String memberId) {
-        ResponseDto<TemplateDto> createTemplate = templateService.createTemplate(templateDto,memberId);
-        return createTemplate.toResponse();
+//        TemplateDto createdTemplate = templateService.createTemplate(templateDto,memberId);
+//        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+//        if(createdTemplate == null){
+//            responseStatus = ResponseStatus.CREATE_FAIL;
+//        }
+//        return new ResponseDto<TemplateDto>(responseStatus,createdTemplate).toResponse();
+        try{
+            TemplateDto createdTemplate = templateService.createTemplate(templateDto,memberId);
+            ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+            return new ResponseDto<TemplateDto>(responseStatus,createdTemplate).toResponse();
+        }
+        catch(NoSuchElementException e){
+            ResponseStatus responseStatus = ResponseStatus.NOT_FOUND;
+            return new ResponseDto<TemplateDto>(responseStatus,null).toResponse();
+        }
+        catch (RuntimeException e){
+            ResponseStatus responseStatus = ResponseStatus.CREATE_FAIL;
+            return new ResponseDto<TemplateDto>(responseStatus,null).toResponse();
+        }
     } //template Create API
 
-//    @GetMapping("/templates/modify/{id}")
+
+    @PutMapping("/templates/{id}")
+    public Response<TemplateDto> apiTemplateUpdate(@PathVariable("id") String templateId, @RequestBody TemplateDto templateDto) {
+        TemplateDto updatedTemplate = templateService.templateUpdate(templateId, templateDto);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        if(updatedTemplate == null){
+            responseStatus = ResponseStatus.NOT_FOUND;
+        }
+
+        return new ResponseDto<TemplateDto>(responseStatus,updatedTemplate).toResponse();
+    } //template Update API
+    @DeleteMapping("/templates/{template-id}")
+    public Response<TemplateDto> apiTemplateDelete(@PathVariable("template-id") String templateId){
+        TemplateDto deletedTemplate = templateService.templateDelete(templateId);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        if(deletedTemplate == null){
+            responseStatus = ResponseStatus.NOT_FOUND;
+        }
+
+        return new ResponseDto<TemplateDto>(responseStatus,deletedTemplate).toResponse();
+    } //template Delete API
+
+    //    @GetMapping("/templates/modify/{id}")
 //    public String templateModify(@PathVariable("id") String id, Model model){
 //        //@PathVariable은 "/" 뒤에 물음표 없이 id가 붙어옴
 //        model.addAttribute("template", templateService.templateView(id));
@@ -57,17 +95,11 @@ public class TemplateController {
 //        return "template_view";
 //    } //특정 template으로 진입
 
-    @PatchMapping("/templates/{id}")
-    public Response<Template> apiTemplateUpdate(@PathVariable("id") String templateId, @RequestBody TemplateDto templateDto) {
-        ResponseDto<Template> updateResult = templateService.templateUpdate(templateId, templateDto);
-
-        return updateResult.toResponse();
-    } //template Update API
-    @DeleteMapping("/templates/{template-id}")
-    public Response<Integer> apiTemplateDelete(@PathVariable("template-id") String templateId){
-        ResponseStatus deleteResult = templateService.templateDelete(templateId);
-        return new ResponseDto<Integer>(deleteResult,null).toResponse();
-    } //template Delete API
+    //    @GetMapping("/templates/insert")
+//    public String templateInsert(){
+//        return "template_insert";
+//    }
+//    //템플릿 생성 http GET 요청 (CREATE test용)
 
 
 }
