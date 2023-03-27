@@ -2,9 +2,11 @@ package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.MemberDto;
+import com.kns.tenquest.dto.PresetDto;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Answer;
+import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.entity.Replyer;
 import com.kns.tenquest.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class ViewController {
 
     @Autowired
     TemplateService templateService;
+
+    @Autowired
+    PresetService presetService;
 
     @Autowired
     TemplateDocService templateDocService;
@@ -68,5 +73,13 @@ public class ViewController {
         DtoList<TemplateDocDto> templateDocList = templateDocService.getAllTemplateDocs();
         model.addAttribute("templateDocList", templateDocList);
         return "template_doc_view";
+    }
+
+    @GetMapping("/presets")
+    //PK를 소유한 하나의 레코드 정보로 들어가기
+    public String presetView(Model model){
+        DtoList<PresetDto> presetList = presetService.getAllPresets();
+        model.addAttribute("presetList",presetList);
+        return "preset_view";
     }
 }
