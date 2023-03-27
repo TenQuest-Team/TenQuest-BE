@@ -41,4 +41,12 @@ public class PresetController {
         return new ResponseDto<PresetWrapper>(responseStatus,presetWrapper).toResponse();
     }
 
+    @ResponseBody
+    @PostMapping("/presets")
+    public Response<PresetWrapper> apiCreatePreset(@RequestBody PresetWrapper presetWrapper){
+        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+        PresetWrapper createdPreset = presetService.createPreset(presetWrapper);
+        return new ResponseDto<PresetWrapper>(responseStatus,createdPreset).toResponse();
+    }
+
 }
