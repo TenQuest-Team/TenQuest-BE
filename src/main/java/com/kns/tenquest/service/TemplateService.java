@@ -69,7 +69,7 @@ public class TemplateService {
                 creatingTemplate.setCreatedAt(LocalDateTime.now());
                 creatingTemplate.setTemplateId(thisTemplateId);
                 creatingTemplate.setTemplateOwner(memberId);
-                creatingTemplate.setIsPublic(true);
+//
                 templateRepository.save(creatingTemplate.toEntity());
                 //template 생성 로직
 
@@ -115,10 +115,12 @@ public class TemplateService {
         if(optTemplate.isEmpty()){
             return null;
         }
+        List deletingTemplateDocList = new DtoList<>(templateDocRepository.findAllByTemplateId(templateId));
+
         TemplateDto deletedTemplateDto = new TemplateDto(optTemplate.get());
+        templateDocRepository.deleteAllInBatch(deletingTemplateDocList);
         templateRepository.deleteById(templateId);
         return deletedTemplateDto;
-
     }
 
     //건모형이 만든거 (참고용)
