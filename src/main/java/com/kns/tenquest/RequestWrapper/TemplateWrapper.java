@@ -9,9 +9,13 @@ import java.util.List;
 
 
 @Getter
-public class CreateTemplateRequestWrapper {
+public class TemplateWrapper {
     private TemplateDto templateDto;
     private List<TemplateDocDto> templateDocList;
 
+    public TemplateWrapper(TemplateDto templateDto , List<TemplateDocDto> templateDocList){
+        this.templateDto = templateDto;
+        this.templateDocList = templateDocList;
+    }
 }
 //template 생성시 wrapping 되는 클래스

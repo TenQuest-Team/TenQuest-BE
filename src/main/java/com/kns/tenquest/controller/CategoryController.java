@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@RestController  // 레스트 api 생성 // 이거만 붙이면 /view/categories" 쳤을때 return "category_view" 이거만뜸.. .
-
 @RequestMapping(ENV.API_PREFIX+"/categories")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoryController {
 
     @Autowired
@@ -84,7 +84,6 @@ public class CategoryController {
 
             return new ResponseDto<Integer>(responseStatus, nullableInteger).toResponse();
         }//toResponse 완료 //postman  //없는거 적으면 500 오류뜸 ..수정필요
-
 
 
 

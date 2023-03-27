@@ -15,4 +15,6 @@ public interface TemplateRepository extends JpaRepository<Template, String> {
     Optional<Template> findTemplateByTemplateNameAndTemplateOwner(String templateName, String templateOwner);
 
     DtoList<Template> findAllByTemplateOwner(String templateOwner);
+
+    Optional<Template> findByTemplateIdAndTemplateOwner(String templateId, String templateOwner);
 }
