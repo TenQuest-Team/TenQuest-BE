@@ -101,7 +101,7 @@ public class QuestionController {
 
     //카테고리 별 확인 //특정 카테고리에 해당하는 질문 content(String 글자) 확인하기 (외래키 question_category_id 이용) : GET : 데이터 가져와서 뿌려주기
 
-    @RequestMapping(value="/contents/questionCategoryIdAndAccessId/",method=RequestMethod.GET)
+    @RequestMapping(value="/contents/questionCategoryIdAndAccessId",method=RequestMethod.GET)
     public Response<DtoList> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
                                                   @RequestParam(name="accessId") String accessId){
 

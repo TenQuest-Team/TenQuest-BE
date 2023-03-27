@@ -72,7 +72,7 @@ public class CategoryController {
 
         // category_name 받으면  해당하는 category_id 보내주기 ( 카테고리 id 찾을때 필요)
 
-        @RequestMapping(value="categoryId/categoryName",method = RequestMethod.GET)
+        @RequestMapping(value="/categoryId/categoryName",method = RequestMethod.GET)
         public Response<Integer> findCategoryIdByCategoryName(@RequestParam(name="value",required = false,defaultValue = "") String category_name){
 
             Integer nullableInteger =  categoryService.getCategoryIdByCategoryName(category_name).getCategoryId();
