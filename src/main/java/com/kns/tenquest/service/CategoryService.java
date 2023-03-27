@@ -1,5 +1,8 @@
 package com.kns.tenquest.service;
 
+import com.kns.tenquest.DtoList;
+import com.kns.tenquest.dto.CategoryDto;
+import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.mapping.CategoryIdMapping;
 import com.kns.tenquest.dto.mapping.CategoryNameMapping;
 import com.kns.tenquest.entity.Category;
@@ -14,8 +17,10 @@ public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
+    public DtoList<CategoryDto> getAllCategories(){
+        DtoList<CategoryDto> categoryDtoList = new DtoList<>(categoryRepository.findAll());
+
+        return categoryDtoList;
 
     }
 
