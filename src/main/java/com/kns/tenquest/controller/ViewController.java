@@ -91,7 +91,7 @@ public class ViewController {
     }
 
     //카테고리 객체 이름 & id  전체를 html 이용하여 화면에 표시하기 : GET  : 데이터 가져와서 뿌려주기
-    @RequestMapping(value="/view/categories",method= RequestMethod.GET)
+    @RequestMapping(value="/categories",method= RequestMethod.GET)
     public String categoryView(@NotNull Model model){  //Model 객체.. 스프링이 알아서 만들어줌
         // Temporarily implemented. Just for test.
         List<CategoryDto> categoryList = categoryService.getAllCategories();
