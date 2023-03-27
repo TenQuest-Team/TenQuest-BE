@@ -1,8 +1,7 @@
 package com.kns.tenquest.controller;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.AnswerDto;
-import com.kns.tenquest.entity.Answer;
-import com.kns.tenquest.entity.Replyer;
+
 import com.kns.tenquest.requestBody.AnswerCreateRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
