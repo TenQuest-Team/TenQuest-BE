@@ -5,12 +5,14 @@ import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Table(name="answer_table")
 @Entity
+@NoArgsConstructor
 public class Answer {
     @Id
     @Column(name = "answer_id")
@@ -23,7 +25,7 @@ public class Answer {
     private String answerContent;
 
     @Column(name = "doc_id")
-    private int docId;
+    private Long docId;
 
     @Column(name = "answer_time")
     private LocalDateTime answerTime;
@@ -32,7 +34,7 @@ public class Answer {
     private boolean isPublic;
 
     @Builder
-    public Answer(String answerId, int replyerId, String answerContent, int docId, LocalDateTime answerTime, boolean isPublic) {
+    public Answer(String answerId, int replyerId, String answerContent, Long docId, LocalDateTime answerTime, boolean isPublic) {
         this.answerId = answerId;
         this.replyerId = replyerId;
         this.answerContent = answerContent;

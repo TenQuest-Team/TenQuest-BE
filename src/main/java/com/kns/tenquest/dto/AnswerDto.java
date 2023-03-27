@@ -8,23 +8,24 @@ import com.kns.tenquest.response.Responseable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@NoArgsConstructor
 public class AnswerDto implements DataTransferObject<Answer>, Responseable<AnswerDto> {
     public String answerId;
     public int replyerId;
     public String answerContent;
-    public int docId;
+    public Long docId;
     public LocalDateTime answerTime;
     public boolean isPublic;
 
 
     @Builder
-    public AnswerDto(String answerId, int replyerId, String answerContent, int docId, LocalDateTime answerTime, boolean isPublic) {
+    public AnswerDto(String answerId, int replyerId, String answerContent, Long docId, LocalDateTime answerTime, boolean isPublic) {
         this.answerId = answerId;
         this.replyerId = replyerId;
         this.answerContent = answerContent;
@@ -43,12 +44,12 @@ public class AnswerDto implements DataTransferObject<Answer>, Responseable<Answe
     }
 
     @Override
-    public Answer toEntity() throws NoSuchAlgorithmException {
+    public Answer toEntity() {
         Answer answer = Answer.builder()
                 .answerId(this.answerId)
                 .replyerId(this.replyerId)
                 .answerContent(this.answerContent)
-                .docId(docId)
+                .docId(this.docId)
                 .answerTime(answerTime)
                 .isPublic(isPublic)
                 .build();

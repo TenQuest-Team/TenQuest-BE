@@ -4,6 +4,7 @@ import com.kns.tenquest.dto.ReplyerDto;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.repository.ReplyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.kns.tenquest.entity.Replyer;
 import java.util.*;

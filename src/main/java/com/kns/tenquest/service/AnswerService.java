@@ -1,56 +1,90 @@
 package com.kns.tenquest.service;
 
-import com.kns.tenquest.dto.MemberDto;
+import com.kns.tenquest.DtoList;
+import com.kns.tenquest.dto.AnswerDto;
 import com.kns.tenquest.dto.ReplyerDto;
 import com.kns.tenquest.entity.Answer;
-import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.entity.Replyer;
+import com.kns.tenquest.entity.Template;
+import com.kns.tenquest.entity.TemplateDoc;
 import com.kns.tenquest.repository.AnswerRepository;
+import com.kns.tenquest.repository.ReplyerRepository;
+import com.kns.tenquest.repository.TemplateDocRepository;
+import com.kns.tenquest.repository.TemplateRepository;
 import com.kns.tenquest.requestBody.AnswerCreateRequestBody;
-import com.kns.tenquest.response.ResponseStatus;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.kns.tenquest.util.PrimaryKeyGenerator;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class AnswerService {
     @Autowired
     AnswerRepository answerRepository;
+    @Autowired
+    ReplyerRepository replyerRepository;
+    @Autowired
+    TemplateDocRepository templateDocRepository;
+    @Autowired
+    PrimaryKeyGenerator generator;
 
-    public List<Answer> getAllAnswers(){
-        return answerRepository.findAll();
+    /* Test Done [23/03/27] */public DtoList<Answer> getAllAnswers(){
+        return new DtoList<>(answerRepository.findAll(Sort.by(Sort.Direction.DESC, "answerTime")));
     }
 
-    public List<Answer> getAnswerByDocId(String docId){
-        return answerRepository.findAnswerByDocId(docId);
+    /* Test Done [23/03/27] */
+    public DtoList<AnswerDto> getAnswerByDocId(String docId){
+        // Sorting Answer by unique question on template(docid)
+
+        DtoList<AnswerDto> answerDtoList = new DtoList(answerRepository.findAnswerByDocId(docId));
+        return answerDtoList;
     }
 
-    public void createAnswer(AnswerCreateRequestBody answerCreateRequestBody){
-//        Answer answer = Answer.builder()
-//                .answerId(UUID.randomUUID()
-//                        .toString()).answerContent(answerCreateRequestBody.answerContent)
-//                .docId(0)
-//                .build();
-//        answer.setAnswerId(UUID.randomUUID().toString().replace("-",""));
-//        int replyerId = 0;
-//        answer.setReplyerId(replyerId);
-//        replyerDto.setReplyerId(replyerId);
-//        answerRepository.save(answer);
 
-        /* template api 구현 완료되면 다시 진행 예정 */
+
+
+    /* Test Done [23/03/27] */
+    public AnswerDto createAnswer(AnswerCreateRequestBody reqBody) {
+        /* check fk valid */
+        if(templateDocRepository.findById(reqBody.docId).isEmpty()){
+            System.out.println("Result!! " + templateDocRepository.findById(reqBody.docId));
+            return new AnswerDto();
+        }
+
+        /* setting values */
+        int generatedReplyerId = generator.replyerId();
+        boolean isPublic = false;
+        if (reqBody.isPublic.equals("true")) isPublic = true;
+
+
+        /* Create Replyer */
+        ReplyerDto replyerDto = ReplyerDto.builder()
+                .replyerId(generatedReplyerId)
+                .replyerName(reqBody.replyerName)
+                .build();
+
+        /* Save Replyer to database(replyer_table) */
+        replyerRepository.save(replyerDto.toEntity());
+
+        /* Create Answer */
+        AnswerDto answerDto = AnswerDto.builder()
+                .answerId(generator.UUID())
+                .answerTime(generator.localDateTime())
+                //.answerContent(reqBody.answerContent.replace("\n", "\\r\\n"))
+                .answerContent(reqBody.answerContent)
+                .docId(reqBody.docId)
+                .replyerId(generatedReplyerId)
+                .isPublic(isPublic)
+                .build();
+
+        /* Save answer to database(answer_table) */
+        answerRepository.save(answerDto.toEntity());
+        return answerDto;
+
     }
 
-//    public int insertMember(MemberDto dto) {
-//        Optional<Member> optMember = memberRepository.findMemberByUserId(dto.userId);
-//        if (optMember.isEmpty()) {
-//            dto.setMemberId(UUID.randomUUID().toString().replace("-",""));
-//            dto.setUserRoles("ROLE_USER");
-//            memberRepository.save(dto.toEntity());
-//            return ResponseStatus.CREATE_DONE.getCode();
-//        }
-//        return ResponseStatus.CREATE_FAIL.getCode();
-//    }
 }
