@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping(ENV.API_PREFIX)
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class ReplyerController {
     @Autowired

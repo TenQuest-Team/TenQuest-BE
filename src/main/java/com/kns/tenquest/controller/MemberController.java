@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.kns.tenquest.service.MemberService;
 
 @RequestMapping(ENV.API_PREFIX+"/members")
-@RestController
-
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RestController
 public class MemberController {
     @Autowired
     MemberService memberService;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller // 어떤 요청이랑 어떤 함수(api)를 맵핑하면 좋을지 알려주는 역할
 public class QuestionController {
 

@@ -5,6 +5,7 @@ import com.kns.tenquest.ENV;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping(ENV.API_PREFIX)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
 public class AnswerController {
 

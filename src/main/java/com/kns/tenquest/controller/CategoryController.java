@@ -18,6 +18,7 @@ import java.util.List;
 
 //@RestController  // 레스트 api 생성 // 이거만 붙이면 /view/categories" 쳤을때 return "category_view" 이거만뜸.. .
 @Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CategoryController {
 
     @Autowired
