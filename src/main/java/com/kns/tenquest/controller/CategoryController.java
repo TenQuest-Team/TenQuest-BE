@@ -1,6 +1,7 @@
 package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
+import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.CategoryDto;
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ResponseDto;
@@ -17,21 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@RestController  // 레스트 api 생성 // 이거만 붙이면 /view/categories" 쳤을때 return "category_view" 이거만뜸.. .
-@Controller
+
+@RequestMapping(ENV.API_PREFIX+"/categories")
+@RestController
 public class CategoryController {
 
     @Autowired
     CategoryService categoryService;
 
 
-    //카테고리 객체 이름 & id  전체를 html 이용하여 화면에 표시하기 : GET  : 데이터 가져와서 뿌려주기
-    @RequestMapping(value="/view/categories",method= RequestMethod.GET)
-    public String categoryView(@NotNull Model model){  //Model 객체.. 스프링이 알아서 만들어줌
-        // Temporarily implemented. Just for test.
-        List<CategoryDto> categoryList = categoryService.getAllCategories();
-        model.addAttribute("categoryList", categoryList); // 바로윗줄의 객체를 추가 ..
-        return "category_view"; // html 페이지 인듯
-    }
+
 
 //#################################################################
 
@@ -39,8 +35,8 @@ public class CategoryController {
     // **********************************GET ( 자료 찾아오기만 하는부분 )
 
         //카테고리 테이블 이름 적으면 테이블 전체값 보내주기
-        @ResponseBody // Jason 형태로 값을 프론트로 전달해줌
-        @RequestMapping(value = "/api/v1/categories",method = RequestMethod.GET)
+        //@ResponseBody// Jason 형태로 값을 프론트로 전달해줌
+        @RequestMapping(value = "",method = RequestMethod.GET)
         public Response<CategoryDto> apiGetAllCategories() {
             ResponseStatus responseStatus = ResponseStatus.OK;
             DtoList<CategoryDto> categoryDtoList = categoryService.getAllCategories();
@@ -55,8 +51,8 @@ public class CategoryController {
 
 
         // category_id 를 받으면  해당하는 category_name 보내주기 (화면에 카테고리 이름 각각 표시할때 필요)
-        @ResponseBody
-        @RequestMapping(value = "/api/v1/categories/name/categoryId", method = RequestMethod.GET)
+
+        @RequestMapping(value = "/name/categoryId", method = RequestMethod.GET)
         public Response<String> findCategoryNameByCategoryId(@RequestParam( name = "value",required = false, defaultValue = "0") int category_id ){
 
             String nullableString = categoryService.getCategoryNameByCategoryId(category_id).getCategoryName();
@@ -75,8 +71,8 @@ public class CategoryController {
 
 
         // category_name 받으면  해당하는 category_id 보내주기 ( 카테고리 id 찾을때 필요)
-        @ResponseBody
-        @RequestMapping(value="/api/v1/categories/categoryId/categoryName",method = RequestMethod.GET)
+
+        @RequestMapping(value="categoryId/categoryName",method = RequestMethod.GET)
         public Response<Integer> findCategoryIdByCategoryName(@RequestParam(name="value",required = false,defaultValue = "") String category_name){
 
             Integer nullableInteger =  categoryService.getCategoryIdByCategoryName(category_name).getCategoryId();
