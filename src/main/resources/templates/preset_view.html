@@ -1,12 +1,28 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Preset 상세 페이지</title>
+    <meta charset="utf-8">
+    <title>presets in DB</title>
+    <style>
+      table, th, td {
+        border: 1px solid #bcbcbc;
+      }
+      table {
+        width: 800px;
+        height: 60px;
+      }
+    </style>
 </head>
-<body>
-
-<h1 th:text="${preset.presetName}"></h1>
-<a th:href="@{/presets/delete(id=${preset.presetId})}">프리셋 삭제</a>
-</body>
-</html>
+<table>
+    <thead>
+    <tr>
+        <th>preset_id</th>
+        <th>presetName</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="preset : ${presetList}">
+        <td th:text="${preset.presetId}"></td>
+        <td th:text="${preset.presetName}"></td>
+    </tr>
+    </tbody>
+</table>
