@@ -11,12 +11,14 @@ import lombok.Getter;
 @Data
 public class Preset {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "preset_id")
     private Long presetId;
 
     @Column(name = "preset_name")
     private String presetName;
+
+    public Preset(){} //기본 생성자가 없단다,,
 
     @Builder
     public Preset(Long presetId, String presetName){
