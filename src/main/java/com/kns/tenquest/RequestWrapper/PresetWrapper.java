@@ -6,16 +6,19 @@ import com.kns.tenquest.dto.PresetDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 public class PresetWrapper {
 
-    PresetDto presetDto;
-    DtoList<PresetDocDto> presetDocList;
+    private PresetDto presetDto;
+    private List<PresetDocDto> presetDocList;
 
-    public PresetWrapper(PresetDto presetDto, DtoList<PresetDocDto> presetDocList){
-        this.presetDto.presetId = presetDto.presetId;
-        this.presetDto.presetName = presetDto.presetName;
+    public PresetWrapper(){}
+
+    public PresetWrapper(PresetDto presetDto, List<PresetDocDto> presetDocList){
+        this.presetDto = presetDto;
         this.presetDocList = presetDocList;
     }
 
