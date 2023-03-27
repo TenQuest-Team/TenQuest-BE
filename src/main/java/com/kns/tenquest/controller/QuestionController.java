@@ -20,6 +20,7 @@ import java.util.List;
 
 @RequestMapping(ENV.API_PREFIX+"/questions")
 @RestController // 어떤 요청이랑 어떤 함수(api)를 맵핑하면 좋을지 알려주는 역할
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class QuestionController {
 
     @Autowired

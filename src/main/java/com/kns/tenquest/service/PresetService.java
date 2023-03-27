@@ -1,11 +1,20 @@
 package com.kns.tenquest.service;
 
+import com.kns.tenquest.DtoList;
+import com.kns.tenquest.RequestWrapper.PresetWrapper;
+import com.kns.tenquest.dto.PresetDocDto;
+import com.kns.tenquest.dto.PresetDto;
 import com.kns.tenquest.entity.Preset;
+import com.kns.tenquest.entity.PresetDoc;
+import com.kns.tenquest.repository.PresetDocRepository;
 import com.kns.tenquest.repository.PresetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class PresetService {
@@ -13,19 +22,22 @@ public class PresetService {
     @Autowired
     PresetRepository presetRepository;
 
-    public List<Preset> presetList(){
-        return presetRepository.findAll();
+    @Autowired
+    PresetDocRepository presetDocRepository;
+    public DtoList<PresetDto> getAllPresets(){
+        DtoList<PresetDto> presetList = new DtoList<>(presetRepository.findAll());
+        return presetList;
     }
 
-    public void presetPost(Preset preset){
-        presetRepository.save(preset);
-    }
+    public PresetWrapper getPreset(Long presetId){
+        Optional<Preset> optPreset = presetRepository.findById(presetId);
+        if(optPreset.isEmpty()){
+            return null;
+        }
+        PresetDto presetDto = new PresetDto(optPreset.get());
+        DtoList<PresetDocDto> presetDocList = new DtoList<>(presetDocRepository.findAllByPresetId(presetId));
+        PresetWrapper presetWrapper = new PresetWrapper(presetDto,presetDocList);
+        return presetWrapper;
 
-    public  Preset presetView(Long id){
-        return presetRepository.findById(id).get();
-    }
-
-    public void presetDelete(Long id) {
-        presetRepository.deleteById(id);
     }
 }

@@ -3,10 +3,12 @@ package com.kns.tenquest.controller;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.CategoryDto;
 import com.kns.tenquest.dto.MemberDto;
+import com.kns.tenquest.dto.PresetDto;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.entity.Answer;
 import com.kns.tenquest.entity.Question;
+import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.entity.Replyer;
 import com.kns.tenquest.service.*;
 import jakarta.validation.constraints.NotNull;
@@ -32,6 +34,9 @@ public class ViewController {
 
     @Autowired
     TemplateService templateService;
+
+    @Autowired
+    PresetService presetService;
 
     @Autowired
     TemplateDocService templateDocService;
@@ -79,9 +84,7 @@ public class ViewController {
         model.addAttribute("templateDocList", templateDocList);
         return "template_doc_view";
     }
-
-
-    @RequestMapping(value = "/questions", method = RequestMethod.GET)
+@RequestMapping(value = "/questions", method = RequestMethod.GET)
     public String questionView(@NotNull Model model){
 
         List<Question> questionList = questionService.getAllQuestions();
@@ -97,5 +100,13 @@ public class ViewController {
         List<CategoryDto> categoryList = categoryService.getAllCategories();
         model.addAttribute("categoryList", categoryList); // 바로윗줄의 객체를 추가 ..
         return "category_view"; // html 페이지 인듯
+        
+        
+    @GetMapping("/presets")
+    //PK를 소유한 하나의 레코드 정보로 들어가기
+    public String presetView(Model model){
+        DtoList<PresetDto> presetList = presetService.getAllPresets();
+        model.addAttribute("presetList",presetList);
+        return "preset_view";
     }
 }
