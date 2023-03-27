@@ -45,12 +45,21 @@ public class PresetService {
     public PresetWrapper createPreset(PresetWrapper presetWrapper){
         PresetDto presetDto = presetWrapper.getPresetDto();
         presetRepository.save(presetDto.toEntity());
-
+        Long thisPresetId = presetDto.getPresetId();
         List<PresetDocDto> presetDocList = presetWrapper.getPresetDocList();
         for(int i=0;i<presetDocList.size();i++){
             PresetDocDto creatingPresetDoc = presetDocList.get(i);
+            creatingPresetDoc.setPresetId(thisPresetId);
             presetDocRepository.save(creatingPresetDoc.toEntity());
         }
         return presetWrapper;
+    }
+
+    public PresetDto deletePreset(Long presetId){
+        PresetDto presetDto = new PresetDto(presetRepository.findById(presetId).get());
+        presetRepository.deleteById(presetId);
+
+        return presetDto;
+
     }
 }
