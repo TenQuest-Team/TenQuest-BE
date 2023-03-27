@@ -93,6 +93,14 @@ public class ViewController {
 
     }
 
+    @GetMapping("/presets")
+    //PK를 소유한 하나의 레코드 정보로 들어가기
+    public String presetView(Model model){
+        DtoList<PresetDto> presetList = presetService.getAllPresets();
+        model.addAttribute("presetList",presetList);
+        return "preset_view";
+    }
+
     //카테고리 객체 이름 & id  전체를 html 이용하여 화면에 표시하기 : GET  : 데이터 가져와서 뿌려주기
     @RequestMapping(value="/categories",method= RequestMethod.GET)
     public String categoryView(@NotNull Model model){  //Model 객체.. 스프링이 알아서 만들어줌
@@ -102,11 +110,5 @@ public class ViewController {
         return "category_view"; // html 페이지 인듯
         
         
-    @GetMapping("/presets")
-    //PK를 소유한 하나의 레코드 정보로 들어가기
-    public String presetView(Model model){
-        DtoList<PresetDto> presetList = presetService.getAllPresets();
-        model.addAttribute("presetList",presetList);
-        return "preset_view";
-    }
+
 }
