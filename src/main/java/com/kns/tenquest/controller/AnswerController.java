@@ -10,13 +10,11 @@ import com.kns.tenquest.service.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.kns.tenquest.ENV;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(ENV.API_PREFIX)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@Controller
-
+@RestController
 public class AnswerController {
     @Autowired
     AnswerService answerService;
