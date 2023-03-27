@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TemplateDocRepository extends JpaRepository<TemplateDoc,Long> {
-    List<TemplateDoc> findAllByTemplateId(String templateId);
+    DtoList<TemplateDoc> findAllByTemplateId(String templateId);
 }
