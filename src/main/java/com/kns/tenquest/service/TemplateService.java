@@ -42,8 +42,8 @@ public class TemplateService {
         return templateDtoList;
     }
 
-    public TemplateWrapper getMemberTemplate(String memberId, String templateId){
-        Optional<Template> optTemplate = templateRepository.findByTemplateIdAndTemplateOwner(templateId,memberId);
+    public TemplateWrapper getTemplate(String templateId){
+        Optional<Template> optTemplate = templateRepository.findById(templateId);
         if(optTemplate.isEmpty()){
             return null;
         }
@@ -69,7 +69,7 @@ public class TemplateService {
                 creatingTemplate.setCreatedAt(LocalDateTime.now());
                 creatingTemplate.setTemplateId(thisTemplateId);
                 creatingTemplate.setTemplateOwner(memberId);
-//
+                creatingTemplate.setIsPublic(true);
                 templateRepository.save(creatingTemplate.toEntity());
                 //template 생성 로직
 
@@ -115,12 +115,10 @@ public class TemplateService {
         if(optTemplate.isEmpty()){
             return null;
         }
-        List deletingTemplateDocList = new DtoList<>(templateDocRepository.findAllByTemplateId(templateId));
-
         TemplateDto deletedTemplateDto = new TemplateDto(optTemplate.get());
-        templateDocRepository.deleteAllInBatch(deletingTemplateDocList);
         templateRepository.deleteById(templateId);
         return deletedTemplateDto;
+
     }
 
     //건모형이 만든거 (참고용)
@@ -138,7 +136,7 @@ public class TemplateService {
                     .questionId(templateRequestBody.QuestionDocuments.get(i))
                     .questionOrder(templateRequestBody.QuestionOrder.get(i))
                     .build();
-                    templateDocRepository.save(templateDoc);
+            templateDocRepository.save(templateDoc);
         }
 
         // 2. add template to db
@@ -152,3 +150,4 @@ public class TemplateService {
         return new TemplateDto();
     }
 }
+

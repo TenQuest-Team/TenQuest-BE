@@ -1,3 +1,4 @@
+
 package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
@@ -54,9 +55,9 @@ public class TemplateController {
     } //template Read API
 
     @ResponseBody
-    @GetMapping("templates/{memberId}/template-id")
-    public Response<TemplateWrapper> apiGetMemberTemplate(@PathVariable("memberId")String memberId, @RequestParam("value") String templateId){
-        TemplateWrapper templateWrapper = templateService.getMemberTemplate(memberId,templateId);
+    @GetMapping("templates/template-id")
+    public Response<TemplateWrapper> apiGetTemplate(@RequestParam("value") String templateId){
+        TemplateWrapper templateWrapper = templateService.getTemplate(templateId);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if(templateWrapper == null){
             responseStatus = ResponseStatus.NOT_FOUND;
@@ -107,3 +108,4 @@ public class TemplateController {
         return new ResponseDto<TemplateDto>(responseStatus,deletedTemplate).toResponse();
     }   //template Delete API
 }
+
