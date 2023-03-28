@@ -6,6 +6,7 @@ import com.kns.tenquest.RequestWrapper.PresetWrapper;
 import com.kns.tenquest.dto.PresetDto;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.entity.Preset;
+import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.PresetService;
@@ -39,6 +40,22 @@ public class PresetController {
             responseStatus = ResponseStatus.NOT_FOUND;
         }
         return new ResponseDto<PresetWrapper>(responseStatus,presetWrapper).toResponse();
+    }
+
+    @ResponseBody
+    @PostMapping("/presets")
+    public Response<PresetWrapper> apiCreatePreset(@RequestBody PresetWrapper presetWrapper){
+        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+        PresetWrapper createdPreset = presetService.createPreset(presetWrapper);
+        return new ResponseDto<PresetWrapper>(responseStatus,createdPreset).toResponse();
+    }
+
+    @ResponseBody
+    @DeleteMapping("/presets/{presetId}")
+    public Response<PresetDto> apiDeletePreset(@PathVariable("presetId")Long presetId){
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        PresetDto deletedPreset = presetService.deletePreset(presetId);
+        return new ResponseDto<PresetDto>(responseStatus,deletedPreset).toResponse();
     }
 
 }

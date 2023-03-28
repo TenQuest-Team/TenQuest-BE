@@ -105,7 +105,7 @@ public class QuestionController {
     public Response<DtoList> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
                                                   @RequestParam(name="accessId") String accessId){
 
-        DtoList<String> allQuestionsInCategory = new DtoList<String>(); // 빈리스트 생성
+        DtoList<Question> allQuestionsInCategory = new DtoList<Question>(); // 빈리스트 생성
 
         com.kns.tenquest.response.ResponseStatus responseStatus = ResponseStatus.OK;
 

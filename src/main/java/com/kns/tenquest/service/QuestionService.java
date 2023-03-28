@@ -59,14 +59,11 @@ public class QuestionService {
         return questionContentList;
     }
 
-    public List<String> getQuestionContentByQuestionCategoryId(int questionCategoryId) {
+    public List<Question> getQuestionContentByQuestionCategoryId(int questionCategoryId) {
 
         List<Question> questionList = questionRepository.findAllQuestionContentByQuestionCategoryId(questionCategoryId);
-        List<String> questionContentList = new ArrayList<>();
-        for (Question question: questionList){
-            questionContentList.add(question.getQuestionContent()); //부족
-        }
-        return questionContentList;
+
+        return questionList;
     }
 
     public String getQuestionContentByQuestionId(String questionId) {

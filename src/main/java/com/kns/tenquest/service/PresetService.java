@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -38,6 +39,27 @@ public class PresetService {
         DtoList<PresetDocDto> presetDocList = new DtoList<>(presetDocRepository.findAllByPresetId(presetId));
         PresetWrapper presetWrapper = new PresetWrapper(presetDto,presetDocList);
         return presetWrapper;
+    }
+
+    @Transactional
+    public PresetWrapper createPreset(PresetWrapper presetWrapper){
+        PresetDto presetDto = presetWrapper.getPresetDto();
+        presetRepository.save(presetDto.toEntity());
+        Long thisPresetId = presetDto.getPresetId();
+        List<PresetDocDto> presetDocList = presetWrapper.getPresetDocList();
+        for(int i=0;i<presetDocList.size();i++){
+            PresetDocDto creatingPresetDoc = presetDocList.get(i);
+            creatingPresetDoc.setPresetId(thisPresetId);
+            presetDocRepository.save(creatingPresetDoc.toEntity());
+        }
+        return presetWrapper;
+    }
+
+    public PresetDto deletePreset(Long presetId){
+        PresetDto presetDto = new PresetDto(presetRepository.findById(presetId).get());
+        presetRepository.deleteById(presetId);
+
+        return presetDto;
 
     }
 }
