@@ -3,6 +3,7 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.AnswerDto;
 
 import com.kns.tenquest.dto.ResponseDto;
+import com.kns.tenquest.requestBody.MultipleAnswerRequestBody;
 import com.kns.tenquest.requestBody.SingleAnswerCreateRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
@@ -35,16 +36,6 @@ public class AnswerController {
         return answerDtoList.toResponse(responseStatus);
     }
 
-    @PostMapping("/answers")
-    public Response<AnswerDto> apiCreateAnswer(@RequestBody SingleAnswerCreateRequestBody singleAnswerCreateRequestBody){
-        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
-        AnswerDto answerDto = answerService.createSingleAnswer(singleAnswerCreateRequestBody);
-
-        if(answerDto.answerId == null){
-            responseStatus = ResponseStatus.CREATE_FAIL;
-        }
-        return answerDto.toResponse(responseStatus);
-    }
 
     @GetMapping("/answers/replyerNames")
     public Response<List> apiGetAnswersReplyerNameListByTemplateId(@RequestParam("value") String templateId){
@@ -63,6 +54,13 @@ public class AnswerController {
                         answerService
                                 .getAnswerListByReplyerId(replyerId))
                 .toResponse();
+    }
+
+    @PostMapping("/answers")
+    public Response<AnswerDto> apiCreateAnswer(@RequestBody MultipleAnswerRequestBody multipleAnswerRequestBody){
+        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
+        answerService.createAnswer(multipleAnswerRequestBody);
+        return new ResponseDto(ResponseStatus.OK).toResponse();
     }
 
 }

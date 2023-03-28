@@ -67,9 +67,46 @@ public class AnswerService {
     }
 
     public void createAnswer(MultipleAnswerRequestBody reqBody){
+
+        int generatedReplyerId = generator.replyerId();
+        boolean isPublic = false;
+        if (reqBody.isPublic.equals("true")) isPublic = true;
+
         for (int i =0; i<reqBody.docIdList.size(); i++){
-            SingleAnswerCreateRequestBody sReqBody = new SingleAnswerCreateRequestBody()
+            var sReqBody = SingleAnswerCreateRequestBody.builder()
+                    .docId(reqBody.docIdList.get(i))
+                    .answerContent(reqBody.answerContentList.get(i))
+                    .replyerName(reqBody.replyerName)
+                    .isPublic(reqBody.isPublic)
+                    .build();
+
+            /* Create Replyer */
+            ReplyerDto replyerDto = ReplyerDto.builder()
+                    .replyerId(generatedReplyerId)
+                    .replyerName(sReqBody.replyerName)
+                    .build();
+
+            /* Save Replyer to database(replyer_table) */
+            replyerRepository.save(replyerDto.toEntity());
+
+            /* Create Answer */
+            AnswerDto answerDto = AnswerDto.builder()
+                    .answerId(generator.UUID())
+                    .answerTime(generator.localDateTime())
+                    //.answerContent(reqBody.answerContent.replace("\n", "\\r\\n"))
+                    .answerContent(sReqBody.answerContent)
+                    .docId(sReqBody.docId)
+                    .replyerId(generatedReplyerId)
+                    .isPublic(isPublic)
+                    .build();
+
+            /* Save answer to database(answer_table) */
+            answerRepository.save(answerDto.toEntity());
+
+            this.createSingleAnswer(sReqBody);
         }
+
+
     }
 
         /* Test Done [23/03/27] */
