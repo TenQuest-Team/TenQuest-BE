@@ -37,7 +37,7 @@ public class AnswerController {
     }
 
 
-    @GetMapping("/answers/replyerNames")
+    @GetMapping("/answers/replyerNames/templateId")
     public Response<List> apiGetAnswersReplyerNameListByTemplateId(@RequestParam("value") String templateId){
 
         return new ResponseDto<List>

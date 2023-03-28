@@ -10,11 +10,13 @@ import com.kns.tenquest.repository.ReplyerRepository;
 import com.kns.tenquest.repository.TemplateDocRepository;
 import com.kns.tenquest.requestBody.MultipleAnswerRequestBody;
 import com.kns.tenquest.requestBody.SingleAnswerCreateRequestBody;
+import com.kns.tenquest.response.ReplyerNameListResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.kns.tenquest.util.PrimaryKeyGenerator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,20 +52,28 @@ public class AnswerService {
     }
 
     /* working... */
-    public List<String> getReplyerNameListByTemplateId(String templateId){
+    public List<ReplyerNameListResponseWrapper> getReplyerNameListByTemplateId(String templateId){
 //        List<Template> templateList = templateDocRepository.findAllByTemplateId(templateId);
         List<TemplateDoc> templateDocList = templateDocRepository.findAllByTemplateId(templateId);
-
+        var wrapperList = new ArrayList<ReplyerNameListResponseWrapper>();
         Long templateDocId = templateDocList.get(0).getTemplateDocId();
         // get answers
         List<Answer> answers = answerRepository.findAnswerByDocId(templateDocId);
         List<String> replyerNameList = new ArrayList<>();
         for (int i=0; i <answers.size(); i++){
             int replyerId = answers.get(i).getReplyerId();
+            LocalDateTime answerTime = answers.get(i).getAnswerTime();
             String replyerName = replyerRepository.findReplyerByReplyerId(replyerId).get().getReplyerName();
             replyerNameList.add(replyerName);
+
+            ReplyerNameListResponseWrapper wrapper =
+                    ReplyerNameListResponseWrapper.builder()
+                                    .replyerName(replyerName)
+                                .replyerId(replyerId)
+                                    .answerTime(answerTime).build() ;
+            wrapperList.add(wrapper);
         }
-        return replyerNameList;
+        return wrapperList;
     }
 
     public void createAnswer(MultipleAnswerRequestBody reqBody){
