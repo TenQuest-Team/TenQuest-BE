@@ -9,6 +9,7 @@ import lombok.*;
 //@ToString(exclude = {"question","preset"})
 @Getter
 @Data
+@NoArgsConstructor
 public class PresetDoc {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class PresetDoc {
     @Column(name = "question_order")
     private Long questionOrder;
 
-    public PresetDoc(){}//기본 생성자가 없어서 안된단다,,
+//    public PresetDoc(){}//기본 생성자가 없어서 안된단다,,
 
     @Builder
     public PresetDoc(Long presetDocId, Long presetId, String questionId, Long questionOrder){
