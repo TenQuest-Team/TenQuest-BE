@@ -69,7 +69,6 @@ public class TemplateService {
                 creatingTemplate.setCreatedAt(LocalDateTime.now());
                 creatingTemplate.setTemplateId(thisTemplateId);
                 creatingTemplate.setTemplateOwner(memberId);
-                creatingTemplate.setIsPublic(true);
                 templateRepository.save(creatingTemplate.toEntity());
                 //template 생성 로직
 
