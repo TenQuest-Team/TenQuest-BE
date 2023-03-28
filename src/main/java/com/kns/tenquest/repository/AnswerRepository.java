@@ -10,7 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 @Repository
 public interface AnswerRepository extends JpaRepository<Answer, String> {
-    List<Answer> findAnswerByDocId(String docId);
+    List<Answer> findAnswerByDocId(Long docId);
+    List<Answer> findAnswerByReplyerId(int replyerId);
 
 
 }
