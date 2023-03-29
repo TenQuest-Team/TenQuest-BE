@@ -29,6 +29,10 @@ public class QuestionDto implements DataTransferObject<Question>{
     private int questionCategoryId;
     private String questionCreatedBy; // 이거 외래키로 갖고와야함
 
+    public QuestionDto (Question question){
+        this.questionId = question.getQuestionId();
+        this.questionContent = question.getQuestionContent();
+    }
 
     // DTO 를 Entity 로 변환
     @Override
