@@ -57,10 +57,15 @@ public class AnswerController {
     }
 
     @PostMapping("/answers")
-    public Response<AnswerDto> apiCreateAnswer(@RequestBody MultipleAnswerRequestBody multipleAnswerRequestBody){
+    public Response<Object> apiCreateAnswer(@RequestBody MultipleAnswerRequestBody multipleAnswerRequestBody){
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
-        answerService.createAnswer(multipleAnswerRequestBody);
-        return new ResponseDto(ResponseStatus.OK).toResponse();
+        boolean result = answerService.createAnswer(multipleAnswerRequestBody);
+        if (result){
+            return new ResponseDto(ResponseStatus.OK).toResponse();
+        }
+        else{
+            return new ResponseDto(ResponseStatus.CREATE_FAIL, "DocId Not exists!").toResponse();
+        }
     }
 
 }
