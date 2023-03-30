@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, UUID> {
+public interface QuestionRepository extends JpaRepository<Question, String> {
 
 
      List<Question> findAllByQuestionCreatedBy(String memberId);

@@ -42,6 +42,12 @@ public class ResponseDto<T> {
         this.data = responseData;
     }
 
+    public ResponseDto(ResponseStatus responseStatus) {
+        this.status = responseStatus.getStatus();
+        this.code = responseStatus.getCode();
+        this.data = null;
+    }
+
     public Response<T> toResponse(){
     return new Response<>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), data),
             new HttpHeaders(),

@@ -1,17 +1,23 @@
 package com.kns.tenquest.dto;
 
 import com.kns.tenquest.entity.TemplateDoc;
+import com.kns.tenquest.repository.QuestionRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class TemplateDocDto implements DataTransferObject<TemplateDoc> {
+    @Autowired
+    QuestionRepository questionRepository;
+
     public Long templateDocId;
     public String templateId;
     public String questionId;
+    public String questionContent;
     public Long questionOrder;
 
     public TemplateDocDto(Long templateDocId, String templateId, String questionId, Long questionOrder){
