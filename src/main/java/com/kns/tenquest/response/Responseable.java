@@ -22,8 +22,4 @@ public interface Responseable<E extends DataTransferObject>{
     default Response<E> toResponse(ResponseStatus responseStatus){
         return new ResponseDto<E>(responseStatus, (E)this).toResponse();
     };
-
-    default Response<E> toResponse(){
-        return new ResponseDto<E>(ResponseStatus.OK, (E)this).toResponse();
-    };
 }

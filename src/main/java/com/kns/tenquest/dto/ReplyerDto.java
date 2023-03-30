@@ -1,7 +1,6 @@
 package com.kns.tenquest.dto;
 
 import com.kns.tenquest.entity.Replyer;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ReplyerDto implements DataTransferObject<Replyer> {
-    public int replyerId;
-    public String replyerName;
+    private int replyerId;
+    private String replyerName;
 
-    @Builder
     public ReplyerDto(int replyerId, String replyerName) {
         this.replyerId = replyerId;
         this.replyerName = replyerName;

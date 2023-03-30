@@ -44,6 +44,8 @@ public class MemberDto implements DataTransferObject<Member>, Responseable<Membe
 
     @Override
     public Member toEntity() {
+        //Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(this.hashingInfo(this.userInfo)).userName(this.userName).userEmail(this.userEmail).userRoles(this.userRoles).build();
+
             Member member = Member.builder().memberId(this.memberId).userId(this.userId).userInfo(new BCryptPasswordEncoder().encode(this.userInfo)).userName(this.userName).userEmail(this.userEmail).userRoles(this.userRoles).build();
             return member;
     }

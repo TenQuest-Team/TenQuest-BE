@@ -35,10 +35,6 @@ public class DtoList<E> extends ArrayList implements DataTransferObject, Respons
         return Responseable.super.toResponse(responseStatus);
     }
 
-    public Response toResponse() {
-        return Responseable.super.toResponse();
-    }
-
     @Override
     public Object[] toArray(IntFunction generator) {
         return super.toArray(generator);

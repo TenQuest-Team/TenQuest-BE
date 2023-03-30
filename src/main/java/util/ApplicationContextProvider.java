@@ -1,4 +1,4 @@
-package com.kns.tenquest.util;
+package util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

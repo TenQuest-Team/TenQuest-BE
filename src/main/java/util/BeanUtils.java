@@ -1,4 +1,4 @@
-package com.kns.tenquest.util;
+package util;
 import org.springframework.context.ApplicationContext;
 
 public class BeanUtils {
