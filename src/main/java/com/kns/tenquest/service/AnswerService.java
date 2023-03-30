@@ -168,4 +168,9 @@ public class AnswerService {
 
     }
 
+    public boolean DeleteAllAnswer() {
+        answerRepository.deleteAll();
+        replyerRepository.deleteAll();
+        return true;
+    }
 }

@@ -68,4 +68,16 @@ public class AnswerController {
         }
     }
 
+    @DeleteMapping("/answers")
+    public Response<Object> apiDeleteAllAnswer(){
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        boolean result = answerService.DeleteAllAnswer();
+        if(result){
+            return new ResponseDto(ResponseStatus.OK).toResponse();
+        }
+        else{
+            return new ResponseDto(ResponseStatus.NOT_ACCEPTABLE).toResponse();
+        }
+    }
+
 }
