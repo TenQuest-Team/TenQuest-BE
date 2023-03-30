@@ -129,12 +129,14 @@ public class TemplateService {
         if(optTemplate.isEmpty()){
             return null;
         }
+        List deletingTemplateDocList = new DtoList<>(templateDocRepository.findAllByTemplateId(templateId));
+
         TemplateDto deletedTemplateDto = new TemplateDto(optTemplate.get());
+        templateDocRepository.deleteAllInBatch(deletingTemplateDocList);
         templateRepository.deleteById(templateId);
         return deletedTemplateDto;
 
     }
-
     //건모형이 만든거 (참고용)
     public TemplateDto _addTemplate(TemplateRequestBody templateRequestBody){
         /* Just Example. Implement Needed */
