@@ -13,16 +13,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Preset {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "preset_id")
-    private Long presetId;
+    private String presetId;
 
     @Column(name = "preset_name")
     private String presetName;
 
 
     @Builder
-    public Preset(Long presetId, String presetName){
+    public Preset(String presetId, String presetName){
         this.presetId = presetId;
         this.presetName = presetName;
     }
