@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PresetDocRepository extends JpaRepository<PresetDoc , Long> {
-    DtoList<PresetDoc> findAllByPresetId(Long presetId);
+public interface PresetDocRepository extends JpaRepository<PresetDoc , String> {
+    DtoList<PresetDoc> findAllByPresetId(String presetId);
 }

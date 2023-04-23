@@ -12,15 +12,14 @@ import lombok.*;
 @NoArgsConstructor
 public class PresetDoc {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "preset_doc_id")
-    private Long presetDocId;
+    private String presetDocId;
 
 //    @ManyToOne
 //    @JoinColumn(name="preset_id")
 //    private Preset preset;
     @Column(name="preset_id")
-    private Long presetId;
+    private String presetId;
 
 //    @ManyToOne
 //    @JoinColumn(name="question_id")
@@ -35,7 +34,7 @@ public class PresetDoc {
 //    public PresetDoc(){}//기본 생성자가 없어서 안된단다,,
 
     @Builder
-    public PresetDoc(Long presetDocId, Long presetId, String questionId, Long questionOrder){
+    public PresetDoc(String presetDocId, String presetId, String questionId, Long questionOrder){
 
         this.presetDocId = presetDocId;
         this.presetId = presetId;
