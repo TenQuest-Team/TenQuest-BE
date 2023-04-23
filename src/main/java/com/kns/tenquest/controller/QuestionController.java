@@ -174,6 +174,23 @@ public class QuestionController {
 
     }
 
+
+    ///////////////////////////////////////get category /////////////////////////
+
+    //현재 갖고있는 전체 카테고리 보내주는 api
+    // question_category_id 를 groupby 로 묶어서. . .. 중복없이 보내면될듯 ..
+
+    @GetMapping("/categories")
+    public List<Integer> apiGetAllCategoryIds() {
+        return questionService.getAllCategoryIds();
+    }
+
+
+
+
+
+
+
     //질문 수정하기 : UPDATE : 데이터 수정: 개발자& 이용자
 
     //질문 삭제하기 : DELETE : 데이터 삭제: 일부는 개발자 & 일부는 이용자

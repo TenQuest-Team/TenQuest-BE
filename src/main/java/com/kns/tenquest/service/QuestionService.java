@@ -99,6 +99,13 @@ public class QuestionService {
                 ,questionDto.getQuestionContent());
         return ;
     }*/
+
+    public List<Integer> getAllCategoryIds() {
+        return questionRepository.findAllCategoryIds();
+    }
+
+
+
 }
 
       //  UUID uuid = UUID.randomUUID();
