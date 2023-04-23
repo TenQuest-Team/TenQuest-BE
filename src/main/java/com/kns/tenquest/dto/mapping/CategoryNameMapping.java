@@ -1,8 +1,0 @@
-package com.kns.tenquest.dto.mapping;
-
-
-
-
-public interface CategoryNameMapping {
-    String getCategoryName();
-}
