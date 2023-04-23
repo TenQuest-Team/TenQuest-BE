@@ -11,6 +11,7 @@ import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -173,6 +174,32 @@ public class QuestionController {
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
+
+
+    ///////////////////////////////////////get category /////////////////////////
+
+    //현재 갖고있는 전체 카테고리 보내주는 api
+    // question_category_id 를 groupby 로 묶어서. . .. 중복없이 보내면될듯 ..
+
+    @GetMapping("/categories")
+    public Response<List<Integer>> apiGetAllCategoryIds() {
+       // List<Integer> categoryIds = questionService.getAllCategoryIds();
+        DtoList<Integer> allCategories = new DtoList<Integer>(); // 빈리스트 생성
+
+
+
+        com.kns.tenquest.response.ResponseStatus responseStatus = ResponseStatus.OK;
+
+        allCategories.addAll( questionService.getAllCategoryIds());
+        return allCategories.toResponse(responseStatus);
+
+
+    }
+
+
+
+
+
 
     //질문 수정하기 : UPDATE : 데이터 수정: 개발자& 이용자
 
