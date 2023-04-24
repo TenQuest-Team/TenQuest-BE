@@ -1,7 +1,6 @@
 package com.kns.tenquest.controller;
 
 
-import com.kns.tenquest.CategoryEnum;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.*;
@@ -183,9 +182,9 @@ public class QuestionController {
     // question_category_id 를 groupby 로 묶어서. . .. 중복없이 보내면될듯 ..
 
     @GetMapping("/categories")
-    public Response<List<CategoryEnum>> apiGetAllCategoryIds() {
+    public Response<List<Integer>> apiGetAllCategoryIds() {
        // List<Integer> categoryIds = questionService.getAllCategoryIds();
-        DtoList<CategoryEnum> allCategories = new DtoList<CategoryEnum>(); // 빈리스트 생성
+        DtoList<Integer> allCategories = new DtoList<Integer>(); // 빈리스트 생성
 
 
 

@@ -96,17 +96,10 @@ public class QuestionService {
         return ;
     }*/
 
-    public List<CategoryEnum> getAllCategoryIds() {
-        List<Integer> categoryIdList = questionRepository.findAllCategoryIds();
-        //Enum으로 변경해서 보내줘야함
-
-        List<CategoryEnum> categoryEnums = new ArrayList<>();
-        for (int categoryId : categoryIdList){
-            categoryEnums.add( CategoryEnum.valueOf(String.valueOf(categoryId))  );
-        }
+    public List<Integer> getAllCategoryIds() {
 
 
-        return categoryEnums;
+        return questionRepository.findAllCategoryIds();
     }
 
 
