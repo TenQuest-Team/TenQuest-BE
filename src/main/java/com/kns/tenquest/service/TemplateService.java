@@ -13,7 +13,6 @@ import com.kns.tenquest.repository.MemberRepository;
 import com.kns.tenquest.repository.QuestionRepository;
 import com.kns.tenquest.repository.TemplateDocRepository;
 import com.kns.tenquest.repository.TemplateRepository;
-import com.kns.tenquest.requestBody.TemplateRequestBody;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,34 +135,6 @@ public class TemplateService {
         templateRepository.deleteById(templateId);
         return deletedTemplateDto;
 
-    }
-    //건모형이 만든거 (참고용)
-    public TemplateDto _addTemplate(TemplateRequestBody templateRequestBody){
-        /* Just Example. Implement Needed */
-
-        // generate template id
-        String generatedTemplateId = UUID.randomUUID().toString().replace("-", "");
-
-        // 1. add template doc to db
-        for (int i=0; i<templateRequestBody.QuestionDocuments.size(); i++){
-            TemplateDoc templateDoc = TemplateDoc.builder()
-                    .templateDocId((long)i)
-                    .templateId(generatedTemplateId)
-                    .questionId(templateRequestBody.QuestionDocuments.get(i))
-                    .questionOrder(templateRequestBody.QuestionOrder.get(i))
-                    .build();
-            templateDocRepository.save(templateDoc);
-        }
-
-        // 2. add template to db
-        Template template = Template.builder()
-                .templateId(generatedTemplateId)
-                .templateOwner(templateRequestBody.templateOwner)
-                .templateName(templateRequestBody.templateName)
-                .build();
-
-        templateRepository.save(template);
-        return new TemplateDto();
     }
 }
 
