@@ -1,6 +1,7 @@
 package com.kns.tenquest.service;
 
 
+import com.kns.tenquest.CategoryEnum;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.dto.QuestionSaveRequestDto;
@@ -95,8 +96,17 @@ public class QuestionService {
         return ;
     }*/
 
-    public List<Integer> getAllCategoryIds() {
-        return questionRepository.findAllCategoryIds();
+    public List<CategoryEnum> getAllCategoryIds() {
+        List<Integer> categoryIdList = questionRepository.findAllCategoryIds();
+        //Enum으로 변경해서 보내줘야함
+
+        List<CategoryEnum> categoryEnums = new ArrayList<>();
+        for (int categoryId : categoryIdList){
+            categoryEnums.add( CategoryEnum.valueOf(String.valueOf(categoryId))  );
+        }
+
+
+        return categoryEnums;
     }
 
 
