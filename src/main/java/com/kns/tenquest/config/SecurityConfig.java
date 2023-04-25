@@ -9,10 +9,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +35,13 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(new secFilter(), SecurityContextPersistenceFilter.class);
         http.csrf().disable().authorizeHttpRequests();
+        http.cors().configurationSource(request -> {
+            var cors = new CorsConfiguration();
+            cors.setAllowedOrigins(List.of("*"));
+            cors.setAllowedHeaders(List.of("*"));
+            cors.setAllowedHeaders(List.of("*"));
+            return cors;
+        });
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -49,7 +60,13 @@ public class SecurityConfig{
 
         @Override
         public void configure(HttpSecurity http) throws Exception {
-
+            http.cors().configurationSource(request -> {
+               var cors = new CorsConfiguration();
+               cors.setAllowedOrigins(List.of("*"));
+                cors.setAllowedHeaders(List.of("*"));
+                cors.setAllowedHeaders(List.of("*"));
+               return cors;
+            });
 
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http.addFilter(new JwtAuthenticationFilter(authenticationManager));
