@@ -1,7 +1,7 @@
 package com.kns.tenquest;
 
 public enum CategoryEnum {
-
+    USERCREATED(0),
     PERSONALITY(1),
     APPEARANCE(2),
     RELATIONSHIP(3);
