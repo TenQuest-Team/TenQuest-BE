@@ -1,5 +1,8 @@
 package com.kns.tenquest;
 
+import lombok.Getter;
+
+@Getter
 public enum CategoryEnum {
     USER_CREATED(0,"USER_CREATED"),
     PERSONALITY(1,"PERSONALITY"),
