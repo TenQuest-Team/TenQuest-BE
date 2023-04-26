@@ -140,6 +140,7 @@ replay_pid*
 
 ### Gradle ###
 .gradle
+!**/build/libs
 **/build/
 !src/**/build/
 
@@ -168,5 +169,3 @@ gradle-app.setting
 ### for Secure ###
 application.properties
 
-
-!*.jar
