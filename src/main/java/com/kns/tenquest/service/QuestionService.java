@@ -7,6 +7,8 @@ import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.dto.QuestionSaveRequestDto;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.repository.QuestionRepository;
+import com.kns.tenquest.requestBody.MultipleQuestionRequestBody;
+import com.kns.tenquest.requestBody.QuestionRequestBody;
 import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class QuestionService {
@@ -82,6 +85,18 @@ public class QuestionService {
         }
         return ResponseStatus.CREATE_FAIL.getCode();
 
+    }
+    /* Woody */
+    public ResponseStatus insertMultipleQuestions(List<QuestionRequestBody> requestBody){
+        for(int i=0; i<requestBody.size(); i++){
+            questionRepository.save(Question.builder()
+                    .questionId(UUID.randomUUID().toString().replace("-",""))
+                    .questionContent(requestBody.get(i).questionContent)
+                    .questionCreatedBy(requestBody.get(i).questionCreatedBy)
+                    .questionCategoryId(CategoryEnum.USER_CREATED.getId())
+                    .build());
+        }
+        return ResponseStatus.CREATE_DONE;
     }
 /*
     public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {

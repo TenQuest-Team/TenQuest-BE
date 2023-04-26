@@ -5,6 +5,8 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.*;
 import com.kns.tenquest.entity.Question;
+import com.kns.tenquest.requestBody.MultipleQuestionRequestBody;
+import com.kns.tenquest.requestBody.QuestionRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.MemberService;
@@ -158,7 +160,7 @@ public class QuestionController {
     //질문 추가하기 : POST  : 데이터 추가 : 개발자& 이용자
 
 
-
+/*
     @RequestMapping(value ="",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
     public Response<Integer> apiSaveQuestion(@RequestBody QuestionSaveRequestDto requestDto ){
 
@@ -173,8 +175,15 @@ public class QuestionController {
 
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
-    }
+    } */
 
+/* Woody */
+@PostMapping("")
+public Response<Integer> apiSaveMultipleQuestion(@RequestBody List<QuestionRequestBody> requestDto ){
+
+    return new ResponseDto(questionService.insertMultipleQuestions(requestDto)).toResponse();
+
+}
 
     ///////////////////////////////////////get category /////////////////////////
 
