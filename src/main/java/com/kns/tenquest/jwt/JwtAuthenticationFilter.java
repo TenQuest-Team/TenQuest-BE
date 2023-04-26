@@ -129,8 +129,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX + jwtToken);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().write("{\n\"status\": \"OK\"\n" +
-    "\t\"code\": \"200\"\n" +
+        response.getWriter().write("{\n\"status\": \"OK\",\n" +
+    "\t\"code\": \"200\",\n" +
                 "\t\"data\": \"Login Succeed\"\n}");
         //super.successfulAuthentication(request, response, chain, authResult);
     }
@@ -140,8 +140,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("Authentication Fail!");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        response.getWriter().write("{\n\"status\": \"UNAUTHORIZED\"\n" +
-                "\t\"code\": \"401\"\n" +
+        response.getWriter().write("{\n\"status\": \"UNAUTHORIZED\",\n" +
+                "\t\"code\": \"401\",\n" +
                 "\t\"data\": \"Login Failed\"\n}");
     }
 
