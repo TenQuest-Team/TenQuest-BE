@@ -70,7 +70,7 @@ public class SecurityConfig{
             });
 
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            http.addFilter(new JwtAuthenticationFilter(authenticationManager));
+            http.addFilter(new JwtAuthenticationFilter(authenticationManager,memberRepository));
             http.addFilter(new JwtAuthorizationFilter(authenticationManager,memberRepository));
         }
     }

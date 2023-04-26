@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kns.tenquest.auth.PrincipalDetails;
 import com.kns.tenquest.entity.Member;
+import com.kns.tenquest.repository.MemberRepository;
 import io.jsonwebtoken.Jwt;
 import io.micrometer.observation.annotation.Observed;
 import jakarta.servlet.FilterChain;
@@ -16,11 +17,14 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
 import java.io.BufferedReader;
@@ -31,14 +35,29 @@ import java.util.SortedMap;
 
 // UsernamePasswordAuthenticationFilter runs when /login(post) request
 @RequiredArgsConstructor
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+@Autowired
+    private MemberRepository memberRepository;
 
 
     {
         // Change Filter Request URL using instance block
         setFilterProcessesUrl("/api/v1/login");
     }
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, MemberRepository memberRepository) {
+        this.authenticationManager = authenticationManager;
+        this.memberRepository = memberRepository;
+    }
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationManager authenticationManager1, MemberRepository memberRepository) {
+        super(authenticationManager);
+        this.authenticationManager = authenticationManager1;
+        this.memberRepository = memberRepository;
+    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         //System.out.println("Login Request Occur!");
@@ -130,8 +149,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.getWriter().write("{\n\"status\": \"OK\",\n" +
-    "\t\"code\": \"200\",\n" +
-                "\t\"data\": \"Login Succeed\"\n}");
+                "\t\"code\": \"200\",\n" +
+                "\t\"data\": { \"message\": \"Login Succeed\",\n" +
+                "\"memberId\": \""+ memberRepository.findMemberByUserId(principalDetails.getUser().getUserId()).get().getMemberId() +"\",\n"+
+                "\"userId\": \""+ principalDetails.getUser().getUserId().toString() +"\",\n"+
+                "\"userName\": \""+ principalDetails.getUser().getUserName().toString() +"\""+
+                "}" +
+                "}");
         //super.successfulAuthentication(request, response, chain, authResult);
     }
 
