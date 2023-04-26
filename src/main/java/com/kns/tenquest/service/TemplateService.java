@@ -2,6 +2,7 @@ package com.kns.tenquest.service;
 
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.RequestWrapper.TemplateWrapper;
+import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.QuestionDto;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
@@ -50,6 +51,13 @@ public class TemplateService {
             return null;
         }
         TemplateDto templateDto = new TemplateDto(optTemplate.get());
+        String templateOwnerId = templateDto.getTemplateOwner();
+        Optional<Member> optMem = memberRepository.findById(templateOwnerId);
+        if(optMem.isEmpty()){
+            return null;
+        }
+        MemberDto templateOwner = new MemberDto(optMem.get());
+        String templateOwnerName = templateOwner.userName;
         List<TemplateDoc> templateDocList1 = templateDocRepository.findAllByTemplateId(templateId);
         List<TemplateDocDto> templateDocList = new DtoList<>();
 
@@ -63,7 +71,7 @@ public class TemplateService {
             templateDocDto.setQuestionContent(questionDto.getQuestionContent());
             templateDocList.add(templateDocDto);
         }
-        return new TemplateWrapper(templateDto,templateDocList);
+        return new TemplateWrapper(templateDto,templateOwnerName,templateDocList);
     }
     public TemplateDto getTemplateByTemplateName(String templateName){
         return new TemplateDto(templateRepository.findTemplateByTemplateName(templateName).orElse(new Template()));

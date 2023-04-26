@@ -14,9 +14,11 @@ import java.util.List;
 @NoArgsConstructor
 public class TemplateWrapper {
     private TemplateDto templateDto;
+    private String OwnerName;
     private List<TemplateDocDto> templateDocList;
 
-    public TemplateWrapper(TemplateDto templateDto , List<TemplateDocDto> templateDocList){
+    public TemplateWrapper(TemplateDto templateDto ,String ownerName, List<TemplateDocDto> templateDocList){
+        this.OwnerName = ownerName;
         this.templateDto = templateDto;
         this.templateDocList = templateDocList;
     }
