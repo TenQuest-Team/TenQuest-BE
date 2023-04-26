@@ -126,7 +126,7 @@ Temporary Items
 .mtj.tmp/
 
 # Package Files #
-*.jar
+##*.jar
 *.war
 *.nar
 *.ear
@@ -140,8 +140,14 @@ replay_pid*
 
 ### Gradle ###
 .gradle
-!**/build/libs
-**/build/
+!/build/libs
+/build/classes
+/build/generated
+/build/reports
+/build/resources
+/build/test-results
+/build/tmp
+/build/resolvedMainClassName
 !src/**/build/
 
 # Ignore Gradle GUI config
