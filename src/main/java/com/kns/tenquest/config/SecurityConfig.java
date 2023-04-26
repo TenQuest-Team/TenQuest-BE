@@ -34,11 +34,12 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(new secFilter(), SecurityContextPersistenceFilter.class);
-        http.csrf().disable().authorizeHttpRequests();
+        http.csrf().disable().authorizeHttpRequests()
+                .requestMatchers("/api/v1/**").permitAll();
         http.cors().configurationSource(request -> {
             var cors = new CorsConfiguration();
             cors.setAllowedOrigins(List.of("*"));
-            cors.setAllowedHeaders(List.of("*"));
+            cors.setAllowedMethods(List.of("GET","POST", "OPTIONS", "PUT","DELETE"));
             cors.setAllowedHeaders(List.of("*"));
             return cors;
         });
@@ -61,11 +62,11 @@ public class SecurityConfig{
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http.cors().configurationSource(request -> {
-               var cors = new CorsConfiguration();
-               cors.setAllowedOrigins(List.of("*"));
+                var cors = new CorsConfiguration();
+                cors.setAllowedOrigins(List.of("*"));
+                cors.setAllowedMethods(List.of("GET","POST", "OPTIONS", "PUT","DELETE"));
                 cors.setAllowedHeaders(List.of("*"));
-                cors.setAllowedHeaders(List.of("*"));
-               return cors;
+                return cors;
             });
 
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
