@@ -15,7 +15,6 @@ import java.util.*;
 public class MemberService {
     @Autowired
     MemberRepository memberRepository;
-
     public DtoList<MemberDto> getAllMembers() {
         // Temporarily implemented. Just for test.
         //List<Member> allMemberList= memberRepository.findAll();
@@ -65,5 +64,11 @@ public class MemberService {
             return ResponseStatus.CREATE_DONE.getCode();
         }
         return ResponseStatus.CREATE_FAIL.getCode();
+    }
+
+    public ResponseStatus isUserIdExist(String userId){
+        Optional<Member> optMember = memberRepository.findMemberByUserId(userId);
+        if(optMember.isEmpty()) return ResponseStatus.NOT_FOUND;
+        return ResponseStatus.FOUND;
     }
 }

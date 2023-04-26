@@ -82,6 +82,13 @@ public class MemberController {
 
     }
 
+    @GetMapping("/check-userId")
+    /* ex) /api/v1/members/check-userId?value={사용자 id} */
+    public Response apiIsUserIdExists(@RequestParam("value") String userId){
+        ResponseStatus response = memberService.isUserIdExist(userId);
+        return new ResponseDto(response).toResponse();
+    }
+
     @PostMapping("")
     public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) {
         int insertResult = memberService.insertMember(dto);
@@ -95,5 +102,6 @@ public class MemberController {
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
     }
+
 
 }

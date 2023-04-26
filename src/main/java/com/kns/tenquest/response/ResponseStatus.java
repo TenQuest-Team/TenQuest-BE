@@ -9,8 +9,8 @@ public enum ResponseStatus {
     NOT_ACCEPTABLE("NOT_ACCEPTABLE", 406),
     NOT_FOUND("NOT_FOUND", 404),
     OK("OK", 200),
-    UNAUTHORIZED("UNAUTHORIZED", 401);
-
+    UNAUTHORIZED("UNAUTHORIZED", 401),
+    FOUND("FOUND",200);
     private final String status;
     private final int code;
 
