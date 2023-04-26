@@ -89,6 +89,16 @@ public class MemberController {
         return new ResponseDto(response).toResponse();
     }
 
+    @GetMapping("/userName/{memberId}")
+    /* ex) /api/v1/members/userName/{memberId} */
+    public Response<String> ApigetUserNameByMemberId(@PathVariable("memberId") String memberId){
+        var resultMap = memberService.getUserNameByMemberId(memberId);
+        var responseStatus = (ResponseStatus) resultMap.get("ResponseStatus");
+        var responseData = (String)resultMap.get("ResponseData");
+        return new ResponseDto<String> (responseStatus, responseData).toResponse();
+
+    }
+
     @PostMapping("")
     public Response<Integer> apiRegisterMember(@RequestBody MemberDto dto) {
         int insertResult = memberService.insertMember(dto);

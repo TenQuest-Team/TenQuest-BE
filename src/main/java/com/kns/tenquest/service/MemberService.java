@@ -4,8 +4,10 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.repository.MemberRepository;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
@@ -53,6 +55,21 @@ public class MemberService {
         if (!optMember.isEmpty())
             return optMember.get().getMemberId();
         return ResponseStatus.NOT_FOUND.getStatus();
+    }
+
+    public HashMap<Object,Object> getUserNameByMemberId(String memberId){
+        Optional<Member> optMember = memberRepository.findMemberByMemberId(memberId);
+
+        HashMap<Object,Object> resultMap = new HashMap<>();
+        if(optMember.isEmpty()){
+            resultMap.put("ResponseStatus", ResponseStatus.NOT_FOUND);
+            resultMap.put("ResponseData", null);
+        }
+        else{
+            resultMap.put("ResponseStatus", ResponseStatus.FOUND);
+            resultMap.put("ResponseData", optMember.get().getUserName());
+        }
+        return resultMap;
     }
 
     public int insertMember(MemberDto dto) {
