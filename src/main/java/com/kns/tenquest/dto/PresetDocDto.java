@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PresetDocDto implements DataTransferObject<PresetDoc> {
-    public Long presetDocId;
-    public Long presetId;
+    public String presetDocId;
+    public String presetId;
     public String questionId;
     public Long questionOrder;
-    public PresetDocDto(Long presetDocId, Long presetId, String questionId, Long questionOrder){
+    public PresetDocDto(String presetDocId, String presetId, String questionId, Long questionOrder){
 
         this.presetDocId = presetDocId;
         this.presetId = presetId;

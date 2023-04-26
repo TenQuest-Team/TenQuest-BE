@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 @Service
 public class PrimaryKeyGenerator {
@@ -20,12 +21,13 @@ public class PrimaryKeyGenerator {
     }
 
     public int replyerId(){
-        Replyer replyer = replyerRepository.findAll(Sort.by(Sort.Direction.DESC,"replyerId")).get(0);
-        if (replyer != null){
-            System.out.println("GENERATED ID: " + (replyer.getReplyerId()+1));
-            return replyer.getReplyerId()+1;
+        List<Replyer> replyerList = replyerRepository.findAll(Sort.by(Sort.Direction.DESC,"replyerId"));
+
+        if (replyerList.size() != 0){
+            //System.out.println("GENERATED ID: " + (replyerList.get(0).getReplyerId()+1));
+            return replyerList.get(0).getReplyerId()+1;
         }
-        System.out.println("GENERATED ID: 0");
+        //System.out.println("GENERATED ID: 0");
 
         return 0;
     }

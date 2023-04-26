@@ -2,6 +2,7 @@ package com.kns.tenquest.dto;
 
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class ResponseDto<T> {
 //        this.code = responseStatus.getCode();
 //        this.data = responseDataList;
 //    }
+    @Builder
     public ResponseDto(ResponseStatus responseStatus, T responseData) {
         this.status = responseStatus.getStatus();
         this.code = responseStatus.getCode();

@@ -5,12 +5,15 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.*;
 import com.kns.tenquest.entity.Question;
+import com.kns.tenquest.requestBody.MultipleQuestionRequestBody;
+import com.kns.tenquest.requestBody.QuestionRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -157,7 +160,7 @@ public class QuestionController {
     //질문 추가하기 : POST  : 데이터 추가 : 개발자& 이용자
 
 
-
+/*
     @RequestMapping(value ="",method = RequestMethod.POST) //post 방식은 data 를 body 에 받아왹 때문에 @RequestParam 이 아닌 @RequestBody 어노테이션을 사용해야한다.
     public Response<Integer> apiSaveQuestion(@RequestBody QuestionSaveRequestDto requestDto ){
 
@@ -172,7 +175,40 @@ public class QuestionController {
 
         return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
 
+    } */
+
+/* Woody */
+@PostMapping("")
+public Response<Integer> apiSaveMultipleQuestion(@RequestBody List<QuestionRequestBody> requestDto ){
+
+    return new ResponseDto(questionService.insertMultipleQuestions(requestDto)).toResponse();
+
+}
+
+    ///////////////////////////////////////get category /////////////////////////
+
+    //현재 갖고있는 전체 카테고리 보내주는 api
+    // question_category_id 를 groupby 로 묶어서. . .. 중복없이 보내면될듯 ..
+
+    @GetMapping("/categories")
+    public Response<List<Integer>> apiGetAllCategoryIds() {
+       // List<Integer> categoryIds = questionService.getAllCategoryIds();
+        DtoList<Integer> allCategories = new DtoList<Integer>(); // 빈리스트 생성
+
+
+
+        com.kns.tenquest.response.ResponseStatus responseStatus = ResponseStatus.OK;
+
+        allCategories.addAll( questionService.getAllCategoryIds());
+        return allCategories.toResponse(responseStatus);
+
+
     }
+
+
+
+
+
 
     //질문 수정하기 : UPDATE : 데이터 수정: 개발자& 이용자
 

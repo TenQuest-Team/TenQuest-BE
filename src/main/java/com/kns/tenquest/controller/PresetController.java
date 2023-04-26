@@ -15,25 +15,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
-@Controller
+
+@RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RequestMapping(ENV.API_PREFIX)
+@RequestMapping(ENV.API_PREFIX + "/presets")
 public class PresetController {
     @Autowired
     PresetService presetService;
 
-    @ResponseBody
-    @GetMapping("/presets")
+    @GetMapping("")
     public Response<DtoList<PresetDto>> apiGetAllPresets(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         DtoList<PresetDto> presetDtoList = presetService.getAllPresets();
         return new ResponseDto<DtoList<PresetDto>> (responseStatus,presetDtoList).toResponse();
     }
 
-    @ResponseBody
-    @GetMapping("/presets/preset-id")
-    public Response<PresetWrapper> apiGetPreset(@RequestParam("value") Long presetId){
+    @GetMapping("/preset-id")
+    public Response<PresetWrapper> apiGetPreset(@RequestParam("value") String presetId){
         ResponseStatus responseStatus = ResponseStatus.OK;
         PresetWrapper presetWrapper = presetService.getPreset(presetId);
         if(presetWrapper == null){
@@ -42,20 +42,29 @@ public class PresetController {
         return new ResponseDto<PresetWrapper>(responseStatus,presetWrapper).toResponse();
     }
 
-    @ResponseBody
-    @PostMapping("/presets")
+    @PostMapping("")
     public Response<PresetWrapper> apiCreatePreset(@RequestBody PresetWrapper presetWrapper){
         ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
         PresetWrapper createdPreset = presetService.createPreset(presetWrapper);
         return new ResponseDto<PresetWrapper>(responseStatus,createdPreset).toResponse();
     }
 
-    @ResponseBody
-    @DeleteMapping("/presets/{presetId}")
-    public Response<PresetDto> apiDeletePreset(@PathVariable("presetId")Long presetId){
+    @DeleteMapping("/{presetId}")
+    public Response<PresetDto> apiDeletePreset(@PathVariable("presetId")String presetId){
         ResponseStatus responseStatus = ResponseStatus.OK;
         PresetDto deletedPreset = presetService.deletePreset(presetId);
         return new ResponseDto<PresetDto>(responseStatus,deletedPreset).toResponse();
     }
+
+    @DeleteMapping("")
+    public Response<DtoList<PresetDto>> deleteAll(){
+        DtoList<PresetDto> deletedPresetDto = presetService.deleteAll();
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        if(deletedPresetDto == null){
+            responseStatus = ResponseStatus.NOT_FOUND;
+        }
+        return new ResponseDto<DtoList<PresetDto>>(responseStatus,deletedPresetDto).toResponse();
+    }
+
 
 }

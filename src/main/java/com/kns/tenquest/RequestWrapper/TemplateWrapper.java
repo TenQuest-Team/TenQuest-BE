@@ -4,19 +4,21 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class TemplateWrapper {
     private TemplateDto templateDto;
+    private String OwnerName;
     private List<TemplateDocDto> templateDocList;
 
-    public TemplateWrapper(){
-    }//기본생성자가 없다면서 에러가 뜨길래 추가해줬음
-    public TemplateWrapper(TemplateDto templateDto , List<TemplateDocDto> templateDocList){
+    public TemplateWrapper(TemplateDto templateDto ,String ownerName, List<TemplateDocDto> templateDocList){
+        this.OwnerName = ownerName;
         this.templateDto = templateDto;
         this.templateDocList = templateDocList;
     }

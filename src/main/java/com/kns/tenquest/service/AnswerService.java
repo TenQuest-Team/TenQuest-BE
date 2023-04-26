@@ -19,6 +19,7 @@ import com.kns.tenquest.util.PrimaryKeyGenerator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnswerService {
@@ -55,6 +56,10 @@ public class AnswerService {
     public List<ReplyerNameListResponseWrapper> getReplyerNameListByTemplateId(String templateId){
 //        List<Template> templateList = templateDocRepository.findAllByTemplateId(templateId);
         List<TemplateDoc> templateDocList = templateDocRepository.findAllByTemplateId(templateId);
+        if(templateDocList.size() == 0) {
+            return new ArrayList<>();
+        }
+
         var wrapperList = new ArrayList<ReplyerNameListResponseWrapper>();
         Long templateDocId = templateDocList.get(0).getTemplateDocId();
         // get answers
@@ -76,51 +81,55 @@ public class AnswerService {
         return wrapperList;
     }
 
-    public void createAnswer(MultipleAnswerRequestBody reqBody){
+    public boolean createAnswer(MultipleAnswerRequestBody reqBody){
 
         int generatedReplyerId = generator.replyerId();
         boolean isPublic = false;
         if (reqBody.isPublic.equals("true")) isPublic = true;
 
         for (int i =0; i<reqBody.docIdList.size(); i++){
+            Optional<TemplateDoc> nullableDoc = templateDocRepository.findById(reqBody.docIdList.get(i));
+            if (nullableDoc.isEmpty()){
+                return false;
+            }
             var sReqBody = SingleAnswerCreateRequestBody.builder()
                     .docId(reqBody.docIdList.get(i))
                     .answerContent(reqBody.answerContentList.get(i))
                     .replyerName(reqBody.replyerName)
                     .isPublic(reqBody.isPublic)
                     .build();
+//
+//            /* Create Replyer */
+//            ReplyerDto replyerDto = ReplyerDto.builder()
+//                    .replyerId(generatedReplyerId)
+//                    .replyerName(sReqBody.replyerName)
+//                    .build();
+//
+//            /* Save Replyer to database(replyer_table) */
+//            replyerRepository.save(replyerDto.toEntity());
+//
+//            /* Create Answer */
+//            AnswerDto answerDto = AnswerDto.builder()
+//                    .answerId(generator.UUID())
+//                    .answerTime(generator.localDateTime())
+//                    //.answerContent(reqBody.answerContent.replace("\n", "\\r\\n"))
+//                    .answerContent(sReqBody.answerContent)
+//                    .docId(sReqBody.docId)
+//                    .replyerId(generatedReplyerId)
+//                    .isPublic(isPublic)
+//                    .build();
+//
+//            /* Save answer to database(answer_table) */
+//            answerRepository.save(answerDto.toEntity());
 
-            /* Create Replyer */
-            ReplyerDto replyerDto = ReplyerDto.builder()
-                    .replyerId(generatedReplyerId)
-                    .replyerName(sReqBody.replyerName)
-                    .build();
-
-            /* Save Replyer to database(replyer_table) */
-            replyerRepository.save(replyerDto.toEntity());
-
-            /* Create Answer */
-            AnswerDto answerDto = AnswerDto.builder()
-                    .answerId(generator.UUID())
-                    .answerTime(generator.localDateTime())
-                    //.answerContent(reqBody.answerContent.replace("\n", "\\r\\n"))
-                    .answerContent(sReqBody.answerContent)
-                    .docId(sReqBody.docId)
-                    .replyerId(generatedReplyerId)
-                    .isPublic(isPublic)
-                    .build();
-
-            /* Save answer to database(answer_table) */
-            answerRepository.save(answerDto.toEntity());
-
-            this.createSingleAnswer(sReqBody);
+            this.createSingleAnswer(sReqBody,generatedReplyerId);
         }
-
+        return true;
 
     }
 
         /* Test Done [23/03/27] */
-    public AnswerDto createSingleAnswer(SingleAnswerCreateRequestBody reqBody) {
+    public AnswerDto createSingleAnswer(SingleAnswerCreateRequestBody reqBody, int replyerId) {
         /* check fk valid */
         if(templateDocRepository.findById(reqBody.docId).isEmpty()){
             System.out.println("Result!! " + templateDocRepository.findById(reqBody.docId));
@@ -128,14 +137,14 @@ public class AnswerService {
         }
 
         /* setting values */
-        int generatedReplyerId = generator.replyerId();
+        //int generatedReplyerId = generator.replyerId();
         boolean isPublic = false;
         if (reqBody.isPublic.equals("true")) isPublic = true;
 
 
         /* Create Replyer */
         ReplyerDto replyerDto = ReplyerDto.builder()
-                .replyerId(generatedReplyerId)
+                .replyerId(replyerId)
                 .replyerName(reqBody.replyerName)
                 .build();
 
@@ -149,7 +158,7 @@ public class AnswerService {
                 //.answerContent(reqBody.answerContent.replace("\n", "\\r\\n"))
                 .answerContent(reqBody.answerContent)
                 .docId(reqBody.docId)
-                .replyerId(generatedReplyerId)
+                .replyerId(replyerId)
                 .isPublic(isPublic)
                 .build();
 
@@ -159,4 +168,9 @@ public class AnswerService {
 
     }
 
+    public boolean DeleteAllAnswer() {
+        answerRepository.deleteAll();
+        replyerRepository.deleteAll();
+        return true;
+    }
 }

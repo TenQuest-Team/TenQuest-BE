@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PresetService {
@@ -30,7 +31,7 @@ public class PresetService {
         return presetList;
     }
 
-    public PresetWrapper getPreset(Long presetId){
+    public PresetWrapper getPreset(String presetId){
         Optional<Preset> optPreset = presetRepository.findById(presetId);
         if(optPreset.isEmpty()){
             return null;
@@ -44,22 +45,32 @@ public class PresetService {
     @Transactional
     public PresetWrapper createPreset(PresetWrapper presetWrapper){
         PresetDto presetDto = presetWrapper.getPresetDto();
+        presetDto.setPresetId(UUID.randomUUID().toString().replace("-",""));
+        String thisPresetId = presetDto.presetId;
         presetRepository.save(presetDto.toEntity());
-        Long thisPresetId = presetDto.getPresetId();
-        List<PresetDocDto> presetDocList = presetWrapper.getPresetDocList();
-        for(int i=0;i<presetDocList.size();i++){
-            PresetDocDto creatingPresetDoc = presetDocList.get(i);
-            creatingPresetDoc.setPresetId(thisPresetId);
-            presetDocRepository.save(creatingPresetDoc.toEntity());
+
+        List<PresetDocDto> presetDocList = new DtoList<>(presetWrapper.getPresetDocList());
+        for(PresetDocDto element : presetDocList){
+            element.setPresetId(thisPresetId);
+            element.setPresetDocId(UUID.randomUUID().toString().replace("-",""));
+            presetDocRepository.save(element.toEntity());
         }
         return presetWrapper;
     }
 
-    public PresetDto deletePreset(Long presetId){
+    public PresetDto deletePreset(String presetId){
         PresetDto presetDto = new PresetDto(presetRepository.findById(presetId).get());
         presetRepository.deleteById(presetId);
 
         return presetDto;
 
+    }
+
+    public DtoList<PresetDto> deleteAll(){
+        List<PresetDoc> presetDocList = new DtoList<PresetDoc>(presetDocRepository.findAll());
+        DtoList<PresetDto> presetDtoList = new DtoList<PresetDto>(presetRepository.findAll());
+        presetDocRepository.deleteAll();
+        presetRepository.deleteAll();
+        return presetDtoList;
     }
 }

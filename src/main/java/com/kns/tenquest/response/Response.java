@@ -1,5 +1,6 @@
 package com.kns.tenquest.response;
 
+import lombok.Builder;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -14,14 +15,15 @@ public class Response<T> extends ResponseEntity<T> {
         super(body, status);
     }
 
-    public Response(MultiValueMap<String, String> headers, HttpStatusCode status) {
-        super(headers, status);
+    public Response(MultiValueMap<String, String> headers, HttpStatusCode httpStatusCode) {
+        super(headers, httpStatusCode);
     }
 
     public Response(T body, MultiValueMap<String, String> headers, HttpStatusCode status) {
         super(body, headers, status);
     }
 
+    @Builder
     public Response(T body, MultiValueMap<String, String> headers, int rawStatus) {
         super(body, headers, rawStatus);
     }
