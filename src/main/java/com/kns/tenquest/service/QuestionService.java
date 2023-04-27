@@ -117,7 +117,11 @@ public class QuestionService {
         return questionRepository.findAllCategoryIds();
     }
 
-
+    public QuestionDto deleteQuestion(String questionId){
+        QuestionDto deletingQuestion = new QuestionDto(questionRepository.findById(questionId).get());
+        questionRepository.deleteById(questionId);
+        return deletingQuestion;
+    }
 
 }
 
@@ -128,5 +132,7 @@ public class QuestionService {
        // question.setQuestionCreatedBy(questionCreatedBy);
        // question.setQuestionContent(questionContent);
         //question.toEntity;
+
+
 
 

@@ -205,8 +205,16 @@ public Response<Integer> apiSaveMultipleQuestion(@RequestBody List<QuestionReque
 
     }
 
-
-
+    /* Songarden */
+    @DeleteMapping("/question-id")
+    public Response<QuestionDto> apiDeleteById(@RequestParam("value") String questionId){
+        QuestionDto deletedQuestion = questionService.deleteQuestion(questionId);
+        ResponseStatus responseStatus = ResponseStatus.OK;
+        if(responseStatus == null){
+            responseStatus = ResponseStatus.NOT_FOUND;
+        }
+        return new ResponseDto<QuestionDto>(responseStatus,deletedQuestion).toResponse();
+    }
 
 
 
