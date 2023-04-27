@@ -9,10 +9,13 @@ public class ReplyerNameListResponseWrapper {
     public String replyerName;
     public LocalDateTime answerTime;
 
+    public boolean isPublic;
+
     @Builder
-    public ReplyerNameListResponseWrapper(int replyerId, String replyerName, LocalDateTime answerTime) {
+    public ReplyerNameListResponseWrapper(int replyerId, String replyerName, LocalDateTime answerTime, boolean isPublic) {
         this.replyerId = replyerId;
         this.replyerName = replyerName;
         this.answerTime = answerTime;
+        this.isPublic = isPublic;
     }
 }

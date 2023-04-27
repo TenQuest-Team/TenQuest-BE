@@ -64,18 +64,21 @@ public class AnswerService {
         Long templateDocId = templateDocList.get(0).getTemplateDocId();
         // get answers
         List<Answer> answers = answerRepository.findAnswerByDocId(templateDocId);
+
         List<String> replyerNameList = new ArrayList<>();
         for (int i=0; i <answers.size(); i++){
             int replyerId = answers.get(i).getReplyerId();
             LocalDateTime answerTime = answers.get(i).getAnswerTime();
             String replyerName = replyerRepository.findReplyerByReplyerId(replyerId).get().getReplyerName();
+            boolean isPublic = answers.get(i).isPublic();
             replyerNameList.add(replyerName);
 
             ReplyerNameListResponseWrapper wrapper =
                     ReplyerNameListResponseWrapper.builder()
                                     .replyerName(replyerName)
                                 .replyerId(replyerId)
-                                    .answerTime(answerTime).build() ;
+                                    .answerTime(answerTime)
+                            .isPublic(isPublic).build() ;
             wrapperList.add(wrapper);
         }
         return wrapperList;

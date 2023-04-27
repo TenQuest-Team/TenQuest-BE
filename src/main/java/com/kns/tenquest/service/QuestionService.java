@@ -140,6 +140,7 @@ public class QuestionService {
     }
 
     public QuestionDto deleteQuestion(String questionId){
+        if (questionRepository.findById(questionId).isEmpty()) return new QuestionDto();
         QuestionDto deletingQuestion = new QuestionDto(questionRepository.findById(questionId).get());
         questionRepository.deleteById(questionId);
         return deletingQuestion;

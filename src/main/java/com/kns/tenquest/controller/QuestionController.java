@@ -216,7 +216,10 @@ public Response<HashMap> apiSaveQuestion(@RequestBody QuestionRequestBody reques
     /* Songarden */
     @DeleteMapping("/question-id")
     public Response<QuestionDto> apiDeleteById(@RequestParam("value") String questionId){
+
         QuestionDto deletedQuestion = questionService.deleteQuestion(questionId);
+        if (deletedQuestion.getQuestionId() == null) new ResponseDto<QuestionDto>(ResponseStatus.NOT_FOUND,deletedQuestion).toResponse();
+
         ResponseStatus responseStatus = ResponseStatus.OK;
         if(responseStatus == null){
             responseStatus = ResponseStatus.NOT_FOUND;
