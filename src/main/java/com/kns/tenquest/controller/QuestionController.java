@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RequestMapping(ENV.API_PREFIX+"/questions")
@@ -184,9 +185,11 @@ public class QuestionController {
 
 /* Woody */
 @PostMapping("")
-public Response<Integer> apiSaveMultipleQuestion(@RequestBody List<QuestionRequestBody> requestDto ){
+public Response<HashMap> apiSaveQuestion(@RequestBody QuestionRequestBody requestDto ){
 
-    return new ResponseDto(questionService.insertMultipleQuestions(requestDto)).toResponse();
+    // 추후 예외처리 필요
+    var m = new HashMap<String,String>(); m.put("questionId", questionService.insertQuestion(requestDto));
+    return new ResponseDto(ResponseStatus.CREATE_DONE,m).toResponse();
 
 }
 

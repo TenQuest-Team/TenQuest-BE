@@ -92,18 +92,34 @@ public class QuestionService {
         return ResponseStatus.CREATE_FAIL.getCode();
 
     }
-    /* Woody */
-    public ResponseStatus insertMultipleQuestions(List<QuestionRequestBody> requestBody){
+    /* Woody, not use */
+    public List<String> insertMultipleQuestions(List<QuestionRequestBody> requestBody){
+        var resUUID = new ArrayList<String>();
         for(int i=0; i<requestBody.size(); i++){
+            var uuid = UUID.randomUUID().toString().replace("-","");
             questionRepository.save(Question.builder()
-                    .questionId(UUID.randomUUID().toString().replace("-",""))
+                    .questionId(uuid)
                     .questionContent(requestBody.get(i).questionContent)
                     .questionCreatedBy(requestBody.get(i).questionCreatedBy)
                     .questionCategoryId(CategoryEnum.USER_CREATED.getId())
                     .build());
+            resUUID.add(uuid);
         }
-        return ResponseStatus.CREATE_DONE;
+        return resUUID;
     }
+    /* Woody */
+    public String insertQuestion(QuestionRequestBody reqBody){
+            var uuid = UUID.randomUUID().toString().replace("-","");
+            questionRepository.save(Question.builder()
+                    .questionId(uuid)
+                    .questionContent(reqBody.questionContent)
+                    .questionCreatedBy(reqBody.questionCreatedBy)
+                    .questionCategoryId(CategoryEnum.USER_CREATED.getId())
+                    .build());
+
+        return uuid;
+    }
+
 /*
     public void postQuestionContent(QuestionDto questionDto) throws NoSuchAlgorithmException {
 
