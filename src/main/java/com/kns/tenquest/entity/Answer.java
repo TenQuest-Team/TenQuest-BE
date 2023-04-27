@@ -2,6 +2,7 @@ package com.kns.tenquest.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Answer {
     private LocalDateTime answerTime;
 
     @Column(name="is_public")
+    @JsonProperty("isPublic")
     private boolean isPublic;
 
     @Builder

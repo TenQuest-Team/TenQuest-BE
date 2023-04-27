@@ -32,8 +32,11 @@ public class AnswerService {
     @Autowired
     PrimaryKeyGenerator generator;
 
-    /* Test Done [23/03/27] */public DtoList<Answer> getAllAnswers(){
+    /* Test Done [23/03/27] */public List<Answer> getAllAnswers(){
         return new DtoList<>(answerRepository.findAll(Sort.by(Sort.Direction.DESC, "answerTime")));
+
+        // 왜 API 리턴될때 isPublic이 아니라 public으로 리턴되지?
+
     }
 
     /* Test Done [23/03/27] */

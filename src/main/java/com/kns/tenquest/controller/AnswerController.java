@@ -21,8 +21,9 @@ public class AnswerController {
     @Autowired
     AnswerService answerService;
     @GetMapping("/answers")
-    public Response<AnswerDto> apiGetAnswers(){
-        return answerService.getAllAnswers().toResponse();
+    public List apiGetAnswers(){
+       //return answerService.getAllAnswers().toResponse();
+        return answerService.getAllAnswers();
     }
 
     @GetMapping("/answers/docId")
