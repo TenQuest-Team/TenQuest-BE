@@ -104,16 +104,14 @@ public class QuestionController {
 
     //카테고리 별 확인 //특정 카테고리에 해당하는 질문 content(String 글자) 확인하기 (외래키 question_category_id 이용) : GET : 데이터 가져와서 뿌려주기
 
+
+    /* Woody - 임시로 수정. 추후 수정 필요 */
     @RequestMapping(value="/contents/questionCategoryIdAndAccessId",method=RequestMethod.GET)
-    public Response<DtoList> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
+    public Response<List> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
                                                   @RequestParam(name="accessId") String accessId){
-
+        /*--sunghee---/
         DtoList<Question> allQuestionsInCategory = new DtoList<Question>(); // 빈리스트 생성
-
         com.kns.tenquest.response.ResponseStatus responseStatus = ResponseStatus.OK;
-
-
-
 
         //사용자 정의 카테고리가  아닌경우(question_category_id != 0)
         if (questionCategoryId != 0){
@@ -129,8 +127,15 @@ public class QuestionController {
 
             allQuestionsInCategory.addAll( questionService.getQuestionsByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId,accessMemberId));  // postman 확인완료
             return allQuestionsInCategory.toResponse(responseStatus);
-        }
 
+
+        }
+        /--------*/
+        ResponseStatus s= ResponseStatus.OK;
+        var res =questionService.getQuestionsByQuestionCategoryIdAndQuestionCreatedBy_v2(questionCategoryId,accessId);
+        if (res.size() == 0) s = ResponseStatus.NOT_FOUND;
+
+        return new ResponseDto<List>(s,res).toResponse();
 
 
     } // postman 확인 했긴한데.. 0 번넣엇을대 잘안나옴..

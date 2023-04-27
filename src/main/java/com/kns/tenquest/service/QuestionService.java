@@ -58,6 +58,12 @@ public class QuestionService {
         return questionContentList;
     }
 
+    /* Woody */
+    public List<Question> getQuestionsByQuestionCategoryIdAndQuestionCreatedBy_v2(int questionCategoryId, String memberId) {
+        if(questionCategoryId != 0)  return questionRepository.findAllByQuestionCategoryId(questionCategoryId);
+        return questionRepository.findAllByQuestionCategoryIdAndQuestionCreatedBy(questionCategoryId, memberId);
+    }
+
     public List<Question> getQuestionContentByQuestionCategoryId(int questionCategoryId) {
 
         List<Question> questionList = questionRepository.findAllQuestionContentByQuestionCategoryId(questionCategoryId);
