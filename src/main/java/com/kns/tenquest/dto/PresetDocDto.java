@@ -14,6 +14,7 @@ public class PresetDocDto implements DataTransferObject<PresetDoc> {
     public String presetDocId;
     public String presetId;
     public String questionId;
+    public String questionContent;
     public Long questionOrder;
     public PresetDocDto(String presetDocId, String presetId, String questionId, Long questionOrder){
 

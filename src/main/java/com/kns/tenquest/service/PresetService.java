@@ -8,21 +8,22 @@ import com.kns.tenquest.entity.Preset;
 import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.repository.PresetDocRepository;
 import com.kns.tenquest.repository.PresetRepository;
+import com.kns.tenquest.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PresetService {
 
     @Autowired
     PresetRepository presetRepository;
+
+    @Autowired
+    QuestionRepository questionRepository;
 
     @Autowired
     PresetDocRepository presetDocRepository;
@@ -37,7 +38,16 @@ public class PresetService {
             return null;
         }
         PresetDto presetDto = new PresetDto(optPreset.get());
-        DtoList<PresetDocDto> presetDocList = new DtoList<>(presetDocRepository.findAllByPresetId(presetId));
+        List<PresetDoc> optPresetList = new ArrayList<>(presetDocRepository.findAllByPresetId(presetId));
+        List<PresetDocDto> presetDocList = new DtoList<>();
+        for(PresetDoc presetDoc : optPresetList){
+            PresetDocDto presetDocDto = new PresetDocDto(presetDoc);
+            presetDocList.add(presetDocDto);
+        }
+        for(PresetDocDto ele : presetDocList){
+            String presetContent = questionRepository.findById(ele.getQuestionId()).get().getQuestionContent();
+            ele.setQuestionContent(presetContent);
+        }
         PresetWrapper presetWrapper = new PresetWrapper(presetDto,presetDocList);
         return presetWrapper;
     }

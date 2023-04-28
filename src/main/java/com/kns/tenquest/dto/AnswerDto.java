@@ -1,5 +1,6 @@
 package com.kns.tenquest.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kns.tenquest.entity.Answer;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.response.Response;
@@ -21,7 +22,8 @@ public class AnswerDto implements DataTransferObject<Answer>, Responseable<Answe
     public String answerContent;
     public Long docId;
     public LocalDateTime answerTime;
-    public boolean isPublic;
+    @JsonProperty("isPublic")
+    public Boolean isPublic;
 
 
     @Builder
@@ -50,8 +52,8 @@ public class AnswerDto implements DataTransferObject<Answer>, Responseable<Answe
                 .replyerId(this.replyerId)
                 .answerContent(this.answerContent)
                 .docId(this.docId)
-                .answerTime(answerTime)
-                .isPublic(isPublic)
+                .answerTime(this.answerTime)
+                .isPublic(this.isPublic)
                 .build();
 
         return answer;

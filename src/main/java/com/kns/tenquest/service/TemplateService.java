@@ -41,7 +41,18 @@ public class TemplateService {
         return TemplateDtoList;
     }
     public DtoList<TemplateDto> getAllMemberTemplates(String templateOwner){
-        DtoList<TemplateDto> templateDtoList = new DtoList<>(templateRepository.findAllByTemplateOwner(templateOwner));
+        List<Template> templateList = new ArrayList<Template>(templateRepository.findAllByTemplateOwner(templateOwner));
+        DtoList<TemplateDto> templateDtoList = new DtoList<>();
+        for(Template ele : templateList){
+            TemplateDto optTempDto = new TemplateDto(ele);
+            templateDtoList.add(optTempDto);
+        }
+        Collections.sort(templateDtoList, new Comparator<TemplateDto>() {
+            @Override
+            public int compare(TemplateDto template1, TemplateDto template2) {
+                return template2.getCreatedAt().compareTo(template1.getCreatedAt());
+            }
+        });
         return templateDtoList;
     }
 
