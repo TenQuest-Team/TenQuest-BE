@@ -10,6 +10,7 @@ import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.PresetService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,10 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(ENV.API_PREFIX + "/presets")
+@RequiredArgsConstructor
 public class PresetController {
-    @Autowired
-    PresetService presetService;
+
+    private final PresetService presetService;
 
     @GetMapping("")
     public Response<DtoList<PresetDto>> apiGetAllPresets(){

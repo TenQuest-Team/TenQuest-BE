@@ -12,6 +12,7 @@ import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,21 +26,16 @@ import java.util.List;
 @RequestMapping(ENV.API_PREFIX+"/questions")
 @RestController // 어떤 요청이랑 어떤 함수(api)를 맵핑하면 좋을지 알려주는 역할
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequiredArgsConstructor
 public class QuestionController {
 
-    @Autowired
-    QuestionService questionService;
-//    @Autowired
-//    MemberController memberController;
-    @Autowired
-    MemberService memberService;
+    private final QuestionService questionService;
+    private final MemberService memberService;
 
     String developer = "root_user";
 
     //개발자의 MemberId(uuid) 선언
     String memberIdForDeveloper;
-
-
 
 
     //질문  객체 전체를 html 이용하여 화면에 표시하기  (확인)  : GET //개발자용

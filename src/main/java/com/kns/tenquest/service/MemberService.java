@@ -6,6 +6,7 @@ import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.repository.MemberRepository;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
-    @Autowired
-    MemberRepository memberRepository;
+
+    private final MemberRepository memberRepository;
     public DtoList<MemberDto> getAllMembers() {
         // Temporarily implemented. Just for test.
         //List<Member> allMemberList= memberRepository.findAll();

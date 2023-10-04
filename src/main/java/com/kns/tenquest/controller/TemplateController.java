@@ -11,6 +11,7 @@ import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateDocService;
 import com.kns.tenquest.service.TemplateService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,11 @@ import java.util.NoSuchElementException;
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(ENV.API_PREFIX)
+@RequiredArgsConstructor
 public class TemplateController {
 
-    @Autowired
-    private TemplateService templateService;
-
-    @Autowired
-    private TemplateDocService templateDocService;
+    private final TemplateService templateService;
+    private final TemplateDocService templateDocService;
 
     @ResponseBody
     @GetMapping("/templates")

@@ -6,17 +6,17 @@ import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.kns.tenquest.service.MemberService;
 
 @RequestMapping(ENV.API_PREFIX+"/members")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@RestController
+@RequiredArgsConstructor
 public class MemberController {
-    @Autowired
-    MemberService memberService;
 
+    private final MemberService memberService;
 
     @GetMapping("")
     public Response<MemberDto> apiGetAllMembers(){

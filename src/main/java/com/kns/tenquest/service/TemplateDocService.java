@@ -5,13 +5,15 @@ import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.repository.TemplateDocRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TemplateDocService {
-    @Autowired
-    TemplateDocRepository templateDocRepository;
+
+    private final TemplateDocRepository templateDocRepository;
 
     public DtoList<TemplateDocDto> getAllTemplateDocs(){
         DtoList<TemplateDocDto> templateDocDtoList = new DtoList<>(templateDocRepository.findAll());

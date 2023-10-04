@@ -15,6 +15,7 @@ import com.kns.tenquest.repository.QuestionRepository;
 import com.kns.tenquest.repository.TemplateDocRepository;
 import com.kns.tenquest.repository.TemplateRepository;
 import io.micrometer.common.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +24,13 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TemplateService {
-    @Autowired
-    TemplateRepository templateRepository;
 
-    @Autowired
-    TemplateDocRepository templateDocRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    QuestionRepository questionRepository;
+    private final TemplateRepository templateRepository;
+    private final TemplateDocRepository templateDocRepository;
+    private final MemberRepository memberRepository;
+    private final QuestionRepository questionRepository;
 
     public DtoList<TemplateDto> getAllTemplates(){
         DtoList<TemplateDto> TemplateDtoList = new DtoList<>(templateRepository.findAll());

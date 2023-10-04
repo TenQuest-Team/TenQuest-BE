@@ -10,6 +10,7 @@ import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.entity.Replyer;
 import com.kns.tenquest.service.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,29 +22,16 @@ import java.util.List;
 
 @RequestMapping("/view")
 @Controller
+@RequiredArgsConstructor
 public class ViewController {
 
-    @Autowired
-    AnswerService answerService;
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    ReplyerService replyerService;
-
-    @Autowired
-    TemplateService templateService;
-
-    @Autowired
-    PresetService presetService;
-
-    @Autowired
-    TemplateDocService templateDocService;
-
-    @Autowired
-    QuestionService questionService;
-
-
-
+    private final AnswerService answerService;
+    private final MemberService memberService;
+    private final ReplyerService replyerService;
+    private final TemplateService templateService;
+    private final PresetService presetService;
+    private final TemplateDocService templateDocService;
+    private final QuestionService questionService;
 
     @GetMapping("/members")
     public String memberView(Model model) {

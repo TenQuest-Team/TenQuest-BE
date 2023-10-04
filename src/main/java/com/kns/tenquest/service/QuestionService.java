@@ -10,6 +10,7 @@ import com.kns.tenquest.repository.QuestionRepository;
 import com.kns.tenquest.requestBody.MultipleQuestionRequestBody;
 import com.kns.tenquest.requestBody.QuestionRequestBody;
 import com.kns.tenquest.response.ResponseStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +21,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class QuestionService {
 
-    @Autowired
-    QuestionRepository questionRepository;
-
-
+    private final QuestionRepository questionRepository;
 
     public DtoList<QuestionDto>  getAllQuestions(){
 

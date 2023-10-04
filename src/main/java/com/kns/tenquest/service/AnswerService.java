@@ -11,6 +11,7 @@ import com.kns.tenquest.repository.TemplateDocRepository;
 import com.kns.tenquest.requestBody.MultipleAnswerRequestBody;
 import com.kns.tenquest.requestBody.SingleAnswerCreateRequestBody;
 import com.kns.tenquest.response.ReplyerNameListResponseWrapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,15 +23,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AnswerService {
-    @Autowired
-    AnswerRepository answerRepository;
-    @Autowired
-    ReplyerRepository replyerRepository;
-    @Autowired
-    TemplateDocRepository templateDocRepository;
-    @Autowired
-    PrimaryKeyGenerator generator;
+
+    private final AnswerRepository answerRepository;
+    private final ReplyerRepository replyerRepository;
+    private final TemplateDocRepository templateDocRepository;
+    private final PrimaryKeyGenerator generator;
 
     /* Test Done [23/03/27] */public List<Answer> getAllAnswers(){
         return new DtoList<>(answerRepository.findAll(Sort.by(Sort.Direction.DESC, "answerTime")));

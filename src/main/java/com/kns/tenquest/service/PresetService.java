@@ -9,6 +9,7 @@ import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.repository.PresetDocRepository;
 import com.kns.tenquest.repository.PresetRepository;
 import com.kns.tenquest.repository.QuestionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,13 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class PresetService {
 
-    @Autowired
-    PresetRepository presetRepository;
+    private final PresetRepository presetRepository;
+    private final QuestionRepository questionRepository;
+    private final PresetDocRepository presetDocRepository;
 
-    @Autowired
-    QuestionRepository questionRepository;
-
-    @Autowired
-    PresetDocRepository presetDocRepository;
     public DtoList<PresetDto> getAllPresets(){
         DtoList<PresetDto> presetList = new DtoList<>(presetRepository.findAll());
         return presetList;

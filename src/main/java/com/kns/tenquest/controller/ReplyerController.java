@@ -7,6 +7,7 @@ import com.kns.tenquest.entity.Replyer;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.ReplyerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,9 +21,11 @@ import java.util.List;
 @RequestMapping(ENV.API_PREFIX)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
+@RequiredArgsConstructor
 public class ReplyerController {
-    @Autowired
-    ReplyerService replyerService;
+
+    private final ReplyerService replyerService;
+
     @ResponseBody
     @GetMapping("/replyers")
     public List<Replyer> apiGetReplyers(){

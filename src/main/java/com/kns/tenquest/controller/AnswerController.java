@@ -8,6 +8,7 @@ import com.kns.tenquest.requestBody.SingleAnswerCreateRequestBody;
 import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.AnswerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.kns.tenquest.ENV;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,11 @@ import java.util.List;
 @RequestMapping(ENV.API_PREFIX)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@RequiredArgsConstructor
 public class AnswerController {
-    @Autowired
-    AnswerService answerService;
+
+    private final AnswerService answerService;
+
     @GetMapping("/answers")
     public List apiGetAnswers(){
        //return answerService.getAllAnswers().toResponse();
