@@ -1,7 +1,7 @@
 package com.kns.tenquest;
 
 import com.kns.tenquest.dto.DataTransferObject;
-import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.response.Responseable;
 import lombok.NoArgsConstructor;
@@ -31,11 +31,11 @@ public class DtoList<E> extends ArrayList implements DataTransferObject, Respons
     }
 
     @Override
-    public Response toResponse(ResponseStatus responseStatus) {
+    public Response_Deprecated toResponse(ResponseStatus responseStatus) {
         return Responseable.super.toResponse(responseStatus);
     }
 
-    public Response toResponse() {
+    public Response_Deprecated toResponse() {
         return Responseable.super.toResponse();
     }
 

@@ -2,8 +2,7 @@ package com.kns.tenquest.response;
 
 import com.kns.tenquest.dto.DataTransferObject;
 import com.kns.tenquest.dto.ResponseDto;
-import com.kns.tenquest.response.Response;
-import com.kns.tenquest.response.ResponseStatus;
+
 @SuppressWarnings("unchecked")
 public interface Responseable<E extends DataTransferObject>{
     /**
@@ -19,11 +18,11 @@ public interface Responseable<E extends DataTransferObject>{
      *                       ** ResponseStatus class 참고
      * @return Response Object를 리턴합니다.
      */
-    default Response<E> toResponse(ResponseStatus responseStatus){
+    default Response_Deprecated<E> toResponse(ResponseStatus responseStatus){
         return new ResponseDto<E>(responseStatus, (E)this).toResponse();
     };
 
-    default Response<E> toResponse(){
+    default Response_Deprecated<E> toResponse(){
         return new ResponseDto<E>(ResponseStatus.OK, (E)this).toResponse();
     };
 }

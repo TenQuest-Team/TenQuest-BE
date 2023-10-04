@@ -7,12 +7,11 @@ import com.kns.tenquest.RequestWrapper.TemplateWrapper;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
-import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.TemplateDocService;
 import com.kns.tenquest.service.TemplateService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,7 @@ public class TemplateController {
 
     @ResponseBody
     @GetMapping("/templates")
-    public Response<TemplateDto> apiGetAllTemplates(){
+    public Response_Deprecated<TemplateDto> apiGetAllTemplates(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         DtoList<TemplateDto> templateDtoList = templateService.getAllTemplates();
         //return new ResponseDto<TemplateDto>(responseStatus,templateDtoList).toResponseJson();
@@ -38,7 +37,7 @@ public class TemplateController {
 
     @ResponseBody
     @GetMapping("/templates/{memberId}")
-    public Response<DtoList<TemplateDto>> apiGetAllMemberTemplates(@PathVariable("memberId")String memberId){
+    public Response_Deprecated<DtoList<TemplateDto>> apiGetAllMemberTemplates(@PathVariable("memberId")String memberId){
         ResponseStatus responseStatus = ResponseStatus.OK;
         DtoList<TemplateDto> allMemberTemplates = templateService.getAllMemberTemplates(memberId);
         return new ResponseDto<DtoList<TemplateDto>>(responseStatus,allMemberTemplates).toResponse();
@@ -46,7 +45,7 @@ public class TemplateController {
 
     @ResponseBody
     @GetMapping("/template-docs")
-    public Response<TemplateDocDto> apiGetAllTemplateDocs(){
+    public Response_Deprecated<TemplateDocDto> apiGetAllTemplateDocs(){
         ResponseStatus responseStatus = ResponseStatus.OK;
         DtoList<TemplateDocDto> templateDocDtoList = templateDocService.getAllTemplateDocs();
         //return new ResponseDto<TemplateDto>(responseStatus,templateDtoList).toResponseJson();
@@ -55,7 +54,7 @@ public class TemplateController {
 
     @ResponseBody
     @GetMapping("templates/template-id")
-    public Response<TemplateWrapper> apiGetTemplate(@RequestParam("value") String templateId){
+    public Response_Deprecated<TemplateWrapper> apiGetTemplate(@RequestParam("value") String templateId){
         TemplateWrapper templateWrapper = templateService.getTemplate(templateId);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if(templateWrapper == null){
@@ -66,7 +65,7 @@ public class TemplateController {
 
     @ResponseBody
     @PostMapping("/templates/{memberId}")
-    public Response<TemplateWrapper> apiCreateTemplate(@RequestBody TemplateWrapper requestWrapper, @PathVariable("memberId")String memberId) {
+    public Response_Deprecated<TemplateWrapper> apiCreateTemplate(@RequestBody TemplateWrapper requestWrapper, @PathVariable("memberId")String memberId) {
         try{
             TemplateWrapper createdTemplate = templateService.createTemplate(requestWrapper,memberId);
             ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
@@ -87,7 +86,7 @@ public class TemplateController {
 
 
     @PutMapping("/templates/{memberId}/template-id")
-    public Response<TemplateDto> apiTemplateUpdate(@PathVariable("memberId") String memberId,@RequestParam("value") String templateId, @RequestBody TemplateDto templateDto) {
+    public Response_Deprecated<TemplateDto> apiTemplateUpdate(@PathVariable("memberId") String memberId, @RequestParam("value") String templateId, @RequestBody TemplateDto templateDto) {
         TemplateDto updatedTemplate = templateService.templateUpdate(memberId,templateId, templateDto);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if(updatedTemplate == null){
@@ -97,7 +96,7 @@ public class TemplateController {
         return new ResponseDto<TemplateDto>(responseStatus,updatedTemplate).toResponse();
     } //template Update API
     @DeleteMapping("/templates/{memberId}/template-id")
-    public Response<TemplateDto> apiTemplateDelete(@PathVariable("memberId") String memberId, @RequestParam("value") String templateId){
+    public Response_Deprecated<TemplateDto> apiTemplateDelete(@PathVariable("memberId") String memberId, @RequestParam("value") String templateId){
         TemplateDto deletedTemplate = templateService.templateDelete(memberId, templateId);
         ResponseStatus responseStatus = ResponseStatus.OK;
         if(deletedTemplate == null){

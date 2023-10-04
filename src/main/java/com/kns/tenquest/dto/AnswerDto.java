@@ -2,19 +2,14 @@ package com.kns.tenquest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kns.tenquest.entity.Answer;
-import com.kns.tenquest.entity.Member;
-import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.response.Responseable;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.UUID;
+
 @NoArgsConstructor
 public class AnswerDto implements DataTransferObject<Answer>, Responseable<AnswerDto> {
     public String answerId;
@@ -73,7 +68,7 @@ public class AnswerDto implements DataTransferObject<Answer>, Responseable<Answe
     }
 
     @Override
-    public Response<AnswerDto> toResponse(ResponseStatus responseStatus) {
+    public Response_Deprecated<AnswerDto> toResponse(ResponseStatus responseStatus) {
         return Responseable.super.toResponse(responseStatus);
     }
 }

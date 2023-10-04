@@ -1,6 +1,6 @@
 package com.kns.tenquest.dto;
 
-import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpHeaders;
 
-import java.util.ArrayList;
-import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
@@ -50,8 +48,8 @@ public class ResponseDto<T> {
         this.data = null;
     }
 
-    public Response<T> toResponse(){
-    return new Response<>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), data),
+    public Response_Deprecated<T> toResponse(){
+    return new Response_Deprecated<>((T) new ResponseDto<T>(this.getStatus(),this.getCode(), data),
             new HttpHeaders(),
             this.getCode());
     }

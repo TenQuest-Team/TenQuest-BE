@@ -4,22 +4,14 @@ package com.kns.tenquest.controller;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.*;
-import com.kns.tenquest.entity.Question;
-import com.kns.tenquest.requestBody.MultipleQuestionRequestBody;
 import com.kns.tenquest.requestBody.QuestionRequestBody;
-import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.MemberService;
 import com.kns.tenquest.service.QuestionService;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,7 +48,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/{accessId}",method=RequestMethod.GET)
 
-    public Response<QuestionDto>  apiGetAllQuestions(@PathVariable(name = "accessId") String accessId) { // 접근중인 사람의 id 받아오기 //default 가 developer 이면 안될듯..
+    public Response_Deprecated<QuestionDto> apiGetAllQuestions(@PathVariable(name = "accessId") String accessId) { // 접근중인 사람의 id 받아오기 //default 가 developer 이면 안될듯..
 
 
         // 현재 접근중인 사람의 memberId : UUID(String)   가져오는 코드
@@ -104,8 +96,8 @@ public class QuestionController {
 
     /* Woody - 임시로 수정. 추후 수정 필요 */
     @RequestMapping(value="/contents/questionCategoryIdAndAccessId",method=RequestMethod.GET)
-    public Response<List> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
-                                                  @RequestParam(name="accessId") String accessId){
+    public Response_Deprecated<List> apiGetQuestionsInCategory(@RequestParam(name="questionCategoryId",required = false,defaultValue = "") int questionCategoryId,   // postman 확인완료
+                                                               @RequestParam(name="accessId") String accessId){
         /*--sunghee---/
         DtoList<Question> allQuestionsInCategory = new DtoList<Question>(); // 빈리스트 생성
         com.kns.tenquest.response.ResponseStatus responseStatus = ResponseStatus.OK;
@@ -143,7 +135,7 @@ public class QuestionController {
     //question_id로 호출하면.. (UUID) 해당질문(question_content) 1개 보내줌 GET (각템플릿에서 호출하거나 할때 필요함)
 
     @RequestMapping(value="/content/questionId",method = RequestMethod.GET)
-    public Response<String> apiGetQuestionContentByQuestionId(@RequestParam(name="value",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
+    public Response_Deprecated<String> apiGetQuestionContentByQuestionId(@RequestParam(name="value",required = false,defaultValue = "") String questionId){  //postman 확인 완료 // UUID 구현부분 좀 수정필요 .. .일단 String으로 해놓음
         String nullableString = questionService.getQuestionContentByQuestionId(questionId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
@@ -181,7 +173,7 @@ public class QuestionController {
 
 /* Woody */
 @PostMapping("")
-public Response<HashMap> apiSaveQuestion(@RequestBody QuestionRequestBody requestDto ){
+public Response_Deprecated<HashMap> apiSaveQuestion(@RequestBody QuestionRequestBody requestDto ){
 
     // 추후 예외처리 필요
     var m = new HashMap<String,String>(); m.put("questionId", questionService.insertQuestion(requestDto));
@@ -195,7 +187,7 @@ public Response<HashMap> apiSaveQuestion(@RequestBody QuestionRequestBody reques
     // question_category_id 를 groupby 로 묶어서. . .. 중복없이 보내면될듯 ..
 
     @GetMapping("/categories")
-    public Response<List<Integer>> apiGetAllCategoryIds() {
+    public Response_Deprecated<List<Integer>> apiGetAllCategoryIds() {
        // List<Integer> categoryIds = questionService.getAllCategoryIds();
         DtoList<Integer> allCategories = new DtoList<Integer>(); // 빈리스트 생성
 
@@ -211,7 +203,7 @@ public Response<HashMap> apiSaveQuestion(@RequestBody QuestionRequestBody reques
 
     /* Songarden */
     @DeleteMapping("/question-id")
-    public Response<QuestionDto> apiDeleteById(@RequestParam("value") String questionId){
+    public Response_Deprecated<QuestionDto> apiDeleteById(@RequestParam("value") String questionId){
 
         QuestionDto deletedQuestion = questionService.deleteQuestion(questionId);
         if (deletedQuestion.getQuestionId() == null) new ResponseDto<QuestionDto>(ResponseStatus.NOT_FOUND,deletedQuestion).toResponse();

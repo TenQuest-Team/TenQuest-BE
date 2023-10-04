@@ -1,30 +1,23 @@
 package com.kns.tenquest.response;
 
-import lombok.Builder;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
+public class Response {
+    public int code;
+    public String message;
+    public Object data;
 
-public class Response<T> extends ResponseEntity<T> {
-
-    public Response(HttpStatusCode status) {
-        super(status);
+    public Response code(int code){
+        this.code = code;
+        return this;
     }
 
-    public Response(T body, HttpStatusCode status) {
-        super(body, status);
+    public Response message(String message){
+        this.message = message;
+        return this;
     }
 
-    public Response(MultiValueMap<String, String> headers, HttpStatusCode httpStatusCode) {
-        super(headers, httpStatusCode);
-    }
-
-    public Response(T body, MultiValueMap<String, String> headers, HttpStatusCode status) {
-        super(body, headers, status);
-    }
-
-    @Builder
-    public Response(T body, MultiValueMap<String, String> headers, int rawStatus) {
-        super(body, headers, rawStatus);
+    public Response data(Object data){
+        this.data = data;
+        return this;
     }
 }
+

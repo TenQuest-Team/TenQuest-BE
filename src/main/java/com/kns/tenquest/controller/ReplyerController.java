@@ -4,11 +4,10 @@ import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.ReplyerDto;
 import com.kns.tenquest.dto.ResponseDto;
 import com.kns.tenquest.entity.Replyer;
-import com.kns.tenquest.response.Response;
+import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.ReplyerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,7 @@ public class ReplyerController {
     }
 
     @GetMapping("/replyers/{replyerid}")
-    public Response<ReplyerDto> apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
+    public Response_Deprecated<ReplyerDto> apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
         ReplyerDto replyerDto = replyerService.getReplyerByReplyerId(replyerId);
         ResponseStatus responseStatus = ResponseStatus.OK;
 
