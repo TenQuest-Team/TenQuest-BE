@@ -52,11 +52,11 @@ public class QuestionController {
 
 
         // 현재 접근중인 사람의 memberId : UUID(String)   가져오는 코드
-        String accessMemberId =  memberService.getMemberIdByUserId(accessId); //accessId 를 매개변수로 받아서.. 해당 id의 uuid를 받아온다 ..
+        String accessMemberId = (String)memberService.getMemberIdByUserId(accessId).getData(); //accessId 를 매개변수로 받아서.. 해당 id의 uuid를 받아온다 ..
 
         //개발자의 MemberId(uuid) 찾기
         if (memberIdForDeveloper == null) {
-            memberIdForDeveloper = memberService.getMemberIdByUserId(developer);
+            memberIdForDeveloper = (String)memberService.getMemberIdByUserId(developer).getData();
         }
 
             //전체 질문 객체들 보내주기1// 개발자용 ( 이상한 질문추가 됐는지 아닌지 확인할때 쓸수있을듯 )

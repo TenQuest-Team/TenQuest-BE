@@ -1,10 +1,7 @@
 package com.kns.tenquest.controller;
 
 import com.kns.tenquest.DtoList;
-import com.kns.tenquest.dto.MemberDto;
-import com.kns.tenquest.dto.PresetDto;
-import com.kns.tenquest.dto.TemplateDocDto;
-import com.kns.tenquest.dto.TemplateDto;
+import com.kns.tenquest.dto.*;
 import com.kns.tenquest.entity.Answer;
 import com.kns.tenquest.entity.Question;
 import com.kns.tenquest.entity.Replyer;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 @RequestMapping("/view")
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +34,8 @@ public class ViewController {
     @GetMapping("/members")
     public String memberView(Model model) {
         // Temporarily implemented. Just for test.
-        DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
+        ServiceResult sr = memberService.getAllMembers();
+        DtoList<MemberDto> memberDtoList = (DtoList<MemberDto>)sr.getData();
         model.addAttribute("memberList", memberDtoList);
         return "member_view";
     }

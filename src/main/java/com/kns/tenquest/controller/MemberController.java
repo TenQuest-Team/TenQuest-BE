@@ -1,11 +1,9 @@
 package com.kns.tenquest.controller;
 
-import com.kns.tenquest.DtoList;
 import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.MemberDto;
-import com.kns.tenquest.dto.ResponseDto;
-import com.kns.tenquest.response.Response_Deprecated;
-import com.kns.tenquest.response.ResponseStatus;
+import com.kns.tenquest.dto.ServiceResult;
+import com.kns.tenquest.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.kns.tenquest.service.MemberService;
@@ -18,98 +16,68 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("")
-    public Response_Deprecated<MemberDto> apiGetAllMembers(){
-        ResponseStatus responseStatus = ResponseStatus.OK;
-        DtoList<MemberDto> memberDtoList = memberService.getAllMembers();
-
-        //return new ResponseDto<MemberDto>(responseStatus,memberDtoList).toResponse();
-        return memberDtoList.toResponse(responseStatus);
+    public Response apiGetAllMembers(){
+        ServiceResult sr = memberService.getAllMembers();
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
+
     @GetMapping("/{memberId}")
-    public Response_Deprecated<MemberDto> apiGetMemberByMemberId(@PathVariable("memberId") String memberId){
-        MemberDto nullableMemberDto = memberService.getMemberByMemberId(memberId);
-        ResponseStatus responseStatus = ResponseStatus.OK;
-
-        if (nullableMemberDto.memberId == null)
-            responseStatus = ResponseStatus.NOT_FOUND;
-
-        return nullableMemberDto.toResponse(responseStatus);
+    public Response apiGetMemberByMemberId(@PathVariable("memberId") String memberId){
+        ServiceResult sr = memberService.getMemberByMemberId(memberId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
+
     @GetMapping("/userId")
-    public Response_Deprecated<MemberDto> apiGetMemberByUserId(@RequestParam("value") String userId){
-        MemberDto nullableMemberDto = memberService.getMemberByUserId(userId);
-        ResponseStatus responseStatus = ResponseStatus.OK;
-
-        if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
-
-        return nullableMemberDto.toResponse(responseStatus);
-
+    public Response apiGetMemberByUserId(@RequestParam("value") String userId){
+        ServiceResult sr = memberService.getMemberByUserId(userId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @GetMapping("/nameAndEmail")
-    public Response_Deprecated<MemberDto> apiGetMemberByUserNameAndUserId(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
-        MemberDto nullableMemberDto = memberService.getMemberByUserNameAndEmail(userName,userEmail);
-        ResponseStatus responseStatus = ResponseStatus.OK;
-        if (nullableMemberDto.memberId == null) responseStatus = ResponseStatus.NOT_FOUND;
-        return nullableMemberDto.toResponse(responseStatus);
-
+    public Response apiGetMemberByUserNameAndUserId(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
+        ServiceResult sr = memberService.getMemberByUserNameAndEmail(userName,userEmail);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @GetMapping("/memberId/userId")
-    public Response_Deprecated<String> apiGetMemberIdByUserId(@RequestParam("value") String userId){
-        String nullableString = memberService.getMemberIdByUserId(userId);
-        ResponseStatus responseStatus = ResponseStatus.OK;
-
-        if (nullableString.equals(ResponseStatus.NOT_FOUND.getStatus())){
-            responseStatus = ResponseStatus.NOT_FOUND;
-            nullableString = null;}
-
-        return new ResponseDto<String>(responseStatus, nullableString).toResponse();
-
+    public Response apiGetMemberIdByUserId(@RequestParam("value") String userId){
+        ServiceResult sr = memberService.getMemberIdByUserId(userId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @GetMapping("/memberId/nameAndEmail")
-    public Response_Deprecated<String> apiGetMemberIdByUserName(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
-        String nullableString = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
-        ResponseStatus responseStatus = ResponseStatus.OK;
-
-        if (nullableString.equals(ResponseStatus.NOT_FOUND.getStatus())){
-            responseStatus = ResponseStatus.NOT_FOUND;
-            nullableString = null;}
-
-        return new ResponseDto<String>(responseStatus, nullableString).toResponse();
-
+    public Response apiGetMemberIdByUserName(@RequestParam("name") String userName, @RequestParam("email") String userEmail){
+        ServiceResult sr = memberService.getMemberIdByUserNameAndUserEmail(userName, userEmail);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @GetMapping("/check-userId")
     /* ex) /api/v1/members/check-userId?value={사용자 id} */
-    public Response_Deprecated apiIsUserIdExists(@RequestParam("value") String userId){
-        ResponseStatus response = memberService.isUserIdExist(userId);
-        return new ResponseDto(response).toResponse();
+    public Response apiIsUserIdExists(@RequestParam("value") String userId){
+        ServiceResult sr = memberService.isUserIdExist(userId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @GetMapping("/userName/{memberId}")
     /* ex) /api/v1/members/userName/{memberId} */
-    public Response_Deprecated<String> ApigetUserNameByMemberId(@PathVariable("memberId") String memberId){
-        var resultMap = memberService.getUserNameByMemberId(memberId);
-        var responseStatus = (ResponseStatus) resultMap.get("ResponseStatus");
-        var responseData = (String)resultMap.get("ResponseData");
-        return new ResponseDto<String> (responseStatus, responseData).toResponse();
-
+    public Response ApigetUserNameByMemberId(@PathVariable("memberId") String memberId) {
+        ServiceResult sr = memberService.getUserNameByMemberId(memberId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @PostMapping("")
-    public Response_Deprecated<Integer> apiRegisterMember(@RequestBody MemberDto dto) {
-        int insertResult = memberService.insertMember(dto);
-
-        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
-
-        if (insertResult == ResponseStatus.CREATE_FAIL.getCode()){
-            responseStatus = ResponseStatus.CREATE_FAIL;
-            }
-
-        return new ResponseDto<Integer>(responseStatus, insertResult).toResponse();
-
+    public Response apiRegisterMember(@RequestBody MemberDto dto) {
+        ServiceResult sr =  memberService.insertMember(dto);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
 

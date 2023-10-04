@@ -38,4 +38,39 @@ public class ServiceResult {
     public boolean isFailed(){
         return this.code == FAIL;
     }
+
+    public ServiceResult success(){
+        this.code = SUCCESS;
+        this.message = "success";
+        return this;
+    }
+
+    public ServiceResult success(Object data){
+        this.code = SUCCESS;
+        this.message = "success";
+        this.data = data;
+        return this;
+    }
+
+    public ServiceResult fail(){
+        this.code = FAIL;
+        this.message = "fail";
+        return this;
+    }
+
+    public ServiceResult code(int code){
+        this.code = code;
+        return this;
+    }
+
+    public ServiceResult message(String message){
+        this.message = message;
+        return this;
+    }
+
+
+    public ServiceResult data(Object data){
+        this.data = data;
+        return this;
+    }
 }
