@@ -3,6 +3,7 @@ package com.kns.tenquest.service;
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.AnswerDto;
 import com.kns.tenquest.dto.ReplyerDto;
+import com.kns.tenquest.dto.ServiceResult;
 import com.kns.tenquest.entity.Answer;
 import com.kns.tenquest.entity.TemplateDoc;
 import com.kns.tenquest.repository.AnswerRepository;
@@ -31,35 +32,39 @@ public class AnswerService {
     private final TemplateDocRepository templateDocRepository;
     private final PrimaryKeyGenerator generator;
 
-    /* Test Done [23/03/27] */public List<Answer> getAllAnswers(){
-        return new DtoList<>(answerRepository.findAll(Sort.by(Sort.Direction.DESC, "answerTime")));
+    public ServiceResult getAllAnswers(){
 
-        // 왜 API 리턴될때 isPublic이 아니라 public으로 리턴되지?
+        var DtoList = new DtoList<>(answerRepository.findAll(Sort.by(Sort.Direction.DESC, "answerTime")));
+
+        return new ServiceResult().success()
+                .data(DtoList);
 
     }
 
     /* Test Done [23/03/27] */
-    public DtoList<AnswerDto> getAnswerByDocId(Long docId){
+    public ServiceResult getAnswerByDocId(Long docId){
         // Sorting Answer by unique question on template(docid)
 
         DtoList<AnswerDto> answerDtoList = new DtoList(answerRepository.findAnswerByDocId(docId));
-        return answerDtoList;
+        return new ServiceResult().success()
+                .data(answerDtoList);
     }
 
     /* working... */
-    public List<Answer> getAnswerListByReplyerId(int replyerId){
+    public ServiceResult getAnswerListByReplyerId(int replyerId){
 
         List<Answer> answers = answerRepository.findAnswerByReplyerId(replyerId);
 
-        return answers;
+        return new ServiceResult().success().data(answers);
     }
 
     /* working... */
-    public List<ReplyerNameListResponseWrapper> getReplyerNameListByTemplateId(String templateId){
-//        List<Template> templateList = templateDocRepository.findAllByTemplateId(templateId);
+    public ServiceResult getReplyerNameListByTemplateId(String templateId){
+
         List<TemplateDoc> templateDocList = templateDocRepository.findAllByTemplateId(templateId);
-        if(templateDocList.size() == 0) {
-            return new ArrayList<>();
+
+        if(templateDocList.isEmpty()) {
+            return new ServiceResult().fail().message("No such templateId");
         }
 
         var wrapperList = new ArrayList<ReplyerNameListResponseWrapper>();
@@ -83,10 +88,10 @@ public class AnswerService {
                             .isPublic(isPublic).build() ;
             wrapperList.add(wrapper);
         }
-        return wrapperList;
+        return new ServiceResult().success().data(wrapperList);
     }
 
-    public boolean createAnswer(MultipleAnswerRequestBody reqBody){
+    public ServiceResult createAnswer(MultipleAnswerRequestBody reqBody){
 
         int generatedReplyerId = generator.replyerId();
         boolean isPublic = false;
@@ -95,7 +100,7 @@ public class AnswerService {
         for (int i =0; i<reqBody.docIdList.size(); i++){
             Optional<TemplateDoc> nullableDoc = templateDocRepository.findById(reqBody.docIdList.get(i));
             if (nullableDoc.isEmpty()){
-                return false;
+                return new ServiceResult().fail().message("No such docId");
             }
             var sReqBody = SingleAnswerCreateRequestBody.builder()
                     .docId(reqBody.docIdList.get(i))
@@ -103,42 +108,18 @@ public class AnswerService {
                     .replyerName(reqBody.replyerName)
                     .isPublic(reqBody.isPublic)
                     .build();
-//
-//            /* Create Replyer */
-//            ReplyerDto replyerDto = ReplyerDto.builder()
-//                    .replyerId(generatedReplyerId)
-//                    .replyerName(sReqBody.replyerName)
-//                    .build();
-//
-//            /* Save Replyer to database(replyer_table) */
-//            replyerRepository.save(replyerDto.toEntity());
-//
-//            /* Create Answer */
-//            AnswerDto answerDto = AnswerDto.builder()
-//                    .answerId(generator.UUID())
-//                    .answerTime(generator.localDateTime())
-//                    //.answerContent(reqBody.answerContent.replace("\n", "\\r\\n"))
-//                    .answerContent(sReqBody.answerContent)
-//                    .docId(sReqBody.docId)
-//                    .replyerId(generatedReplyerId)
-//                    .isPublic(isPublic)
-//                    .build();
-//
-//            /* Save answer to database(answer_table) */
-//            answerRepository.save(answerDto.toEntity());
+
 
             this.createSingleAnswer(sReqBody,generatedReplyerId);
         }
-        return true;
-
+        return new ServiceResult().success().data("Create Done");
     }
 
         /* Test Done [23/03/27] */
-    public AnswerDto createSingleAnswer(SingleAnswerCreateRequestBody reqBody, int replyerId) {
+    public ServiceResult createSingleAnswer(SingleAnswerCreateRequestBody reqBody, int replyerId) {
         /* check fk valid */
         if(templateDocRepository.findById(reqBody.docId).isEmpty()){
-            System.out.println("Result!! " + templateDocRepository.findById(reqBody.docId));
-            return new AnswerDto();
+            return new ServiceResult().fail().message("No such docId");
         }
 
         /* setting values */
@@ -169,13 +150,13 @@ public class AnswerService {
 
         /* Save answer to database(answer_table) */
         answerRepository.save(answerDto.toEntity());
-        return answerDto;
+        return new ServiceResult().success().data(answerDto);
 
     }
 
-    public boolean DeleteAllAnswer() {
+    public ServiceResult DeleteAllAnswer() {
         answerRepository.deleteAll();
         replyerRepository.deleteAll();
-        return true;
+        return new ServiceResult().success().message("Delete Done");
     }
 }
