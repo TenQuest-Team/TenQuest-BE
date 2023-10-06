@@ -3,7 +3,9 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.AnswerDto;
 
 import com.kns.tenquest.dto.ResponseDto;
+import com.kns.tenquest.dto.ServiceResult;
 import com.kns.tenquest.requestBody.MultipleAnswerRequestBody;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.Response_Deprecated;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.AnswerService;
@@ -22,64 +24,50 @@ public class AnswerController {
     private final AnswerService answerService;
 
     @GetMapping("/answers")
-    public List apiGetAnswers(){
-       //return answerService.getAllAnswers().toResponse();
-        return answerService.getAllAnswers();
+    public Response apiGetAnswers(){
+        ServiceResult sr = answerService.getAllAnswers();
+
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok().data(sr.getData());
     }
 
     @GetMapping("/answers/docId")
-    public Response_Deprecated<AnswerDto> apiGetAnswerByDocId(@RequestParam("value") Long docId){
-        DtoList<AnswerDto> answerDtoList = answerService.getAnswerByDocId(docId);
-        ResponseStatus responseStatus = ResponseStatus.OK;
+    public Response apiGetAnswerByDocId(@RequestParam("value") Long docId){
+        ServiceResult sr = answerService.getAnswerByDocId(docId);
 
-        /* if result list is empty, Set status NOT_FOUND */
-        if (answerDtoList.isEmpty()) responseStatus = ResponseStatus.NOT_FOUND;
-
-        return answerDtoList.toResponse(responseStatus);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
-
 
     @GetMapping("/answers/replyerNames/templateId")
-    public Response_Deprecated<List> apiGetAnswersReplyerNameListByTemplateId(@RequestParam("value") String templateId){
-
-        return new ResponseDto<List>
-                (ResponseStatus.OK,
-                        answerService
-                                .getReplyerNameListByTemplateId(templateId))
-                .toResponse();
+    public Response apiGetAnswersReplyerNameListByTemplateId(@RequestParam("value") String templateId){
+        ServiceResult sr = answerService.getReplyerNameListByTemplateId(templateId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
-    @GetMapping("/answers/replyerId")
-    public Response_Deprecated<List> apiGetAnswersByReplyerId(@RequestParam("value") int replyerId){
 
-        return new ResponseDto<List>
-                (ResponseStatus.OK,
-                        answerService
-                                .getAnswerListByReplyerId(replyerId))
-                .toResponse();
+    @GetMapping("/answers/replyerId")
+    public Response apiGetAnswersByReplyerId(@RequestParam("value") int replyerId){
+        ServiceResult sr = answerService.getAnswerListByReplyerId(replyerId);
+        return sr.isFailed() ?
+                new Response().BadRequest() : new Response().Ok(sr.getData());
     }
 
     @PostMapping("/answers")
-    public Response_Deprecated<Object> apiCreateAnswer(@RequestBody MultipleAnswerRequestBody multipleAnswerRequestBody){
-        ResponseStatus responseStatus = ResponseStatus.CREATE_DONE;
-        boolean result = answerService.createAnswer(multipleAnswerRequestBody);
-        if (result){
-            return new ResponseDto(ResponseStatus.OK).toResponse();
-        }
-        else{
-            return new ResponseDto(ResponseStatus.CREATE_FAIL, "DocId Not exists!").toResponse();
-        }
+    public Response apiCreateAnswer(@RequestBody MultipleAnswerRequestBody multipleAnswerRequestBody){
+        ServiceResult sr = answerService.createAnswer(multipleAnswerRequestBody);
+
+        return sr.isFailed() ?
+                new Response().BadRequest().message("Answer creation failed")
+                : new Response().Ok(sr.getData()).message("Answer Created");
     }
 
     @DeleteMapping("/answers")
-    public Response_Deprecated<Object> apiDeleteAllAnswer(){
-        ResponseStatus responseStatus = ResponseStatus.OK;
-        boolean result = answerService.DeleteAllAnswer();
-        if(result){
-            return new ResponseDto(ResponseStatus.OK).toResponse();
-        }
-        else{
-            return new ResponseDto(ResponseStatus.NOT_ACCEPTABLE).toResponse();
-        }
+    public ServiceResult apiDeleteAllAnswer(){
+        ServiceResult sr = answerService.DeleteAllAnswer();
+        return sr.isFailed() ?
+                new ServiceResult().fail().message("Answer deletion failed")
+                : new ServiceResult().success().message("Answer Deleted");
     }
 
 }
