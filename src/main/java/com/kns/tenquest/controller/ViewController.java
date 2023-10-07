@@ -43,7 +43,8 @@ public class ViewController {
     @GetMapping("/answers")
     public String answerView(Model model) {
         // Temporarily implemented. Just for test.
-        List<Answer> answerList = answerService.getAllAnswers();
+        ServiceResult sr = answerService.getAllAnswers();
+        DtoList<AnswerDto> answerList = (DtoList<AnswerDto>)sr.getData();
         model.addAttribute("answerList", answerList);
         return "answer_view";
     }
