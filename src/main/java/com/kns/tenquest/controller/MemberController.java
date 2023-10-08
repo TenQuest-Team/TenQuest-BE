@@ -85,10 +85,8 @@ public class MemberController {
     }
 
     /**
-     * @apiNote
-     * HttpMethod: GET<br>
-     * Uri: /api/v1/members/memberId/value=${userId}<br>
-     * Description: 회원이 로그인시 사용하는 아이디로 특정 회원의 `회원 식별자(memberId)`를 조회한다.<br>
+     * Request [GET] /api/v1/members/memberId/userId?value=${userId}<br>
+     * @apiNote 회원이 로그인시 사용하는 아이디로 특정 회원의 `회원 식별자(memberId)`를 조회한다.<br>
      * @param userId 조회할 회원의 로그인 아이디
      * @see com.kns.tenquest.service.MemberService#getMemberIdByUserId(String)
      * @return  com.kns.tenquest.response.Response
