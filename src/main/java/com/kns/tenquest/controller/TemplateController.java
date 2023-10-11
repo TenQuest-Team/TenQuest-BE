@@ -39,7 +39,7 @@ public class TemplateController {
     @GetMapping("/templates/{memberId}")
     public Response_Deprecated<DtoList<TemplateDto>> apiGetAllMemberTemplates(@PathVariable("memberId")String memberId){
         ResponseStatus responseStatus = ResponseStatus.OK;
-        DtoList<TemplateDto> allMemberTemplates = templateService.getAllMemberTemplates(memberId);
+        DtoList<TemplateDto> allMemberTemplates = templateService.getAllTemplatesByMember(memberId);
         return new ResponseDto<DtoList<TemplateDto>>(responseStatus,allMemberTemplates).toResponse();
     }
 
