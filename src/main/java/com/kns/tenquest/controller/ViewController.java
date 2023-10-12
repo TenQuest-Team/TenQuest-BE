@@ -58,14 +58,14 @@ public class ViewController {
 
     @GetMapping("/templates")
     public String templateView(Model model) {
-        DtoList<TemplateDto> templateList = templateService.getAllTemplates();
+        DtoList<TemplateDto> templateList = (DtoList<TemplateDto>)templateService.getAllTemplates().getData();
         model.addAttribute("templateList", templateList);
         return "template_view";
     }
 
     @GetMapping("/template-docs")
     public String templateDocView(Model model) {
-        DtoList<TemplateDocDto> templateDocList = templateDocService.getAllTemplateDocs();
+        DtoList<TemplateDocDto> templateDocList = (DtoList<TemplateDocDto>)templateDocService.getAllTemplateDocs().getData();
         model.addAttribute("templateDocList", templateDocList);
         return "template_doc_view";
     }

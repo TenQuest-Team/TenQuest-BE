@@ -2,6 +2,7 @@ package com.kns.tenquest.service;
 
 import com.kns.tenquest.DtoList;
 import com.kns.tenquest.dto.ResponseDto;
+import com.kns.tenquest.dto.ServiceResult;
 import com.kns.tenquest.dto.TemplateDocDto;
 import com.kns.tenquest.dto.TemplateDto;
 import com.kns.tenquest.repository.TemplateDocRepository;
@@ -15,9 +16,10 @@ public class TemplateDocService {
 
     private final TemplateDocRepository templateDocRepository;
 
-    public DtoList<TemplateDocDto> getAllTemplateDocs(){
+    public ServiceResult getAllTemplateDocs(){
+
         DtoList<TemplateDocDto> templateDocDtoList = new DtoList<>(templateDocRepository.findAll());
-        return templateDocDtoList;
+        return new ServiceResult().success().data(templateDocDtoList);
     }
 
 //    public ResponseDto<TemplateDocDto> createTemplateDoc (DtoList<TemplateDocDto> )

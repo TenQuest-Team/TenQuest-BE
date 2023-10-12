@@ -33,8 +33,8 @@ public class TemplateController {
     public Response apiGetAllTemplates() {
         ServiceResult sr = templateService.getAllTemplates();
         return sr.isFailed() ?
-                new Response().BadRequest().message(sr.getMessage());
-        new Response().Ok().data(sr.getData());
+                new Response().BadRequest().message(sr.getMessage()) :
+                new Response().Ok().data(sr.getData());
     }
 
     @ResponseBody
