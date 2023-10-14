@@ -1,6 +1,7 @@
 package com.kns.tenquest.service;
 import com.kns.tenquest.dto.MemberDto;
 import com.kns.tenquest.dto.ReplyerDto;
+import com.kns.tenquest.dto.ServiceResult;
 import com.kns.tenquest.entity.Member;
 import com.kns.tenquest.repository.ReplyerRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,19 @@ public class ReplyerService {
 
     private final ReplyerRepository replyerRepository;
 
-    public List<Replyer> getAllReplyers(){
-        return replyerRepository.findAll();
+    public ServiceResult getAllReplyers(){
+        List<Replyer> replyerList = replyerRepository.findAll();
+
+        return new ServiceResult().success()
+                .data(replyerList);
     }
 
-    public ReplyerDto getReplyerByReplyerId(int replyerId){
-       Optional<Replyer> opt = replyerRepository.findReplyerByReplyerId(replyerId);
-       return new ReplyerDto(-1,null);
+    public ServiceResult getReplyerByReplyerId(int replyerId){
+       Optional<Replyer> optReplyer = replyerRepository.findReplyerByReplyerId(replyerId);
+       if (optReplyer.isEmpty()) new ServiceResult().fail().message("No such replyer for replyerId: "+replyerId);
+
+       return new ServiceResult().success().data(optReplyer.get());
+
     }
 
 }
