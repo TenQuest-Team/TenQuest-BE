@@ -51,7 +51,7 @@ public class ViewController {
 
     @GetMapping("/replyers")
     public String replyerView(Model model) {
-        List<Replyer> replyerList = replyerService.getAllReplyers();
+        List<Replyer> replyerList = (List<Replyer>)replyerService.getAllReplyers().getData();
         model.addAttribute("replyerList", replyerList);
         return "replyer_view";
     }
