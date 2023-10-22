@@ -3,8 +3,10 @@ package com.kns.tenquest.controller;
 import com.kns.tenquest.ENV;
 import com.kns.tenquest.dto.ReplyerDto;
 import com.kns.tenquest.dto.ResponseDto;
+import com.kns.tenquest.dto.ServiceResult;
 import com.kns.tenquest.entity.Replyer;
 import com.kns.tenquest.response.Response_Deprecated;
+import com.kns.tenquest.response.Response;
 import com.kns.tenquest.response.ResponseStatus;
 import com.kns.tenquest.service.ReplyerService;
 import lombok.RequiredArgsConstructor;
@@ -27,20 +29,23 @@ public class ReplyerController {
 
     @ResponseBody
     @GetMapping("/replyers")
-    public List<Replyer> apiGetReplyers(){
-        return replyerService.getAllReplyers();
+    public Response apiGetReplyers(){
+        
+        ServiceResult sr = replyerService.getAllReplyers();
+        
+        return sr.isFailed() ? 
+            new Response().BadRequest() :
+            new Response().Ok().data(sr.getData());
     }
 
     @GetMapping("/replyers/{replyerid}")
-    public Response_Deprecated<ReplyerDto> apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
-        ReplyerDto replyerDto = replyerService.getReplyerByReplyerId(replyerId);
-        ResponseStatus responseStatus = ResponseStatus.OK;
-
-        if (replyerDto.getReplyerId()==-1){
-            responseStatus = ResponseStatus.NOT_FOUND;
-        }
-        return new ResponseDto<ReplyerDto>(responseStatus,replyerDto).toResponse();
+    public Response apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
+       
+        ServiceResult sr = replyerService.getReplyerByReplyerId(replyerId);
+       
+        return sr.isFailed() ? 
+            new Response().BadRequest() :
+            new Response().Ok().data(sr.getData());
     }
-
 
 }
