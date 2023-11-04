@@ -63,11 +63,11 @@ public class AnswerController {
     }
 
     @DeleteMapping("/answers")
-    public ServiceResult apiDeleteAllAnswer(){
+    public Response apiDeleteAllAnswer(){
         ServiceResult sr = answerService.DeleteAllAnswer();
         return sr.isFailed() ?
-                new ServiceResult().fail().message("Answer deletion failed")
-                : new ServiceResult().success().message("Answer Deleted");
+                new Response().BadRequest().message("Answer deletion failed")
+                : new Response().Ok().message("Answer Deleted");
     }
 
 }
