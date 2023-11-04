@@ -27,6 +27,15 @@ public class ReplyerController {
 
     private final ReplyerService replyerService;
 
+    /**
+     * Request: [GET] /api/v1/replyers<br>
+     * @apiNote
+     * @see com.kns.tenquest.service.ReplyerService#getAllReplyers()
+     * @see com.kns.tenquest.dto.ServiceResult
+     * @see com.kns.tenquest.response.Response
+     * @return  com.kns.tenquest.response.Response
+     * <br> 성공 시, 모든 답변자 정보를 담은 Response를 반환한다.
+     **/
     @ResponseBody
     @GetMapping("/replyers")
     public Response apiGetReplyers(){
@@ -38,8 +47,17 @@ public class ReplyerController {
             new Response().Ok().data(sr.getData());
     }
 
-    @GetMapping("/replyers/{replyerid}")
-    public Response apiGetReplyerByReplyerId(@PathVariable(value = "replyerid")int replyerId){
+    /**
+     * Request: [GET] /api/v1/replyers/${replyerId}<br>
+     * @apiNote
+     * @see com.kns.tenquest.service.ReplyerService#getReplyerByReplyerId(int)
+     * @see com.kns.tenquest.dto.ServiceResult
+     * @see com.kns.tenquest.response.Response
+     * @return  com.kns.tenquest.response.Response
+     * <br> 성공 시, 요청한 답변자 정보를 담은 Response를 반환한다.
+     **/
+    @GetMapping("/replyers/{replyerId}")
+    public Response apiGetReplyerByReplyerId(@PathVariable(value = "replyerId")int replyerId){
        
         ServiceResult sr = replyerService.getReplyerByReplyerId(replyerId);
        
