@@ -4,6 +4,7 @@ import com.kns.tenquest.DtoList;
 import com.kns.tenquest.RequestWrapper.PresetWrapper;
 import com.kns.tenquest.dto.PresetDocDto;
 import com.kns.tenquest.dto.PresetDto;
+import com.kns.tenquest.dto.ServiceResult;
 import com.kns.tenquest.entity.Preset;
 import com.kns.tenquest.entity.PresetDoc;
 import com.kns.tenquest.repository.PresetDocRepository;
@@ -25,33 +26,37 @@ public class PresetService {
     private final QuestionRepository questionRepository;
     private final PresetDocRepository presetDocRepository;
 
-    public DtoList<PresetDto> getAllPresets(){
+    public ServiceResult getAllPresets(){
         DtoList<PresetDto> presetList = new DtoList<>(presetRepository.findAll());
-        return presetList;
+
+        return new ServiceResult().success().data(presetList);
     }
 
-    public PresetWrapper getPreset(String presetId){
+    public ServiceResult getPreset(String presetId){
         Optional<Preset> optPreset = presetRepository.findById(presetId);
-        if(optPreset.isEmpty()){
-            return null;
-        }
+        if(optPreset.isEmpty()){ return new ServiceResult().fail().message("preset not found"); }
+
         PresetDto presetDto = new PresetDto(optPreset.get());
         List<PresetDoc> optPresetList = new ArrayList<>(presetDocRepository.findAllByPresetId(presetId));
         List<PresetDocDto> presetDocList = new DtoList<>();
+
         for(PresetDoc presetDoc : optPresetList){
             PresetDocDto presetDocDto = new PresetDocDto(presetDoc);
             presetDocList.add(presetDocDto);
         }
+
         for(PresetDocDto ele : presetDocList){
             String presetContent = questionRepository.findById(ele.getQuestionId()).get().getQuestionContent();
             ele.setQuestionContent(presetContent);
         }
+
         PresetWrapper presetWrapper = new PresetWrapper(presetDto,presetDocList);
-        return presetWrapper;
+
+        return new ServiceResult().success().data(presetWrapper);
     }
 
     @Transactional
-    public PresetWrapper createPreset(PresetWrapper presetWrapper){
+    public ServiceResult createPreset(PresetWrapper presetWrapper){
         PresetDto presetDto = presetWrapper.getPresetDto();
         presetDto.setPresetId(UUID.randomUUID().toString().replace("-",""));
         String thisPresetId = presetDto.presetId;
@@ -63,22 +68,23 @@ public class PresetService {
             element.setPresetDocId(UUID.randomUUID().toString().replace("-",""));
             presetDocRepository.save(element.toEntity());
         }
-        return presetWrapper;
+
+        return new ServiceResult().success().data(presetWrapper);
     }
 
-    public PresetDto deletePreset(String presetId){
+    public ServiceResult deletePreset(String presetId){
         PresetDto presetDto = new PresetDto(presetRepository.findById(presetId).get());
         presetRepository.deleteById(presetId);
 
-        return presetDto;
-
+        return new ServiceResult().success().data(presetDto);
     }
 
-    public DtoList<PresetDto> deleteAll(){
+    public ServiceResult deleteAll(){
         List<PresetDoc> presetDocList = new DtoList<PresetDoc>(presetDocRepository.findAll());
         DtoList<PresetDto> presetDtoList = new DtoList<PresetDto>(presetRepository.findAll());
         presetDocRepository.deleteAll();
         presetRepository.deleteAll();
-        return presetDtoList;
+
+        return new ServiceResult().success().data(presetDtoList);
     }
 }
