@@ -22,7 +22,7 @@ erDiagram
 			TIMESTAMP created_at "생성 시간" 
 			TINYINT is_public "공개 여부"
 }
-  template_doc_table || -- |{ template_table : "TemplateDoc(N):Template(1)"
+  template_table || -- |{ template_doc_table : "TemplateDoc(N):Template(1)"
 	template_doc_table{
 		INT template_doc_id PK "템플릿 도큐먼트 식별자"
 		VARCHAR template_id FK "템플릿 식별자"
@@ -35,7 +35,7 @@ erDiagram
 		VARCHAR preset_name "프리셋명"
 	}
 
-	preset_doc_table }| -- || preset_table : "PresetDoc(N):Preset(1)"
+	preset_table || -- |{ preset_doc_table : "PresetDoc(N):Preset(1)"
 	%% `PresetDoc`은 하나의 Preset을 이루는 항목이다.
 	preset_doc_table{
 		VARCHAR preset_doc_id PK "프리셋 도큐먼트 식별자"
@@ -50,8 +50,8 @@ erDiagram
 	}
 
 
-	answer_table || -- || replyer_table : "Answer(1):Replyer(1)"
-	answer_table || -- || template_doc_table : "Answer(1):TemplateDoc(1)"
+	answer_table }| -- || replyer_table : "Answer(N):Replyer(1)"
+	answer_table |o -- || template_doc_table : "Answer(0..1):TemplateDoc(1)"
 	answer_table{
 		VARCHAR answer_id PK "답변 식별자"
 		VARCHAR replyer_id FK "답변자 식별자"
